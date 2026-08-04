@@ -12,8 +12,8 @@ using THUCTAP.Data;
 namespace THUCTAP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260730090210_HospitalDB")]
-    partial class HospitalDB
+    [Migration("20260731063541_HOSPITAL_DB")]
+    partial class HOSPITAL_DB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,56 +172,56 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             code = "USER_VIEW_LIST",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4685),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9818),
                             endpoint = "/api/users",
                             label = "Danh sách ",
                             menuid = 2,
                             method = "GET",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4686)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9818)
                         },
                         new
                         {
                             id = 2,
                             code = "USER_VIEW_DETAIL",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4691),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9822),
                             endpoint = "/api/users/{id}",
                             label = "Chi tiết ",
                             menuid = 2,
                             method = "GET",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4691)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9822)
                         },
                         new
                         {
                             id = 3,
                             code = "USER_ADD",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4693),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9823),
                             endpoint = "/api/users",
                             label = "Thêm mới ",
                             menuid = 2,
                             method = "POST",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4693)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9823)
                         },
                         new
                         {
                             id = 4,
                             code = "USER_EDIT",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4694),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9824),
                             endpoint = "/api/users/{id}",
                             label = "Cập nhật ",
                             menuid = 2,
                             method = "PUT",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4694)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9825)
                         },
                         new
                         {
                             id = 5,
                             code = "USER_DEL",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4695),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9826),
                             endpoint = "/api/users/{id}",
                             label = "Xóa ",
                             menuid = 2,
                             method = "DELETE",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4696)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9826)
                         });
                 });
 
@@ -308,7 +308,7 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             colspan = 6,
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4736),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9930),
                             entityname = "User",
                             field = "username",
                             isdetail = false,
@@ -319,13 +319,13 @@ namespace THUCTAP.Migrations
                             tabname = "",
                             tagfield = "",
                             type = "text",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4737)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9930)
                         },
                         new
                         {
                             id = 2,
                             colspan = 6,
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4742),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9934),
                             entityname = "User",
                             field = "department",
                             isdetail = false,
@@ -336,7 +336,7 @@ namespace THUCTAP.Migrations
                             tabname = "",
                             tagfield = "",
                             type = "select",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4743)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9935)
                         });
                 });
 
@@ -384,19 +384,19 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             code = "ADMIN",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4660),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9792),
                             description = "Full quyền",
                             name = "Quản trị hệ thống",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4660)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9792)
                         },
                         new
                         {
                             id = 2,
                             code = "DOCTOR",
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4665),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9795),
                             description = "Quyền khám chữa bệnh",
                             name = "Bác sĩ",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4665)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9796)
                         });
                 });
 
@@ -445,21 +445,137 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4714),
-                            icon = "settings",
-                            label = "Hệ thống",
-                            to = "/system",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4714)
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9843),
+                            icon = "shield",
+                            label = "SECURITY & SYSTEM",
+                            to = "",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9844)
                         },
                         new
                         {
                             id = 2,
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4718),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9847),
                             icon = "users",
-                            label = "Quản lý Người dùng",
+                            label = "EMPLOYEE MANAGEMENT",
+                            to = "",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9847)
+                        },
+                        new
+                        {
+                            id = 3,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9849),
+                            icon = "settings",
+                            label = "ADMINISTRATION",
+                            to = "",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9849)
+                        },
+                        new
+                        {
+                            id = 4,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9850),
+                            icon = "shopping-cart",
+                            label = "TRANSACTIONS",
+                            to = "",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9851)
+                        },
+                        new
+                        {
+                            id = 5,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9852),
+                            icon = "database",
+                            label = "MASTER DATA",
+                            to = "",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9852)
+                        },
+                        new
+                        {
+                            id = 6,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9854),
+                            icon = "user",
+                            label = "User Accounts",
                             parentid = 1,
                             to = "/system/users",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4718)
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9854)
+                        },
+                        new
+                        {
+                            id = 7,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9855),
+                            icon = "users",
+                            label = "User Groups",
+                            parentid = 1,
+                            to = "/system/groups",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9855)
+                        },
+                        new
+                        {
+                            id = 8,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9857),
+                            icon = "user-check",
+                            label = "Employee Management",
+                            parentid = 2,
+                            to = "/employee/manage",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9857)
+                        },
+                        new
+                        {
+                            id = 9,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9858),
+                            icon = "sliders",
+                            label = "Administration",
+                            parentid = 3,
+                            to = "/admin/settings",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9858)
+                        },
+                        new
+                        {
+                            id = 10,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9885),
+                            icon = "file-text",
+                            label = "Orders",
+                            parentid = 4,
+                            to = "/transactions/orders",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9885)
+                        },
+                        new
+                        {
+                            id = 11,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9887),
+                            icon = "file-invoice",
+                            label = "Invoice Management",
+                            parentid = 4,
+                            to = "/transactions/invoices",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9887)
+                        },
+                        new
+                        {
+                            id = 12,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9902),
+                            icon = "tag",
+                            label = "Product Categories",
+                            parentid = 5,
+                            to = "/master/product-categories",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9902)
+                        },
+                        new
+                        {
+                            id = 13,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9903),
+                            icon = "users",
+                            label = "Customer Categories",
+                            parentid = 5,
+                            to = "/master/customer-categories",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9903)
+                        },
+                        new
+                        {
+                            id = 14,
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9905),
+                            icon = "user",
+                            label = "Customer Master",
+                            parentid = 5,
+                            to = "/master/customers",
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9905)
                         });
                 });
 
@@ -513,22 +629,22 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4538),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9690),
                             department = "Ban Giám Đốc",
                             email = "admin@test.com",
                             password = "123",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4540),
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9693),
                             usercode = "NV001",
                             username = "admin"
                         },
                         new
                         {
                             id = 2,
-                            createdat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4545),
+                            createdat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9697),
                             department = "Khoa Nội",
                             email = "bs@test.com",
                             password = "123",
-                            updatedat = new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4545),
+                            updatedat = new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9697),
                             usercode = "BS001",
                             username = "bacsi01"
                         });

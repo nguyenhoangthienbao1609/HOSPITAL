@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace THUCTAP.Migrations
 {
     /// <inheritdoc />
-    public partial class HospitalDB : Migration
+    public partial class HOSPITAL_DB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -202,8 +202,8 @@ namespace THUCTAP.Migrations
                 columns: new[] { "id", "colspan", "createdat", "entityname", "field", "isdetail", "label", "optionlabel", "options", "optionvalue", "sortorder", "subfield", "tabname", "tagfield", "type", "updatedat" },
                 values: new object[,]
                 {
-                    { 1, 6, new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4736), "User", "username", false, "Tên đăng nhập", null, "", null, 1, "", "", "", "text", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4737) },
-                    { 2, 6, new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4742), "User", "department", false, "Phòng ban", null, "", null, 2, "", "", "", "select", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4743) }
+                    { 1, 6, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9930), "User", "username", false, "Tên đăng nhập", null, "", null, 1, "", "", "", "text", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9930) },
+                    { 2, 6, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9934), "User", "department", false, "Phòng ban", null, "", null, 2, "", "", "", "select", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9935) }
                 });
 
             migrationBuilder.InsertData(
@@ -211,33 +211,67 @@ namespace THUCTAP.Migrations
                 columns: new[] { "id", "code", "createdat", "description", "name", "updatedat" },
                 values: new object[,]
                 {
-                    { 1, "ADMIN", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4660), "Full quyền", "Quản trị hệ thống", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4660) },
-                    { 2, "DOCTOR", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4665), "Quyền khám chữa bệnh", "Bác sĩ", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4665) }
+                    { 1, "ADMIN", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9792), "Full quyền", "Quản trị hệ thống", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9792) },
+                    { 2, "DOCTOR", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9795), "Quyền khám chữa bệnh", "Bác sĩ", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9796) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Menus",
                 columns: new[] { "id", "createdat", "icon", "label", "parentid", "to", "updatedat" },
-                values: new object[] { 1, new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4714), "settings", "Hệ thống", null, "/system", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4714) });
+                values: new object[,]
+                {
+                    { 1, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9843), "shield", "SECURITY & SYSTEM", null, "", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9844) },
+                    { 2, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9847), "users", "EMPLOYEE MANAGEMENT", null, "", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9847) },
+                    { 3, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9849), "settings", "ADMINISTRATION", null, "", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9849) },
+                    { 4, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9850), "shopping-cart", "TRANSACTIONS", null, "", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9851) },
+                    { 5, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9852), "database", "MASTER DATA", null, "", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9852) }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "createdat", "department", "email", "password", "updatedat", "usercode", "username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4538), "Ban Giám Đốc", "admin@test.com", "123", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4540), "NV001", "admin" },
-                    { 2, new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4545), "Khoa Nội", "bs@test.com", "123", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4545), "BS001", "bacsi01" }
+                    { 1, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9690), "Ban Giám Đốc", "admin@test.com", "123", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9693), "NV001", "admin" },
+                    { 2, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9697), "Khoa Nội", "bs@test.com", "123", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9697), "BS001", "bacsi01" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Actions",
+                columns: new[] { "id", "code", "createdat", "endpoint", "label", "menuid", "method", "updatedat" },
+                values: new object[,]
+                {
+                    { 1, "USER_VIEW_LIST", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9818), "/api/users", "Danh sách ", 2, "GET", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9818) },
+                    { 2, "USER_VIEW_DETAIL", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9822), "/api/users/{id}", "Chi tiết ", 2, "GET", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9822) },
+                    { 3, "USER_ADD", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9823), "/api/users", "Thêm mới ", 2, "POST", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9823) },
+                    { 4, "USER_EDIT", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9824), "/api/users/{id}", "Cập nhật ", 2, "PUT", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9825) },
+                    { 5, "USER_DEL", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9826), "/api/users/{id}", "Xóa ", 2, "DELETE", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9826) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Group_Menus",
                 columns: new[] { "groupsid", "menusid" },
-                values: new object[] { 1, 1 });
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Menus",
                 columns: new[] { "id", "createdat", "icon", "label", "parentid", "to", "updatedat" },
-                values: new object[] { 2, new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4718), "users", "Quản lý Người dùng", 1, "/system/users", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4718) });
+                values: new object[,]
+                {
+                    { 6, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9854), "user", "User Accounts", 1, "/system/users", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9854) },
+                    { 7, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9855), "users", "User Groups", 1, "/system/groups", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9855) },
+                    { 8, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9857), "user-check", "Employee Management", 2, "/employee/manage", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9857) },
+                    { 9, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9858), "sliders", "Administration", 3, "/admin/settings", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9858) },
+                    { 10, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9885), "file-text", "Orders", 4, "/transactions/orders", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9885) },
+                    { 11, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9887), "file-invoice", "Invoice Management", 4, "/transactions/invoices", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9887) },
+                    { 12, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9902), "tag", "Product Categories", 5, "/master/product-categories", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9902) },
+                    { 13, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9903), "users", "Customer Categories", 5, "/master/customer-categories", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9903) },
+                    { 14, new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9905), "user", "Customer Master", 5, "/master/customers", new DateTime(2026, 7, 31, 6, 35, 40, 959, DateTimeKind.Utc).AddTicks(9905) }
+                });
 
             migrationBuilder.InsertData(
                 table: "User_Groups",
@@ -247,23 +281,6 @@ namespace THUCTAP.Migrations
                     { 1, 1 },
                     { 2, 2 }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Actions",
-                columns: new[] { "id", "code", "createdat", "endpoint", "label", "menuid", "method", "updatedat" },
-                values: new object[,]
-                {
-                    { 1, "USER_VIEW_LIST", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4685), "/api/users", "Danh sách ", 2, "GET", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4686) },
-                    { 2, "USER_VIEW_DETAIL", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4691), "/api/users/{id}", "Chi tiết ", 2, "GET", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4691) },
-                    { 3, "USER_ADD", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4693), "/api/users", "Thêm mới ", 2, "POST", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4693) },
-                    { 4, "USER_EDIT", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4694), "/api/users/{id}", "Cập nhật ", 2, "PUT", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4694) },
-                    { 5, "USER_DEL", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4695), "/api/users/{id}", "Xóa ", 2, "DELETE", new DateTime(2026, 7, 30, 9, 2, 10, 293, DateTimeKind.Utc).AddTicks(4696) }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Group_Menus",
-                columns: new[] { "groupsid", "menusid" },
-                values: new object[] { 1, 2 });
 
             migrationBuilder.InsertData(
                 table: "Group_Actions",

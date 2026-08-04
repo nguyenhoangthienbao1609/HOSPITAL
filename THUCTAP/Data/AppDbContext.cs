@@ -28,8 +28,8 @@ namespace THUCTAP.Data
             );
 
             modelBuilder.Entity<Group>().HasData(
-                new Group { id = 1, name = "Quản trị hệ thống", code = "ADMIN", description = "Full quyền" },
-                new Group { id = 2, name = "Bác sĩ", code = "DOCTOR", description = "Quyền khám chữa bệnh" }
+                new Group { id = 1, name = "Quản trị hệ thống", code = "ADMIN"},
+                new Group { id = 2, name = "Bác sĩ", code = "DOCTOR"}
             );
 
             modelBuilder.Entity<AppAction>().HasData(
@@ -41,9 +41,32 @@ namespace THUCTAP.Data
             );
 
             modelBuilder.Entity<Menu>().HasData(
-                new Menu { id = 1, label = "Hệ thống", to = "/system", icon = "settings", parentid = null },
-                new Menu { id = 2, label = "Quản lý Người dùng", to = "/system/users", icon = "users", parentid = 1 }
-            );
+                 
+                 new Menu { id = 1, label = "SECURITY & SYSTEM", to = "", icon = "shield", parentid = null },
+                 new Menu { id = 2, label = "EMPLOYEE MANAGEMENT", to = "", icon = "users", parentid = null },
+                 new Menu { id = 3, label = "ADMINISTRATION", to = "", icon = "settings", parentid = null },
+                 new Menu { id = 4, label = "TRANSACTIONS", to = "", icon = "shopping-cart", parentid = null },
+                 new Menu { id = 5, label = "MASTER DATA", to = "", icon = "database", parentid = null },
+
+                 
+                 new Menu { id = 6, label = "User Accounts", to = "/system/users", icon = "user", parentid = 1 },
+                 new Menu { id = 7, label = "User Groups", to = "/system/groups", icon = "users", parentid = 1 },
+
+               
+                 new Menu { id = 8, label = "Employee Management", to = "/employee/manage", icon = "user-check", parentid = 2 },
+
+               
+                 new Menu { id = 9, label = "Administration", to = "/admin/settings", icon = "sliders", parentid = 3 },
+
+             
+                 new Menu { id = 10, label = "Orders", to = "/transactions/orders", icon = "file-text", parentid = 4 },
+                 new Menu { id = 11, label = "Invoice Management", to = "/transactions/invoices", icon = "file-invoice", parentid = 4 },
+
+                 
+                 new Menu { id = 12, label = "Product Categories", to = "/master/product-categories", icon = "tag", parentid = 5 },
+                 new Menu { id = 13, label = "Customer Categories", to = "/master/customer-categories", icon = "users", parentid = 5 },
+                 new Menu { id = 14, label = "Customer Master", to = "/master/customers", icon = "user", parentid = 5 }
+             );
 
             modelBuilder.Entity<FormField>().HasData(
                 new FormField { id = 1, entityname = "User", field = "username", label = "Tên đăng nhập", type = "text", colspan = 6, sortorder = 1, isdetail = false },

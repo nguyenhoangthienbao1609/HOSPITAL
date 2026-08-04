@@ -15,9 +15,6 @@ namespace THUCTAP.Models
         [JsonPropertyName("code")]
         public string code { get; set; } = string.Empty;
 
-        [JsonPropertyName("description")]
-        public string description { get; set; } = string.Empty;
-
         [JsonPropertyName("menus")]
         public ICollection<Menu> menus { get; set; } = new List<Menu>();
 

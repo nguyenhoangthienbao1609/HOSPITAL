@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using THUCTAP.Interfaces;
+using THUCTAP.Models;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Controllers
@@ -9,26 +10,38 @@ namespace THUCTAP.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IUserRepository _userRepository;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IUserRepository userRepository)
         {
             _authService = authService;
+            _userRepository = userRepository;
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = _authService.Authenticate(request);
+            
+            var authResult = _authService.Authenticate(request);
 
-            if (token == null)
+            if (authResult == null)
             {
-                return Unauthorized(new { message = "Sai tài khoản hoặc mật khẩu" });
+                return Unauthorized(new { Message = "Sai tài khoản hoặc mật khẩu!" });
             }
 
+            
+            var userMenus = await _userRepository.GetUserMenusAsync(authResult.userid);
+
+            
             return Ok(new
             {
-                message = "Đăng nhập thành công!",
-                token = token
+                Message = "Đăng nhập thành công",
+                Data = new
+                {
+                    token = authResult.token,
+                    userid = authResult.userid,
+                    menus = userMenus // Bơm luôn danh sách Menu vào đây!
+                }
             });
         }
     }

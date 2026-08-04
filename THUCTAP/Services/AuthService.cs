@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,7 +20,7 @@ namespace THUCTAP.Services
             _userRepo = userRepo;
         }
 
-        public string? Authenticate(LoginRequest request)
+        public LoginResponse? Authenticate(LoginRequest request)
         {
             User? user = _userRepo.GetUserByCredentials(request.username, request.password);
 
@@ -29,7 +30,11 @@ namespace THUCTAP.Services
             }
 
             // Đã truyền thêm Role vào hàm tạo Token
-            return GenerateJSONWebToken(user.username);
+            string token = GenerateJSONWebToken(user.username);
+            return new LoginResponse()
+            {
+                token = token,
+                userid = user.id            };
         }
 
         private string GenerateJSONWebToken(string username)
@@ -41,7 +46,9 @@ namespace THUCTAP.Services
             Claim[] claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim("username", username),
-               
+                //new Claim("userid", userid.ToString())
+
+
             };
 
             JwtSecurityToken token = new JwtSecurityToken(
