@@ -15,31 +15,51 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<AppAction> CreateActionAsync(ActionCreateRequest request)
+        public async Task<bool> ActionCodeExistsAsync(string code)
         {
-            // 1. Kiểm tra trùng lặp mã Action Code
-            var exists = await FindByCondition(a => a.code == request.ActionCode).AnyAsync();
-            if (exists)
+            return await _context.Actions.AnyAsync(a => a.code == code);
+        }
+
+        public async Task<AppAction?> GetActionByIdAsync(int id)
+        {
+            return await _context.Actions.FirstOrDefaultAsync(a => a.id == id);
+        }
+
+        public async Task CreateActionAsync(AppAction action)
+        {
+            Create(action);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateActionAsync(AppAction action)
+        {
+            Update(action); 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteActionAsync(AppAction action)
+        {
+            Delete(action); 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<AppAction>> GetAllActionsFilteredAsync(ActionFilterRequest filter)
+        {
+            var query = _context.Actions.AsQueryable();
+
+            if (filter != null)
             {
-                throw new Exception($"Mã Action '{request.ActionCode}' đã tồn tại.");
+                if (!string.IsNullOrWhiteSpace(filter.label))
+                    query = query.Where(a => a.label.Contains(filter.label));
+                if (!string.IsNullOrWhiteSpace(filter.code))
+                    query = query.Where(a => a.code.Contains(filter.code));
+                if (!string.IsNullOrWhiteSpace(filter.endpoint))
+                    query = query.Where(a => a.endpoint.Contains(filter.endpoint));
+                if (!string.IsNullOrWhiteSpace(filter.method))
+                    query = query.Where(a => a.method.Contains(filter.method));
             }
 
-            var newAction = new AppAction
-            {
-                label = request.ActionName,
-                code = request.ActionCode,
- 
-                menuid = 1,
-
-                createdat = DateTime.UtcNow,
-                updatedat = DateTime.UtcNow
-            };
-
-            // 3. Lưu xuống Database
-            Create(newAction);
-            await _context.SaveChangesAsync();
-
-            return newAction;
+            return await query.ToListAsync();
         }
     }
 }

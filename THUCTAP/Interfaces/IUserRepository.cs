@@ -6,11 +6,17 @@ namespace THUCTAP.Interfaces
     // Kế thừa IRepositoryBase 
     public interface IUserRepository
     {
-        //  khai báo thêm các hàm đặc thù riêng của User ở đây
         User? GetUserByCredentials(string username, string password);
-        Task<User> CreateUserAsync(UserCreateRequest request);
-        Task<List<MenuResponseDto>> GetUserMenusAsync(int userId);
-        Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync();
+        Task<bool> UserCodeExistsAsync(string userCode);
+        Task<User?> GetUserByIdWithGroupsAsync(int id);
+        Task<User?> GetUserWithFullPermissionsAsync(int userId);
+        Task<List<Group>> GetGroupsByIdsAsync(List<int> groupIds);
 
+        Task CreateUserAsync(User user);
+        Task UpdateUserAsync(User user);
+        Task DeleteUserAsync(User user);
+
+        Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync();
+        Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter);
     }
 }

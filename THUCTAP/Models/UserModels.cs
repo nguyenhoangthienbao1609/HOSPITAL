@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore;
 namespace THUCTAP.Models
 {
     [Table("Users")]
-    [Index(nameof(usercode), IsUnique = true)]
+    [Index(nameof(userCode), IsUnique = true)]
     public class User : BaseModel
     {
-        [JsonPropertyName("username")]
-        public string username { get; set; } = string.Empty;
+        [JsonPropertyName("userName")]
+        public string userName { get; set; } = string.Empty;
 
         [Required]
-        [JsonPropertyName("user_code")]
-        public string usercode { get; set; } = string.Empty;
+        [JsonPropertyName("userCode")]
+        public string userCode { get; set; } = string.Empty;
 
         [JsonPropertyName("email")]
         public string email { get; set; } = string.Empty;
@@ -26,8 +26,8 @@ namespace THUCTAP.Models
         [JsonPropertyName("department")]
         public string department { get; set; } = string.Empty;
 
-        // Quan hệ Nhiều-Nhiều: 1 User có nhiều Group
+      
         [JsonIgnore]
-        public ICollection<Group> groups { get; set; } = new List<Group>();
+        public ICollection<Group> group { get; set; } = new List<Group>();
     }
 }

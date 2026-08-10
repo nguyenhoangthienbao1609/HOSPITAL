@@ -3,12 +3,12 @@ using THUCTAP.Data;
 using THUCTAP.Interfaces;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
+using THUCTAP.Extensions;
 
 namespace THUCTAP.Repos
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        // Khai báo _context riêng ở đây 
         private readonly AppDbContext _context;
 
         public UserRepository(AppDbContext context) : base(context)
@@ -18,132 +18,94 @@ namespace THUCTAP.Repos
 
         public User? GetUserByCredentials(string username, string password)
         {
-            return FindByCondition(u => u.username == username && u.password == password)
-                .Include(u => u.groups) // <--- Cực kỳ quan trọng: Kéo theo cả danh sách nhóm quyền
+            return FindByCondition(u => u.userName == username && u.password == password)
+                .Include(u => u.group).ThenInclude(g => g.menu).ThenInclude(m => m.parent)
+                .Include(u => u.group).ThenInclude(g => g.action)
                 .FirstOrDefault();
         }
 
-        public async Task<User> CreateUserAsync(UserCreateRequest request)
-        {
-            // 1. Kiểm tra xem usercode đã tồn tại chưa
-            var exists = await _context.Users.AnyAsync(u => u.usercode == request.usercode);
-            if (exists)
-            {
-                throw new Exception($"Mã nhân viên {request.usercode} đã tồn tại trong hệ thống.");
-            }
+        public async Task<bool> UserCodeExistsAsync(string userCode) =>
+            await _context.Users.AnyAsync(u => u.userCode == userCode);
 
-            // 2. Map dữ liệu
-            var newUser = new User
-            {
-                username = request.username,
-                usercode = request.usercode,
-                email = request.email,
-                password = request.password,
-                department = request.department,
-                createdat = DateTime.UtcNow,
-                updatedat = DateTime.UtcNow
-            };
+        public async Task<User?> GetUserByIdWithGroupsAsync(int id) =>
+            await _context.Users.Include(u => u.group).FirstOrDefaultAsync(u => u.id == id);
 
-            // 3. Xử lý lưu quyền (Groups)
-            if (request.groupids != null && request.groupids.Any())
-            {
-                var selectedGroups = await _context.Groups
-                    .Where(g => request.groupids.Contains(g.id))
-                    .ToListAsync();
-
-                newUser.groups = selectedGroups;
-            }
-
-           
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
-
-            return newUser;
-        }
-        public async Task<List<MenuResponseDto>> GetUserMenusAsync(int userId)
-        {
-            
-            var userWithGroups = await _context.Users
-                .Include(u => u.groups)
-                    .ThenInclude(g => g.menus)
-                .Include(u => u.groups)
-                    .ThenInclude(g => g.actions)
+        public async Task<User?> GetUserWithFullPermissionsAsync(int userId) =>
+            await _context.Users
+                .Include(u => u.group).ThenInclude(g => g.menu)
+                .Include(u => u.group).ThenInclude(g => g.action)
                 .FirstOrDefaultAsync(u => u.id == userId);
 
-            if (userWithGroups == null) return new List<MenuResponseDto>();
+        public async Task<List<Group>> GetGroupsByIdsAsync(List<int> groupIds) =>
+            await _context.Groups.Where(g => groupIds.Contains(g.id)).ToListAsync();
 
-            var allAllowedMenus = userWithGroups.groups
-                .SelectMany(g => g.menus)
-                .DistinctBy(m => m.id)
-                .ToList();
-
-            var allAllowedActions = userWithGroups.groups
-                .SelectMany(g => g.actions)
-                .DistinctBy(a => a.id)
-                .ToList();
-
-           
-            var menuTree = new List<MenuResponseDto>();
-
-          
-            var parentMenus = allAllowedMenus.Where(m => m.parentid == null).OrderBy(m => m.id).ToList();
-
-            foreach (var parent in parentMenus)
-            {
-                var parentDto = new MenuResponseDto
-                {
-                    id = parent.id,
-                    label = parent.label,
-                    to = parent.to,
-                    icon = parent.icon,
-                };
-
-                // Lấy các Menu con thuộc về Menu cha này (nếu có)
-                var childMenus = allAllowedMenus.Where(m => m.parentid == parent.id).OrderBy(m => m.id).ToList();
-                foreach (var child in childMenus)
-                {
-                    var childDto = new MenuResponseDto
-                    {
-                        id = child.id,
-                        label = child.label,
-                        to = child.to,
-                        icon = child.icon,
-                        actions = allAllowedActions
-                                    .Where(a => a.menuid == child.id)
-                                    .Select(a => a.code)
-                                    .ToList()
-                    };
-                    parentDto.children.Add(childDto);
-                }
-
-                menuTree.Add(parentDto);
-            }
-
-            return menuTree;
+        public async Task CreateUserAsync(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserAsync(User user)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync()
         {
-            // Lấy toàn bộ User, nối với Groups và nối tiếp với Actions
-            return await _context.Users
-                .Include(u => u.groups)
-                    .ThenInclude(g => g.actions)
-                .Select(u => new UserResponseDto
-                {
-                    id = u.id,
-                    username = u.username,
-                    usercode = u.usercode,
-                    email = u.email,
-                    department = u.department,
-
-                    groups = u.groups.Select(g => g.name).ToList(),
-
-                    permissions = u.groups
-                                    .SelectMany(g => g.actions)
-                                    .Select(a => a.label) 
-                                    .Distinct()
-                                    .ToList()
-                })
+            var rawUsers = await _context.Users
+                .Include(u => u.group).ThenInclude(g => g.action)
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
+
+            return rawUsers.Select(u => new UserResponseDto
+            {
+                id = u.id,
+                userName = u.userName,
+                userCode = u.userCode,
+                email = u.email,
+                department = u.department,
+                group = u.group.Select(g => g.name).ToList(),
+                permission = u.group.SelectMany(g => g.action).Select(a => a.label).Distinct().ToList()
+            }).ToList();
+        }
+
+        public async Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter)
+        {
+            var query = _context.Users.Include(u => u.group).AsQueryable();
+
+            if (filter != null)
+            {
+                if (!string.IsNullOrWhiteSpace(filter.userName)) query = query.Where(u => u.userName.Contains(filter.userName));
+                if (!string.IsNullOrWhiteSpace(filter.userCode)) query = query.Where(u => u.userCode.Contains(filter.userCode));
+                if (!string.IsNullOrWhiteSpace(filter.email)) query = query.Where(u => u.email.Contains(filter.email));
+                if (!string.IsNullOrWhiteSpace(filter.department)) query = query.Where(u => u.department.Contains(filter.department));
+                if (!string.IsNullOrWhiteSpace(filter.userGroup))
+                    query = query.Where(u => u.group.Any(g => g.name.Contains(filter.userGroup) || g.code.Contains(filter.userGroup)));
+            }
+
+            var rawUsers = await query
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
+            var pagedRawUsers = await query
+            .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
+
+            return pagedRawUsers.Map(u => new UserResponseDto
+            {
+                id = u.id,
+                userName = u.userName,
+                userCode = u.userCode,
+                email = u.email,
+                department = u.department,
+                group = u.group.Select(g => g.name).ToList()
+            });
         }
     }
 }

@@ -1,0 +1,13 @@
+﻿using THUCTAP.Models;
+using THUCTAP.ViewModels;
+
+namespace THUCTAP.Interfaces
+{
+    public interface IActionService
+    {
+        Task<AppAction> CreateActionAsync(ActionCreateRequest request);
+        Task<AppAction> UpdateActionAsync(int id, UpdateActionRequest request);
+        Task<bool> DeleteActionAsync(int id);
+        Task<List<AppAction>> GetAllActionsAsync(ActionFilterRequest filter);
+    }
+}

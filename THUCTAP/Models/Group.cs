@@ -15,13 +15,13 @@ namespace THUCTAP.Models
         [JsonPropertyName("code")]
         public string code { get; set; } = string.Empty;
 
-        [JsonPropertyName("menus")]
-        public ICollection<Menu> menus { get; set; } = new List<Menu>();
+        [JsonPropertyName("menu")]
+        public ICollection<Menu> menu { get; set; } = new List<Menu>();
 
-        [JsonPropertyName("actions")]
-        public ICollection<AppAction> actions { get; set; } = new List<AppAction>();
+        [JsonPropertyName("action")]
+        public ICollection<AppAction> action { get; set; } = new List<AppAction>();
 
         [JsonIgnore]
-        public ICollection<User> users { get; set; } = new List<User>();
+        public ICollection<User> user { get; set; } = new List<User>();
     }
 }

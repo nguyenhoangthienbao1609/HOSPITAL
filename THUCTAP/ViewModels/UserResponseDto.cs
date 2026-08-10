@@ -7,11 +7,11 @@ namespace THUCTAP.ViewModels
         [JsonPropertyName("id")]
         public int id { get; set; }
 
-        [JsonPropertyName("username")]
-        public string username { get; set; } = string.Empty;
+        [JsonPropertyName("userName")]
+        public string userName { get; set; } = string.Empty;
 
-        [JsonPropertyName("user_code")]
-        public string usercode { get; set; } = string.Empty;
+        [JsonPropertyName("userCode")]
+        public string userCode { get; set; } = string.Empty;
 
         [JsonPropertyName("email")]
         public string email { get; set; } = string.Empty;
@@ -19,10 +19,10 @@ namespace THUCTAP.ViewModels
         [JsonPropertyName("department")]
         public string department { get; set; } = string.Empty;
 
-        [JsonPropertyName("groups")]
-        public List<string> groups { get; set; } = new List<string>();
+        [JsonPropertyName("group")]
+        public List<string> group { get; set; } = new List<string>();
 
-        [JsonPropertyName("permissions")]
-        public List<string> permissions { get; set; } = new List<string>();
+        [JsonPropertyName("permission")]
+        public List<string> permission { get; set; } = new List<string>();
     }
 }

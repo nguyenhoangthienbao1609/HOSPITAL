@@ -6,7 +6,8 @@ namespace THUCTAP.Models
     {
         [Key]
         public int id { get; set; }
-        public DateTime createdat { get; set; } = DateTime.UtcNow;
-        public DateTime updatedat { get; set; } = DateTime.UtcNow;
+        public DateTime createdAt { get; set; } = DateTime.UtcNow;
+        public DateTime updatedAt { get; set; } = DateTime.UtcNow;
+    
     }
 }

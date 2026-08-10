@@ -29,8 +29,8 @@ namespace THUCTAP.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.username),
-                new Claim("UserCode", user.usercode) // Có thể thêm các claim tùy chỉnh
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.userName),
+                new Claim("UserCode", user.userCode) // Có thể thêm các claim tùy chỉnh
             };
 
             // Nếu user có chứa Groups, có thể lặp qua và thêm Claim Role ở đây

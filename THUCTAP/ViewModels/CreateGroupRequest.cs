@@ -1,13 +1,27 @@
-﻿namespace THUCTAP.ViewModels
+﻿namespace THUCTAP.ViewModels 
 {
+    public class ActionSummaryDto
+    {
+        public int actionId { get; set; }
+        public string? actionLabel { get; set; }
+    }
+    public class PermissionDto
+    {
+        public int menuId { get; set; }
+        public string? menuLabel { get; set; }
+        public string? parentLabel { get; set; }
+            
+        public List<ActionSummaryDto> action { get; set; } = new List<ActionSummaryDto>();
+    
+    }
+
+   
     public class CreateGroupRequest
     {
-        // Thông tin cơ bản của nhóm
-        public string group_name { get; set; }
-        public string group_code { get; set; }
+        public string groupName { get; set; }
+        public string groupCode { get; set; }
 
-        // Danh sách quyền (có thể rỗng nếu lúc tạo chưa muốn cấp quyền ngay)
-        public List<int> menuids { get; set; } = new List<int>();
-        public List<int> actionids { get; set; } = new List<int>();
+        
+        public List<PermissionDto>? permission { get; set; } = new List<PermissionDto>();
     }
 }

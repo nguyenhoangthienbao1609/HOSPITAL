@@ -5,6 +5,18 @@ namespace THUCTAP.Interfaces
 {
     public interface IGroupRepository
     {
-        Task<Group> CreateGroupWithPermissionsAsync(CreateGroupRequest request);
+        Task<Group?> GetGroupByIdAsync(int id);
+        Task CreateGroupAsync(Group group);
+        Task UpdateGroupAsync(Group group);
+        Task DeleteGroupAsync(Group group);
+        Task<List<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter);
+
+        Task<List<int>> GetChildMenuIdsAsync(List<int> explicitMenuIds);
+        Task<List<int>> GetAutoActionIdsAsync(List<int> childMenuIds);
+        Task<List<int>> GetMenuIdsFromActionsAsync(List<int> explicitActionIds);
+        Task<List<int>> GetParentMenuIdsAsync(List<int> allMenuIds);
+
+        Task<List<Menu>> GetMenusByIdsAsync(List<int> menuIds);
+        Task<List<AppAction>> GetActionsByIdsAsync(List<int> actionIds);
     }
 }

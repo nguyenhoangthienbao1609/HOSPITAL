@@ -15,33 +15,54 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<FormField> CreateFormFieldAsync(CustomFieldCreateRequest request)
+        public async Task<bool> FieldKeyExistsAsync(string fieldKey)
         {
-            
-            var exists = await FindByCondition(f => f.field == request.fieldkey).AnyAsync();
-            if (exists)
+            return await _context.FormFields.AnyAsync(f => f.field == fieldKey);
+        }
+
+        public async Task<FormField?> GetFormFieldByIdAsync(int id)
+        {
+            return await _context.FormFields.FirstOrDefaultAsync(f => f.id == id);
+        }
+
+        public async Task CreateFormFieldAsync(FormField field)
+        {
+            Create(field);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateFormFieldAsync(FormField field)
+        {
+            Update(field); 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteFormFieldAsync(FormField field)
+        {
+            Delete(field); 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<FormField>> GetAllFieldsFilteredAsync(FormFieldFilterRequest filter)
+        {
+            var query = _context.FormFields.AsQueryable();
+
+            if (filter != null)
             {
-                throw new Exception($"Field Key '{request.fieldkey}' đã tồn tại trong hệ thống.");
+                if (!string.IsNullOrWhiteSpace(filter.label))
+                    query = query.Where(f => f.label.Contains(filter.label));
+
+                if (!string.IsNullOrWhiteSpace(filter.fieldKey))
+                    query = query.Where(f => f.field.Contains(filter.fieldKey));
+
+                if (!string.IsNullOrWhiteSpace(filter.entityName))
+                    query = query.Where(f => f.entityName.Contains(filter.entityName));
+
+                if (!string.IsNullOrWhiteSpace(filter.type))
+                    query = query.Where(f => f.type.Contains(filter.type));
             }
 
-            var newField = new FormField
-            {
-                label = request.label,
-                field = request.fieldkey,
-
-                
-                entityname = "General", 
-                type = "text",          
-                colspan = 12,
-                isdetail = false,
-                createdat = DateTime.UtcNow,
-                updatedat = DateTime.UtcNow
-            };
-
-            Create(newField);
-            await _context.SaveChangesAsync();
-
-            return newField;
+            return await query.ToListAsync();
         }
     }
 }

@@ -24,97 +24,137 @@ namespace THUCTAP.Migrations
 
             modelBuilder.Entity("AppActionGroup", b =>
                 {
-                    b.Property<int>("actionsid")
+                    b.Property<int>("actionid")
                         .HasColumnType("int");
 
-                    b.Property<int>("groupsid")
+                    b.Property<int>("groupid")
                         .HasColumnType("int");
 
-                    b.HasKey("actionsid", "groupsid");
+                    b.HasKey("actionid", "groupid");
 
-                    b.HasIndex("groupsid");
+                    b.HasIndex("groupid");
 
-                    b.ToTable("Group_Actions", (string)null);
+                    b.ToTable("Group_Action", (string)null);
 
                     b.HasData(
                         new
                         {
-                            actionsid = 1,
-                            groupsid = 1
+                            actionid = 1,
+                            groupid = 1
                         },
                         new
                         {
-                            actionsid = 2,
-                            groupsid = 1
+                            actionid = 2,
+                            groupid = 1
                         },
                         new
                         {
-                            actionsid = 3,
-                            groupsid = 1
+                            actionid = 3,
+                            groupid = 1
                         },
                         new
                         {
-                            actionsid = 4,
-                            groupsid = 1
+                            actionid = 4,
+                            groupid = 1
                         },
                         new
                         {
-                            actionsid = 5,
-                            groupsid = 1
+                            actionid = 5,
+                            groupid = 1
+                        },
+                        new
+                        {
+                            actionid = 1,
+                            groupid = 2
+                        },
+                        new
+                        {
+                            actionid = 2,
+                            groupid = 2
+                        },
+                        new
+                        {
+                            actionid = 4,
+                            groupid = 2
+                        },
+                        new
+                        {
+                            actionid = 1,
+                            groupid = 3
                         });
                 });
 
             modelBuilder.Entity("GroupMenu", b =>
                 {
-                    b.Property<int>("groupsid")
+                    b.Property<int>("groupid")
                         .HasColumnType("int");
 
-                    b.Property<int>("menusid")
+                    b.Property<int>("menuid")
                         .HasColumnType("int");
 
-                    b.HasKey("groupsid", "menusid");
+                    b.HasKey("groupid", "menuid");
 
-                    b.HasIndex("menusid");
+                    b.HasIndex("menuid");
 
-                    b.ToTable("Group_Menus", (string)null);
+                    b.ToTable("Group_Menu", (string)null);
 
                     b.HasData(
                         new
                         {
-                            groupsid = 1,
-                            menusid = 1
+                            groupid = 1,
+                            menuid = 1
                         },
                         new
                         {
-                            groupsid = 1,
-                            menusid = 2
+                            groupid = 1,
+                            menuid = 2
+                        },
+                        new
+                        {
+                            groupid = 2,
+                            menuid = 2
+                        },
+                        new
+                        {
+                            groupid = 2,
+                            menuid = 8
+                        },
+                        new
+                        {
+                            groupid = 3,
+                            menuid = 2
+                        },
+                        new
+                        {
+                            groupid = 3,
+                            menuid = 8
                         });
                 });
 
             modelBuilder.Entity("GroupUser", b =>
                 {
-                    b.Property<int>("groupsid")
+                    b.Property<int>("groupid")
                         .HasColumnType("int");
 
-                    b.Property<int>("usersid")
+                    b.Property<int>("userid")
                         .HasColumnType("int");
 
-                    b.HasKey("groupsid", "usersid");
+                    b.HasKey("groupid", "userid");
 
-                    b.HasIndex("usersid");
+                    b.HasIndex("userid");
 
-                    b.ToTable("User_Groups", (string)null);
+                    b.ToTable("User_Group", (string)null);
 
                     b.HasData(
                         new
                         {
-                            groupsid = 1,
-                            usersid = 1
+                            groupid = 1,
+                            userid = 1
                         },
                         new
                         {
-                            groupsid = 2,
-                            usersid = 2
+                            groupid = 2,
+                            userid = 2
                         });
                 });
 
@@ -131,7 +171,7 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "code");
 
-                    b.Property<DateTime>("createdat")
+                    b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("endpoint")
@@ -144,7 +184,7 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "label");
 
-                    b.Property<int>("menuid")
+                    b.Property<int>("menuId")
                         .HasColumnType("int")
                         .HasAnnotation("Relational:JsonPropertyName", "menuId");
 
@@ -153,72 +193,127 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "method");
 
-                    b.Property<DateTime>("updatedat")
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
 
-                    b.HasIndex("menuid");
+                    b.HasIndex("menuId");
 
                     b.ToTable("Actions");
 
-                    b.HasAnnotation("Relational:JsonPropertyName", "actions");
+                    b.HasAnnotation("Relational:JsonPropertyName", "action");
 
                     b.HasData(
                         new
                         {
                             id = 1,
-                            code = "USER_VIEW_LIST",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8024),
+                            code = "VIEW",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3138),
                             endpoint = "/api/users",
-                            label = "Danh sách ",
-                            menuid = 2,
+                            label = "View",
+                            menuId = 6,
                             method = "GET",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8024)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3139)
                         },
                         new
                         {
                             id = 2,
-                            code = "USER_VIEW_DETAIL",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8027),
+                            code = "DETAIL",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3143),
                             endpoint = "/api/users/{id}",
-                            label = "Chi tiết ",
-                            menuid = 2,
+                            label = "Detail",
+                            menuId = 6,
                             method = "GET",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8028)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3143)
                         },
                         new
                         {
                             id = 3,
-                            code = "USER_ADD",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8029),
+                            code = "CREATE",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3145),
                             endpoint = "/api/users",
-                            label = "Thêm mới ",
-                            menuid = 2,
+                            label = "Create",
+                            menuId = 6,
                             method = "POST",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8029)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3145)
                         },
                         new
                         {
                             id = 4,
-                            code = "USER_EDIT",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8030),
+                            code = "EDIT",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3147),
                             endpoint = "/api/users/{id}",
-                            label = "Cập nhật ",
-                            menuid = 2,
+                            label = "Update",
+                            menuId = 6,
                             method = "PUT",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8031)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3147)
                         },
                         new
                         {
                             id = 5,
-                            code = "USER_DEL",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8032),
+                            code = "DELETE",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3148),
                             endpoint = "/api/users/{id}",
-                            label = "Xóa ",
-                            menuid = 2,
+                            label = "Delete",
+                            menuId = 6,
                             method = "DELETE",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8032)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3148)
+                        },
+                        new
+                        {
+                            id = 6,
+                            code = "VIEW",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3150),
+                            endpoint = "/api/groups",
+                            label = "View",
+                            menuId = 7,
+                            method = "GET",
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3150)
+                        },
+                        new
+                        {
+                            id = 7,
+                            code = "CREATE",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3151),
+                            endpoint = "/api/groups",
+                            label = "Create",
+                            menuId = 7,
+                            method = "POST",
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3151)
+                        },
+                        new
+                        {
+                            id = 8,
+                            code = "EDIT",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3153),
+                            endpoint = "/api/groups/{id}",
+                            label = "Update",
+                            menuId = 7,
+                            method = "PUT",
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3153)
+                        },
+                        new
+                        {
+                            id = 9,
+                            code = "DELETE",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3154),
+                            endpoint = "/api/groups/{id}",
+                            label = "Delete",
+                            menuId = 7,
+                            method = "DELETE",
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3154)
+                        },
+                        new
+                        {
+                            id = 10,
+                            code = "DETAIL",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3155),
+                            endpoint = "/api/groups/{id}",
+                            label = "Detail",
+                            menuId = 7,
+                            method = "GET",
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3156)
                         });
                 });
 
@@ -230,73 +325,79 @@ namespace THUCTAP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("colspan")
+                    b.Property<int>("colSpan")
                         .HasColumnType("int")
-                        .HasAnnotation("Relational:JsonPropertyName", "col_span");
+                        .HasAnnotation("Relational:JsonPropertyName", "colSpan");
 
-                    b.Property<DateTime>("createdat")
+                    b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("entityname")
+                    b.Property<string>("entityName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "entity_name");
+                        .HasAnnotation("Relational:JsonPropertyName", "entityName");
 
                     b.Property<string>("field")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "field");
 
-                    b.Property<bool>("isdetail")
+                    b.Property<bool>("isDetail")
                         .HasColumnType("bit")
-                        .HasAnnotation("Relational:JsonPropertyName", "is_detail");
+                        .HasAnnotation("Relational:JsonPropertyName", "isDetail");
 
                     b.Property<string>("label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "label");
 
-                    b.Property<string>("optionlabel")
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "option_label");
-
-                    b.Property<string>("options")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "options");
-
-                    b.Property<string>("optionvalue")
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "option_value");
-
-                    b.Property<int>("sortorder")
+                    b.Property<int?>("menuId")
                         .HasColumnType("int")
-                        .HasAnnotation("Relational:JsonPropertyName", "sort_order");
+                        .HasAnnotation("Relational:JsonPropertyName", "menuId");
 
-                    b.Property<string>("subfield")
+                    b.Property<string>("option")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "sub_field");
+                        .HasAnnotation("Relational:JsonPropertyName", "option");
 
-                    b.Property<string>("tabname")
+                    b.Property<string>("optionLabel")
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "optionLabel");
+
+                    b.Property<string>("optionValue")
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "optionValue");
+
+                    b.Property<int>("sortOrder")
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "sortOrder");
+
+                    b.Property<string>("subField")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "tab_name");
+                        .HasAnnotation("Relational:JsonPropertyName", "subField");
 
-                    b.Property<string>("tagfield")
+                    b.Property<string>("tabName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "tag_field");
+                        .HasAnnotation("Relational:JsonPropertyName", "tabName");
+
+                    b.Property<string>("tagField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "tagField");
 
                     b.Property<string>("type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "type");
 
-                    b.Property<DateTime>("updatedat")
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
+
+                    b.HasIndex("menuId");
 
                     b.ToTable("FormFields");
 
@@ -304,36 +405,36 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            colspan = 6,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8178),
-                            entityname = "User",
+                            colSpan = 6,
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3232),
+                            entityName = "User",
                             field = "username",
-                            isdetail = false,
+                            isDetail = false,
                             label = "Tên đăng nhập",
-                            options = "",
-                            sortorder = 1,
-                            subfield = "",
-                            tabname = "",
-                            tagfield = "",
+                            option = "",
+                            sortOrder = 1,
+                            subField = "",
+                            tabName = "",
+                            tagField = "",
                             type = "text",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8178)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3232)
                         },
                         new
                         {
                             id = 2,
-                            colspan = 6,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8181),
-                            entityname = "User",
+                            colSpan = 6,
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3238),
+                            entityName = "User",
                             field = "department",
-                            isdetail = false,
+                            isDetail = false,
                             label = "Phòng ban",
-                            options = "",
-                            sortorder = 2,
-                            subfield = "",
-                            tabname = "",
-                            tagfield = "",
+                            option = "",
+                            sortOrder = 2,
+                            subField = "",
+                            tabName = "",
+                            tagField = "",
                             type = "select",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8181)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3238)
                         });
                 });
 
@@ -350,20 +451,15 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasAnnotation("Relational:JsonPropertyName", "code");
 
-                    b.Property<DateTime>("createdat")
+                    b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "description");
 
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasAnnotation("Relational:JsonPropertyName", "name");
 
-                    b.Property<DateTime>("updatedat")
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
@@ -381,19 +477,25 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             code = "ADMIN",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8001),
-                            description = "Full quyền",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3109),
                             name = "Quản trị hệ thống",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8002)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3109)
                         },
                         new
                         {
                             id = 2,
                             code = "DOCTOR",
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8004),
-                            description = "Quyền khám chữa bệnh",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3112),
                             name = "Bác sĩ",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8004)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3112)
+                        },
+                        new
+                        {
+                            id = 3,
+                            code = "Employee",
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3114),
+                            name = "Nhân viên",
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3114)
                         });
                 });
 
@@ -405,7 +507,7 @@ namespace THUCTAP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<DateTime>("createdat")
+                    b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("icon")
@@ -418,7 +520,7 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "label");
 
-                    b.Property<int?>("parentid")
+                    b.Property<int?>("parentId")
                         .HasColumnType("int")
                         .HasAnnotation("Relational:JsonPropertyName", "parentId");
 
@@ -427,12 +529,12 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "to");
 
-                    b.Property<DateTime>("updatedat")
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
 
-                    b.HasIndex("parentid");
+                    b.HasIndex("parentId");
 
                     b.ToTable("Menus");
 
@@ -442,137 +544,137 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8052),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3178),
                             icon = "shield",
                             label = "SECURITY & SYSTEM",
                             to = "",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8052)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3179)
                         },
                         new
                         {
                             id = 2,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8055),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3184),
                             icon = "users",
                             label = "EMPLOYEE MANAGEMENT",
                             to = "",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8055)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3184)
                         },
                         new
                         {
                             id = 3,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8057),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3186),
                             icon = "settings",
                             label = "ADMINISTRATION",
                             to = "",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8057)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3186)
                         },
                         new
                         {
                             id = 4,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8059),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3188),
                             icon = "shopping-cart",
                             label = "TRANSACTIONS",
                             to = "",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8059)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3188)
                         },
                         new
                         {
                             id = 5,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8060),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3189),
                             icon = "database",
                             label = "MASTER DATA",
                             to = "",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8060)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3189)
                         },
                         new
                         {
                             id = 6,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8061),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3191),
                             icon = "user",
                             label = "User Accounts",
-                            parentid = 1,
+                            parentId = 1,
                             to = "/system/users",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8061)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3191)
                         },
                         new
                         {
                             id = 7,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8063),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3192),
                             icon = "users",
                             label = "User Groups",
-                            parentid = 1,
+                            parentId = 1,
                             to = "/system/groups",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8063)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3193)
                         },
                         new
                         {
                             id = 8,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8064),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3194),
                             icon = "user-check",
                             label = "Employee Management",
-                            parentid = 2,
+                            parentId = 2,
                             to = "/employee/manage",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8064)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3194)
                         },
                         new
                         {
                             id = 9,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8066),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3196),
                             icon = "sliders",
                             label = "Administration",
-                            parentid = 3,
+                            parentId = 3,
                             to = "/admin/settings",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8066)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3196)
                         },
                         new
                         {
                             id = 10,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8067),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3197),
                             icon = "file-text",
                             label = "Orders",
-                            parentid = 4,
+                            parentId = 4,
                             to = "/transactions/orders",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8067)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3198)
                         },
                         new
                         {
                             id = 11,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8068),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3199),
                             icon = "file-invoice",
                             label = "Invoice Management",
-                            parentid = 4,
+                            parentId = 4,
                             to = "/transactions/invoices",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8069)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3199)
                         },
                         new
                         {
                             id = 12,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8070),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3201),
                             icon = "tag",
                             label = "Product Categories",
-                            parentid = 5,
+                            parentId = 5,
                             to = "/master/product-categories",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8070)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3201)
                         },
                         new
                         {
                             id = 13,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8148),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3202),
                             icon = "users",
                             label = "Customer Categories",
-                            parentid = 5,
+                            parentId = 5,
                             to = "/master/customer-categories",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8148)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3203)
                         },
                         new
                         {
                             id = 14,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8149),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3204),
                             icon = "user",
                             label = "Customer Master",
-                            parentid = 5,
+                            parentId = 5,
                             to = "/master/customers",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(8149)
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3204)
                         });
                 });
 
@@ -584,7 +686,7 @@ namespace THUCTAP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<DateTime>("createdat")
+                    b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("department")
@@ -602,22 +704,22 @@ namespace THUCTAP.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "password");
 
-                    b.Property<DateTime>("updatedat")
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("usercode")
+                    b.Property<string>("userCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasAnnotation("Relational:JsonPropertyName", "user_code");
+                        .HasAnnotation("Relational:JsonPropertyName", "userCode");
 
-                    b.Property<string>("username")
+                    b.Property<string>("userName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "username");
+                        .HasAnnotation("Relational:JsonPropertyName", "userName");
 
                     b.HasKey("id");
 
-                    b.HasIndex("usercode")
+                    b.HasIndex("userCode")
                         .IsUnique();
 
                     b.ToTable("Users");
@@ -626,24 +728,24 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(7907),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2984),
                             department = "Ban Giám Đốc",
                             email = "admin@test.com",
                             password = "123",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(7910),
-                            usercode = "NV001",
-                            username = "admin"
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2987),
+                            userCode = "NV001",
+                            userName = "admin"
                         },
                         new
                         {
                             id = 2,
-                            createdat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(7917),
+                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2992),
                             department = "Khoa Nội",
                             email = "bs@test.com",
                             password = "123",
-                            updatedat = new DateTime(2026, 7, 31, 6, 36, 13, 536, DateTimeKind.Utc).AddTicks(7917),
-                            usercode = "BS001",
-                            username = "bacsi01"
+                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2992),
+                            userCode = "BS001",
+                            userName = "bacsi01"
                         });
                 });
 
@@ -651,13 +753,13 @@ namespace THUCTAP.Migrations
                 {
                     b.HasOne("THUCTAP.Models.AppAction", null)
                         .WithMany()
-                        .HasForeignKey("actionsid")
+                        .HasForeignKey("actionid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("THUCTAP.Models.Group", null)
                         .WithMany()
-                        .HasForeignKey("groupsid")
+                        .HasForeignKey("groupid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -666,13 +768,13 @@ namespace THUCTAP.Migrations
                 {
                     b.HasOne("THUCTAP.Models.Group", null)
                         .WithMany()
-                        .HasForeignKey("groupsid")
+                        .HasForeignKey("groupid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("THUCTAP.Models.Menu", null)
                         .WithMany()
-                        .HasForeignKey("menusid")
+                        .HasForeignKey("menuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -681,13 +783,13 @@ namespace THUCTAP.Migrations
                 {
                     b.HasOne("THUCTAP.Models.Group", null)
                         .WithMany()
-                        .HasForeignKey("groupsid")
+                        .HasForeignKey("groupid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("THUCTAP.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("usersid")
+                        .HasForeignKey("userid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -695,19 +797,28 @@ namespace THUCTAP.Migrations
             modelBuilder.Entity("THUCTAP.Models.AppAction", b =>
                 {
                     b.HasOne("THUCTAP.Models.Menu", "menu")
-                        .WithMany("actions")
-                        .HasForeignKey("menuid")
+                        .WithMany("action")
+                        .HasForeignKey("menuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("menu");
                 });
 
+            modelBuilder.Entity("THUCTAP.Models.FormField", b =>
+                {
+                    b.HasOne("THUCTAP.Models.Menu", "Menu")
+                        .WithMany()
+                        .HasForeignKey("menuId");
+
+                    b.Navigation("Menu");
+                });
+
             modelBuilder.Entity("THUCTAP.Models.Menu", b =>
                 {
                     b.HasOne("THUCTAP.Models.Menu", "parent")
                         .WithMany("children")
-                        .HasForeignKey("parentid")
+                        .HasForeignKey("parentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("parent");
@@ -715,7 +826,7 @@ namespace THUCTAP.Migrations
 
             modelBuilder.Entity("THUCTAP.Models.Menu", b =>
                 {
-                    b.Navigation("actions");
+                    b.Navigation("action");
 
                     b.Navigation("children");
                 });

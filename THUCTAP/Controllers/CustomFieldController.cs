@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using THUCTAP.Interfaces;
+using THUCTAP.Repos;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Controllers
@@ -8,21 +9,59 @@ namespace THUCTAP.Controllers
     [ApiController]
     public class CustomFieldController : ControllerBase
     {
-        private readonly IFormFieldRepository _formFieldRepository;
+        private readonly IFormFieldService _formFieldService;
 
-        public CustomFieldController(IFormFieldRepository formFieldRepository)
+        public CustomFieldController(IFormFieldService formFieldService)
         {
-            _formFieldRepository = formFieldRepository;
+            _formFieldService = formFieldService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCustomField([FromBody] CustomFieldCreateRequest request)
         {
+           
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var createdField = await _formFieldRepository.CreateFormFieldAsync(request);
+            try { 
+            var createdField = await _formFieldService.CreateFormFieldAsync(request);
 
             return Ok(new { Message = "Thêm Custom Field thành công", Data = createdField });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFormField(int id, [FromBody] UpdateFormFieldRequest request)
+        {
+            var updatedField = await _formFieldService.UpdateFormFieldAsync(id, request);
+
+            if (updatedField == null)
+            {
+                return NotFound(new { Message = "Không tìm thấy FormField này!" });
+            }
+
+            return Ok(new { Message = "Cập nhật FormField thành công!", Data = updatedField });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFormField(int id)
+        {
+            var isDeleted = await _formFieldService.DeleteFormFieldAsync(id);
+
+            if (!isDeleted)
+            {
+                return NotFound(new { Message = "Không tìm thấy FormField để xóa!" });
+            }
+
+            return Ok(new { Message = "Xóa FormField thành công!" });
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllFields([FromQuery] FormFieldFilterRequest filter)
+        {
+            var fields = await _formFieldService.GetAllFieldsAsync(filter);
+            return Ok(new { message = "Thành công!", data = fields });
         }
     }
 }

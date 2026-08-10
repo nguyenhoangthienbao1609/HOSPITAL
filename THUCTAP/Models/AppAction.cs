@@ -7,10 +7,10 @@ namespace THUCTAP.Models
     public class AppAction : BaseModel
     {
         [JsonPropertyName("menuId")]
-        public int menuid { get; set; }
+        public int menuId { get; set; }
 
         [JsonIgnore]
-        [ForeignKey(nameof(menuid))]
+        [ForeignKey(nameof(menuId))]
         public Menu? menu { get; set; }
 
         [JsonPropertyName("label")]
@@ -26,6 +26,6 @@ namespace THUCTAP.Models
         public string method { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public ICollection<Group> groups { get; set; } = new List<Group>();
+        public ICollection<Group> group { get; set; } = new List<Group>();
     }
 }

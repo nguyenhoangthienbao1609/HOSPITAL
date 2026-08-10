@@ -22,7 +22,7 @@ namespace THUCTAP.Services
 
         public LoginResponse? Authenticate(LoginRequest request)
         {
-            User? user = _userRepo.GetUserByCredentials(request.username, request.password);
+            User? user = _userRepo.GetUserByCredentials(request.userName, request.password);
 
             if (user == null)
             {
@@ -30,11 +30,11 @@ namespace THUCTAP.Services
             }
 
             // Đã truyền thêm Role vào hàm tạo Token
-            string token = GenerateJSONWebToken(user.username);
+            string token = GenerateJSONWebToken(user.userName);
             return new LoginResponse()
             {
                 token = token,
-                userid = user.id            };
+                userId = user.id            };
         }
 
         private string GenerateJSONWebToken(string username)

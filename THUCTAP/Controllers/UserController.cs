@@ -2,6 +2,7 @@
 using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using THUCTAP.Repos;
 
 namespace THUCTAP.Controllers
 {
@@ -9,12 +10,12 @@ namespace THUCTAP.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
 
-        public UserController(IUserRepository userRepository, ITokenService tokenService)
+        public UserController(IUserService userService, ITokenService tokenService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _tokenService = tokenService;
         }
 
@@ -27,7 +28,7 @@ namespace THUCTAP.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var createdUser = await _userRepository.CreateUserAsync(request);
+                var createdUser = await _userService.CreateUserAsync(request);
                 var token = _tokenService.GenerateToken(createdUser);
 
 
@@ -39,20 +40,44 @@ namespace THUCTAP.Controllers
                 });
             }
         }
-        
-    
-        [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserCreateRequest request)
         {
-            {
-                var users = await _userRepository.GetAllUsersWithPermissionsAsync();
+            var updatedUser = await _userService.UpdateUserAsync(id, request);
 
-                return Ok(new
-                {
-                    Message = "Lấy danh sách người dùng thành công",
-                    Data = users
-                });
+            if (updatedUser == null)
+            {
+                return NotFound(new { Message = "Không tìm thấy người dùng này!" });
             }
+
+            return Ok(new { Message = "Cập nhật tài khoản thành công!", Data = updatedUser });
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var isDeleted = await _userService.DeleteUserAsync(id);
+
+            if (!isDeleted)
+            {
+                return NotFound(new { Message = "Không tìm thấy người dùng để xóa!" });
+            }
+
+            return Ok(new { Message = "Xóa tài khoản thành công!" });
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers([FromQuery] UserFilterRequest filter)
+        {
+            var users = await _userService.GetAllUsersAsync(filter);
+
+            return Ok(new
+            {
+                message = "Lấy danh sách người dùng thành công!",
+                data = users
+            });
+        }
+
     }
 }

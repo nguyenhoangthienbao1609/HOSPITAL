@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
 
@@ -8,11 +10,10 @@ namespace THUCTAP.Controllers
     [ApiController]
     public class ActionController : ControllerBase
     {
-        private readonly IActionRepository _actionRepository;
-
-        public ActionController(IActionRepository actionRepository)
+        private readonly IActionService _actionService;
+        public ActionController(IActionService actionService)
         {
-            _actionRepository = actionRepository;
+            _actionService = actionService;
         }
 
         [HttpPost]
@@ -23,13 +24,54 @@ namespace THUCTAP.Controllers
                 return BadRequest(ModelState);
             }
 
-            var createdAction = await _actionRepository.CreateActionAsync(request);
-
-            return Ok(new
+            try
             {
-                Message = "Thêm Form Action thành công",
-                Data = createdAction
-            });
+                var createdAction = await _actionService.CreateActionAsync(request);
+
+                return Ok(new
+                {
+                    Message = "Thêm Form Action thành công",
+                    Data = createdAction
+                });
+            }
+            catch (Exception ex)
+            {
+                
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAction(int id, [FromBody] UpdateActionRequest request)
+        {
+            var updatedAction = await _actionService.UpdateActionAsync(id, request);
+
+            if (updatedAction == null)
+            {
+                return NotFound(new { Message = "Không tìm thấy Action này!" });
+            }
+
+            return Ok(new { Message = "Cập nhật Action thành công!", Data = updatedAction });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAction(int id)
+        {
+            var isDeleted = await _actionService.DeleteActionAsync(id);
+
+            if (!isDeleted)
+            {
+                return NotFound(new { Message = "Không tìm thấy Action để xóa!" });
+            }
+
+            return Ok(new { Message = "Xóa Action thành công!" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllActions([FromQuery] ActionFilterRequest filter)
+        {
+            var actions = await _actionService.GetAllActionsAsync(filter);
+            return Ok(new { message = "Thành công!", data = actions });
         }
     }
 }

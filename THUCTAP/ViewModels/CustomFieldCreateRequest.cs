@@ -7,7 +7,7 @@ namespace THUCTAP.ViewModels
         [JsonPropertyName("label")]
         public string label { get; set; } = string.Empty;
 
-        [JsonPropertyName("field_key")]
-        public string fieldkey { get; set; } = string.Empty;
+        [JsonPropertyName("fieldKey")]
+        public string fieldKey { get; set; } = string.Empty;
     }
 }

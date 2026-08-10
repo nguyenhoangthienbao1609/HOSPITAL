@@ -4,11 +4,11 @@ namespace THUCTAP.ViewModels
 {
     public class GroupCreateRequest
     {
-        [JsonPropertyName("group_name")]
-        public string groupname { get; set; } = string.Empty;
+        [JsonPropertyName("groupName")]
+        public string? groupName { get; set; } = string.Empty;
 
-        [JsonPropertyName("group_code")]
-        public string groupcode { get; set; } = string.Empty;
+        [JsonPropertyName("groupCode")]
+        public string? groupCode { get; set; } = string.Empty;
 
         
     }

@@ -3,7 +3,7 @@
     public class LoginResponse
     {
         public string token { get; set; } = string.Empty;
-        public int userid { get; set; }
-        // Sau này nếu cần trả thêm Username hay Role thì thêm vào đây
+        public int userId { get; set; }
+        public List<PermissionDto> permission { get; set; } = new List<PermissionDto>();
     }
 }

@@ -16,12 +16,10 @@ namespace THUCTAP.ViewModels
         [JsonPropertyName("icon")]
         public string icon { get; set; } = string.Empty;
 
-        // Chứa danh sách các Menu con lồng bên trong
         [JsonPropertyName("children")]
         public List<MenuResponseDto> children { get; set; } = new List<MenuResponseDto>();
-
        
-        [JsonPropertyName("actions")]
-        public List<string> actions { get; set; } = new List<string>();
+        [JsonPropertyName("action")]
+        public List<string> action { get; set; } = new List<string>();
     }
 }
