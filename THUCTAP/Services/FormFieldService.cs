@@ -3,6 +3,7 @@ using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
+using System.Reflection;
 
 namespace THUCTAP.Services
 {
@@ -15,23 +16,33 @@ namespace THUCTAP.Services
         {
             _formFieldRepository = formFieldRepository;
         }
-
-        public async Task<FormField> CreateFormFieldAsync(CustomFieldCreateRequest request)
+        
+        public async Task<FormField> CreateFormFieldAsync(FormFieldRequest request)
         {
             var newField = new FormField
             {
                 label = request.label,
-                field = request.fieldKey,
-                type = request.type,
+                field = request.field,
                 entityName = request.entityName,
+                type = request.type,
+                colSpan = request.colSpan,
+                isDetail = request.isDetail,
+                option = request.option,
+                tabName = request.tabName,
+                sortOrder = request.sortOrder,
+                optionLabel = request.optionLabel,
+                optionValue = request.optionValue,
+                subField = request.subField,
+                tagField = request.tagField,
                 menuId = request.menuId
             };
+
 
             await _formFieldRepository.CreateFormFieldAsync(newField);
             return newField;
         }
 
-        public async Task<FormField> UpdateFormFieldAsync(int id, UpdateFormFieldRequest request)
+        public async Task<FormField> UpdateFormFieldAsync(int id, FormFieldRequest request)
         {
             var field = await _formFieldRepository.GetFormFieldByIdAsync(id);
             if (field == null) return null;

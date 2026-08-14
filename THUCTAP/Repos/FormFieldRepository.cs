@@ -18,9 +18,9 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<bool> FieldKeyExistsAsync(string fieldKey)
+        public async Task<bool> FieldKeyExistsAsync(string field)
         {
-            return await _context.FormFields.AnyAsync(f => f.field == fieldKey);
+            return await _context.FormFields.AnyAsync(f => f.field == field);
         }
 
         public async Task<FormField?> GetFormFieldByIdAsync(int id)
@@ -36,8 +36,8 @@ namespace THUCTAP.Repos
 
             if (filter != null)
             {
-                if (!string.IsNullOrWhiteSpace(filter.fieldKey))
-                    query = query.Where(f => f.field.Contains(filter.fieldKey));
+                if (!string.IsNullOrWhiteSpace(filter.field))
+                    query = query.Where(f => f.field.Contains(filter.field));
                 if (!string.IsNullOrWhiteSpace(filter.type))
                     query = query.Where(f => f.type.Contains(filter.type));
             }
@@ -51,14 +51,13 @@ namespace THUCTAP.Repos
             {
                 id = f.id,
                 label = f.label,
-                fieldKey = f.field,
+                field = f.field,
                 type = f.type,
                 menuId = f.menuId ?? 0,
                 menuName = f.menu != null ? f.menu.label : null
             });
         }
 
-        // --- GỌI SAVECHANGES TRỰC TIẾP TẠI ĐÂY ---
         public async Task CreateFormFieldAsync(FormField field)
         {
             _context.FormFields.Add(field);

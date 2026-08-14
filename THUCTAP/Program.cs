@@ -8,109 +8,139 @@ using THUCTAP.Middlewares;
 using THUCTAP.Repos;
 using THUCTAP.Services;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information() 
+    .WriteTo.Console()          
+    .WriteTo.File("Logs/hospital-log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IMenuService, MenuService>();
-
-builder.Services.AddScoped<IActionRepository, ActionRepository>();
-builder.Services.AddScoped<IActionService, ActionService>();
-
-builder.Services.AddScoped<IFormFieldRepository, FormFieldRepository>();
-builder.Services.AddScoped<IFormFieldService, FormFieldService>();
-
-builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-builder.Services.AddScoped<IGroupService, GroupService>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
-builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
-
-builder.Services.AddScoped<ICustomerCategoryRepository, CustomerCategoryRepository>();
-builder.Services.AddScoped<ICustomerCategoryService, CustomerCategoryService>();
-
-builder.Services.AddScoped<ICustomerMasterRepository, CustomerMasterRepository>();
-builder.Services.AddScoped<ICustomerMasterService, CustomerMasterService>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-            ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
-
-builder.Services.AddCors(options =>
+try
 {
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-    });
-});
+    Log.Information("Bắt đầu khởi chạy hệ thống Hospital API...");
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Nhập token theo cú pháp: Bearer {token của bạn}\nVí dụ: Bearer eyJhbGciOiJIUzI1Ni...",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Host.UseSerilog();
 
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+    
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("Hospital"))
+    );
+
+    builder.Services.AddScoped<ITokenService, TokenService>();
+
+    builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<IMenuService, MenuService>();
+    builder.Services.AddScoped<IActionRepository, ActionRepository>();
+    builder.Services.AddScoped<IActionService, ActionService>();
+
+    builder.Services.AddScoped<IFormFieldRepository, FormFieldRepository>();
+    builder.Services.AddScoped<IFormFieldService, FormFieldService>();
+
+    builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+    builder.Services.AddScoped<IGroupService, GroupService>();
+
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IUserService, UserService>();
+
+    builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+    builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+
+    builder.Services.AddScoped<ICustomerCategoryRepository, CustomerCategoryRepository>();
+    builder.Services.AddScoped<ICustomerCategoryService, CustomerCategoryService>();
+
+    builder.Services.AddScoped<ICustomerMasterRepository, CustomerMasterRepository>();
+    builder.Services.AddScoped<ICustomerMasterService, CustomerMasterService>();
+
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+   
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
         {
-            new OpenApiSecurityScheme
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                ValidateIssuer = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+        });
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll", policyBuilder =>
+        {
+            policyBuilder.AllowAnyOrigin()
+                         .AllowAnyHeader()
+                         .AllowAnyMethod();
+        });
     });
-});
 
-builder.Services.AddHttpContextAccessor();
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddHttpClient();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Description = "Nhập token theo cú pháp: Bearer {token của bạn}\nVí dụ: Bearer eyJhbGciOiJIUzI1Ni...",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
 
-var app = builder.Build();
-app.UseMiddleware<GlobalExceptionMiddleware>();
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] {}
+            }
+        });
+    });
+
+    builder.Services.AddHttpContextAccessor();
+
+    var app = builder.Build();
+
+    app.UseMiddleware<GlobalExceptionMiddleware>();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseRouting();
+    app.UseCors("AllowAll");
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.UseMiddleware<PermissionMiddleware>();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-app.UseRouting();
-app.UseCors("AllowAll");
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseMiddleware<PermissionMiddleware>();
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Hệ thống gặp lỗi nghiêm trọng và không thể khởi động!");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

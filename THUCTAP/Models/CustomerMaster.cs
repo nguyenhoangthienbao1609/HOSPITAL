@@ -1,8 +1,8 @@
 ﻿namespace THUCTAP.Models
 {
-    public class CustomerMaster
+    public class CustomerMaster : BaseModel
     {
-        public int id { get; set; }
+       
         public string customerName { get; set; }
 
         public int categoryId { get; set; }

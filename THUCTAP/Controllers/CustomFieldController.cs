@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using THUCTAP.Interfaces;
-using THUCTAP.Repos;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Controllers
@@ -19,7 +18,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCustomField([FromBody] CustomFieldCreateRequest request)
+        public async Task<IActionResult> CreateCustomField([FromBody] FormFieldRequest request)
         {
            
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -35,7 +34,7 @@ namespace THUCTAP.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFormField(int id, [FromBody] UpdateFormFieldRequest request)
+        public async Task<IActionResult> UpdateFormField(int id, [FromBody] FormFieldRequest request)
         {
             var updatedField = await _formFieldService.UpdateFormFieldAsync(id, request);
 

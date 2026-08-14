@@ -1,28 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using THUCTAP.Models;
 
 namespace THUCTAP.ViewModels
 {
-    public class FormFieldResponse
+    public class FormFieldRequest
     {
-        [JsonPropertyName("id")]
-        public int id { get; set; }
         [JsonPropertyName("entityName")]
-        public string? entityName { get; set; }
+        public string entityName { get; set; }
 
         [JsonPropertyName("field")]
         [Required(ErrorMessage = "Field không được để trống!")]
         public string field { get; set; }
 
         [JsonPropertyName("label")]
-        [Required(ErrorMessage = "Label không được để trống!")]
-        public string label { get; set; }
+        
+        public string? label { get; set; }
 
         [JsonPropertyName("type")]
-        [Required(ErrorMessage = "Type không được để trống!")]
-        public string type { get; set; } = "text";
+       
+        public string? type { get; set; }
 
         [JsonPropertyName("colSpan")]
         public int colSpan { get; set; }
@@ -54,8 +50,5 @@ namespace THUCTAP.ViewModels
         [JsonPropertyName("menuId")]
         [Required(ErrorMessage = "Menu ID không được để trống!")]
         public int menuId { get; set; }
-
-        [JsonPropertyName("menuName")]
-        public string menuName { get; set; }
     }
 }

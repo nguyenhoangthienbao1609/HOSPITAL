@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using THUCTAP.Data;
 
@@ -11,9 +12,11 @@ using THUCTAP.Data;
 namespace THUCTAP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260814032148_addisactive")]
+    partial class addisactive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,23 +408,8 @@ namespace THUCTAP.Migrations
                     b.Property<int>("categoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("createdBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("customerName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("updatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("updatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
@@ -435,46 +423,31 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             categoryId = 1,
-                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            customerName = "Công ty Cổ phần Alpha",
-                            isActive = true,
-                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            customerName = "Công ty Cổ phần Alpha"
                         },
                         new
                         {
                             id = 2,
                             categoryId = 2,
-                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            customerName = "Tập đoàn Beta",
-                            isActive = true,
-                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            customerName = "Tập đoàn Beta"
                         },
                         new
                         {
                             id = 3,
                             categoryId = 1,
-                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            customerName = "Cửa hàng Tiện lợi 24/7",
-                            isActive = true,
-                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            customerName = "Cửa hàng Tiện lợi 24/7"
                         },
                         new
                         {
                             id = 4,
                             categoryId = 2,
-                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            customerName = "Nhà phân phối Miền Nam",
-                            isActive = true,
-                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            customerName = "Nhà phân phối Miền Nam"
                         },
                         new
                         {
                             id = 5,
                             categoryId = 1,
-                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            customerName = "Khách hàng Vãng lai",
-                            isActive = true,
-                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            customerName = "Khách hàng Vãng lai"
                         });
                 });
 
