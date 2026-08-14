@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
 
@@ -6,6 +7,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GroupController : ControllerBase
     {
         
@@ -40,7 +42,6 @@ namespace THUCTAP.Controllers
         {
             var updatedGroup = await _groupService.UpdateGroupAsync(id, request);
 
-            // Nếu trả về null nghĩa là ID không tồn tại
             if (updatedGroup == null) return NotFound(new { Message = "Không tìm thấy nhóm này!" });
 
             return Ok(new { Message = "Cập nhật nhóm thành công!", Data = updatedGroup });

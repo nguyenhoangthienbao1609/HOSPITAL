@@ -1,10 +1,13 @@
-﻿namespace THUCTAP.ViewModels
+﻿using System.ComponentModel;
+
+namespace THUCTAP.ViewModels
 {
     public class PagingRequestBase
     {
+        [DefaultValue(1)]
         public int pageIndex { get; set; } = 1;
 
-        // Mặc định 1 trang có tối đa 10 dòng
+        [DefaultValue(10)]
         public int pageSize { get; set; } = 10;
     }
 }

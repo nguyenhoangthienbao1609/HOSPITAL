@@ -8,6 +8,8 @@ namespace THUCTAP.Interfaces
         Task<AppAction> CreateActionAsync(ActionCreateRequest request);
         Task<AppAction> UpdateActionAsync(int id, UpdateActionRequest request);
         Task<bool> DeleteActionAsync(int id);
-        Task<List<AppAction>> GetAllActionsAsync(ActionFilterRequest filter);
+        Task<PagedResult<ActionResponse>> GetAllActionsAsync(ActionFilterRequest filter);
+
+
     }
 }

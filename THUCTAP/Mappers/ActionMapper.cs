@@ -12,7 +12,7 @@ namespace THUCTAP.Mappers
             {
                 label = request.actionName,
                 code = request.actionCode,
-                menuId = 1, 
+                menuId = request.menuId, 
                 createdAt = DateTime.UtcNow,
                 updatedAt = DateTime.UtcNow
             };

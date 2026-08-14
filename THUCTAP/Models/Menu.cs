@@ -30,5 +30,6 @@ namespace THUCTAP.Models
 
         [JsonIgnore]
         public ICollection<Group> group { get; set; } = new List<Group>();
+        public ICollection<FormField> formFields { get; set; } = new List<FormField>();
     }
 }

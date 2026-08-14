@@ -1,6 +1,6 @@
 ﻿namespace THUCTAP.ViewModels
 {
-    public class FormFieldFilterRequest
+    public class FormFieldFilterRequest : PagingRequestBase
     {
         public string? label { get; set; }
         public string? fieldKey { get; set; }

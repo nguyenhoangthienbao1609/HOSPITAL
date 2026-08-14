@@ -29,7 +29,6 @@ namespace THUCTAP.Services
                 return null;
             }
 
-            // Đã truyền thêm Role vào hàm tạo Token
             string token = GenerateJSONWebToken(user.userName);
             return new LoginResponse()
             {
@@ -42,7 +41,6 @@ namespace THUCTAP.Services
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            // Nhúng Role vào bên trong Token
             Claim[] claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim("username", username),

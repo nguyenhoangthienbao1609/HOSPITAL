@@ -3,7 +3,6 @@ using THUCTAP.ViewModels;
 
 namespace THUCTAP.Interfaces
 {
-    // Kế thừa IRepositoryBase 
     public interface IUserRepository
     {
         User? GetUserByCredentials(string username, string password);
@@ -18,5 +17,6 @@ namespace THUCTAP.Interfaces
 
         Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync();
         Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter);
+        Task<List<string>> GetAllDepartmentsAsync();
     }
 }

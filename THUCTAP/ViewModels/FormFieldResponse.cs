@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using THUCTAP.Models;
 
 namespace THUCTAP.ViewModels
 {
@@ -20,11 +22,12 @@ namespace THUCTAP.ViewModels
         public string type { get; set; }
 
         [JsonPropertyName("menuId")]
-        public int? menuId { get; set; }
+        public int menuId { get; set; }
 
         [JsonPropertyName("menuName")]
         public string menuName { get; set; }
+        
 
-       
+
     }
 }

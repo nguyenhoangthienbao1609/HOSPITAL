@@ -18,6 +18,6 @@ namespace THUCTAP.ViewModels
         public string type { get; set; } = string.Empty;
 
         [JsonPropertyName("menuId")]
-        public int? menuId { get; set; }
+        public int menuId { get; set; }
     }
 }

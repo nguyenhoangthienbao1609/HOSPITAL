@@ -8,6 +8,7 @@ namespace THUCTAP.Interfaces
         Task<FormField> CreateFormFieldAsync(CustomFieldCreateRequest request);
         Task<FormField> UpdateFormFieldAsync(int id, UpdateFormFieldRequest request);
         Task<bool> DeleteFormFieldAsync(int id);
-        Task<List<FormField>> GetAllFieldsAsync(FormFieldFilterRequest filter);
+        Task<PagedResult<FormFieldResponse>> GetAllFieldsAsync(FormFieldFilterRequest filter);
+
     }
 }

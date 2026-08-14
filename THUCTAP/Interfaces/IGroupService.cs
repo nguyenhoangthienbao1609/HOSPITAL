@@ -8,7 +8,7 @@ namespace THUCTAP.Interfaces
         Task<Group> CreateGroupAsync(CreateGroupRequest request);
         Task<Group> UpdateGroupAsync(int id, CreateGroupRequest request);
         Task<bool> DeleteGroupAsync(int id);
-        Task<List<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter);
+        Task<PagedResult<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter);
         Task<List<MenuMatrixDto>> GetGroupPermissionMatrixAsync(int groupId);
     }
 }

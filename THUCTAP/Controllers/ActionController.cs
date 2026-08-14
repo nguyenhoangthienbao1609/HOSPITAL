@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using THUCTAP.Interfaces;
@@ -8,6 +9,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ActionController : ControllerBase
     {
         private readonly IActionService _actionService;

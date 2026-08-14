@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using THUCTAP.Data;
+using THUCTAP.Extensions;
 using THUCTAP.Interfaces;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
@@ -23,6 +27,51 @@ namespace THUCTAP.Repos
                 .FirstOrDefaultAsync(g => g.id == id);
         }
 
+        public async Task<PagedResult<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter)
+        {
+            var query = _context.Groups
+                .Include(g => g.menu)
+                .Include(g => g.action)
+                .AsQueryable();
+
+            if (filter != null)
+            {
+                if (!string.IsNullOrWhiteSpace(filter.groupName))
+                    query = query.Where(g => g.name.Contains(filter.groupName));
+
+                if (!string.IsNullOrWhiteSpace(filter.groupCode))
+                    query = query.Where(g => g.code.Contains(filter.groupCode));
+            }
+
+            var pagedRawGroups = await query
+                .OrderByDescending(g => g.id) // Cần thiết để phân trang không lỗi
+                .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
+
+            return pagedRawGroups.Map(g =>
+            {
+                var menuList = g.menu.Select(m => new PermissionDto
+                {
+                    menuId = m.id,
+                    menuLabel = m.label,
+                    parentLabel = _context.Menus.FirstOrDefault(p => p.id == m.parentId)?.label,
+                    action = g.action.Where(a => a.menuId == m.id).Select(a => new ActionSummaryDto
+                    {
+                        actionId = a.id,
+                        actionLabel = a.label
+                    }).ToList()
+                }).ToList();
+
+                return new GroupResponse
+                {
+                    id = g.id,
+                    groupName = g.name,
+                    groupCode = g.code,
+                    permission = menuList
+                };
+            });
+        }
+
+        // --- GỌI SAVECHANGES TRỰC TIẾP TẠI ĐÂY ---
         public async Task CreateGroupAsync(Group group)
         {
             _context.Groups.Add(group);
@@ -41,46 +90,7 @@ namespace THUCTAP.Repos
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter)
-        {
-            var query = _context.Groups.AsQueryable();
-
-            if (filter != null)
-            {
-                if (!string.IsNullOrWhiteSpace(filter.groupName))
-                    query = query.Where(g => g.name.Contains(filter.groupName));
-
-                if (!string.IsNullOrWhiteSpace(filter.groupCode))
-                    query = query.Where(g => g.code.Contains(filter.groupCode));
-            }
-
-            var rawGroups = await query
-                .Include(g => g.menu).ThenInclude(m => m.parent)
-                .Include(g => g.action)
-                .ToListAsync();
-
-            return rawGroups
-                .Select(g => new GroupResponse
-            {
-                id = g.id,
-                groupName = g.name,
-                groupCode = g.code,
-                permission = g.menu.Select(m => new PermissionDto
-                {
-                    menuId = m.id,
-                    menuLabel = m.label,
-                    parentLabel = m.parent != null ? m.parent.label : null,
-                    action = g.action
-                        .Where(a => a.menuId == m.id)
-                        .Select(a => new ActionSummaryDto
-                        {
-                            actionId = a.id,
-                            actionLabel = a.label
-                        }).ToList()
-                }).ToList()
-            }).ToList();
-        }
-
+        // --- CÁC HÀM GET DỮ LIỆU PHỤ TRỢ (GIỮ NGUYÊN) ---
         public async Task<List<int>> GetChildMenuIdsAsync(List<int> explicitMenuIds) =>
             await _context.Menus
                 .Where(m => m.parentId != null && explicitMenuIds.Contains(m.parentId.Value))

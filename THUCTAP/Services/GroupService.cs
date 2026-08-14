@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using THUCTAP.Data;
 using THUCTAP.Interfaces;
-using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
 
@@ -12,6 +15,7 @@ namespace THUCTAP.Services
         private readonly IGroupRepository _groupRepository;
         private readonly AppDbContext _context;
 
+        // Tiêm trực tiếp Repository
         public GroupService(IGroupRepository groupRepository, AppDbContext context)
         {
             _groupRepository = groupRepository;
@@ -20,7 +24,6 @@ namespace THUCTAP.Services
 
         public async Task<Group> CreateGroupAsync(CreateGroupRequest request)
         {
-         
             var group = new Group
             {
                 name = request.groupName,
@@ -41,9 +44,9 @@ namespace THUCTAP.Services
             var finalMenuIds = allExplicitMenuIds.Union(parentMenuIds).Distinct().ToList();
 
             group.menu = await _groupRepository.GetMenusByIdsAsync(finalMenuIds);
-
             group.action = await _groupRepository.GetActionsByIdsAsync(explicitActionIds);
 
+            // Gọi Repository và lưu luôn
             await _groupRepository.CreateGroupAsync(group);
 
             return group;
@@ -71,14 +74,11 @@ namespace THUCTAP.Services
             var finalMenuIds = allExplicitMenuIds.Union(parentMenuIds).Distinct().ToList();
 
             group.menu = await _groupRepository.GetMenusByIdsAsync(finalMenuIds);
-
-            // 4. XỬ LÝ ACTION (Nghiêm ngặt: Chỉ lấy đúng action Frontend truyền lên)
             group.action = await _groupRepository.GetActionsByIdsAsync(explicitActionIds);
 
-            // 5. LƯU VÀO DATABASE
+            // Gọi Repository và lưu luôn
             await _groupRepository.UpdateGroupAsync(group);
 
-            // Trả về group để giải quyết lỗi CS0161
             return group;
         }
 
@@ -87,50 +87,25 @@ namespace THUCTAP.Services
             var group = await _groupRepository.GetGroupByIdAsync(id);
             if (group == null) return false;
 
+            // Gọi Repository và lưu luôn
             await _groupRepository.DeleteGroupAsync(group);
+
             return true;
         }
 
-        public async Task<List<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter)
+        public async Task<PagedResult<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter)
         {
             return await _groupRepository.GetAllGroupsAsync(filter);
         }
 
-
-        //private async Task ResolveGroupPermissionsAsync(Group group, List<PermissionDto> permission)
-        //{
-        //    if (permission == null || !permission.Any()) return;
-
-        //    var explicitMenuIds = permission.Select(p => p.menuId).Distinct().ToList();
-        //    var explicitActionIds = permission.Where(p => p.action != null)
-        //                                       .SelectMany(p => p.action.Select(a => a.actionId))
-        //                                       .Distinct().ToList();
-
-        //    // Sử dụng các hàm phụ trợ từ Repo để lấy dữ liệu
-        //    var childMenus = await _groupRepository.GetChildMenuIdsAsync(explicitMenuIds);
-        //    var autoActionIds = await _groupRepository.GetAutoActionIdsAsync(childMenus);
-        //    var menuIdsFromActions = await _groupRepository.GetMenuIdsFromActionsAsync(explicitActionIds);
-
-        //    var allMenuIds = explicitMenuIds.Union(childMenus).Union(menuIdsFromActions).Distinct().ToList();
-        //    var parentMenuIds = await _groupRepository.GetParentMenuIdsAsync(allMenuIds);
-
-        //    var finalMenuIds = allMenuIds.Union(parentMenuIds).Distinct().ToList();
-        //    var finalActionIds = explicitActionIds.Union(autoActionIds).Distinct().ToList();
-
-        //    // Gán dữ liệu thật vào entity Group
-        //    group.menu = await _groupRepository.GetMenusByIdsAsync(finalMenuIds);
-        //    group.action = await _groupRepository.GetActionsByIdsAsync(finalActionIds);
-        //}
+        // HÀM LẤY MA TRẬN QUYỀN (GIỮ NGUYÊN)
         public async Task<List<MenuMatrixDto>> GetGroupPermissionMatrixAsync(int groupId)
         {
-            // 1. Luôn kéo toàn bộ Menu và Action thô lên làm "khung xương"
             var allMenus = await _context.Menus.AsNoTracking().ToListAsync();
             var allActions = await _context.Actions.AsNoTracking().ToListAsync();
 
-            // 2. Khai báo biến group = null (Mặc định cho kịch bản Tạo mới)
             Group? group = null;
 
-            // Kịch bản Cập nhật: Chỉ chọc xuống DB lấy Group nếu groupId > 0
             if (groupId > 0)
             {
                 group = await _context.Groups
@@ -143,7 +118,6 @@ namespace THUCTAP.Services
                 if (group == null) throw new Exception("Không tìm thấy Nhóm quyền này!");
             }
 
-            // 3. Build Cây Ma trận (Kết hợp Full Menu và biến group)
             var matrixTree = new List<MenuMatrixDto>();
             var parentMenus = allMenus.Where(m => m.parentId == null).ToList();
 
@@ -154,8 +128,6 @@ namespace THUCTAP.Services
                     id = parent.id,
                     label = parent.label,
                     icon = parent.icon,
-
-                    // Xử lý isGranted: Nếu group tồn tại VÀ chứa menu này thì True, ngược lại là False
                     isGranted = group != null && group.menu.Any(m => m.id == parent.id),
                     children = new List<MenuMatrixDto>(),
 
@@ -164,7 +136,6 @@ namespace THUCTAP.Services
                         id = a.id,
                         label = a.label,
                         code = a.code,
-                        // Tương tự cho Action
                         isGranted = group != null && group.action.Any(ga => ga.id == a.id)
                     }).ToList()
                 };

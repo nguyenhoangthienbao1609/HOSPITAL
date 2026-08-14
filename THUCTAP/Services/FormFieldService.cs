@@ -1,4 +1,5 @@
-﻿using THUCTAP.Interfaces;
+﻿using System.Threading.Tasks;
+using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
@@ -9,6 +10,7 @@ namespace THUCTAP.Services
     {
         private readonly IFormFieldRepository _formFieldRepository;
 
+        // Tiêm trực tiếp Repository
         public FormFieldService(IFormFieldRepository formFieldRepository)
         {
             _formFieldRepository = formFieldRepository;
@@ -16,32 +18,26 @@ namespace THUCTAP.Services
 
         public async Task<FormField> CreateFormFieldAsync(CustomFieldCreateRequest request)
         {
-            // 1. Kiểm tra Business Logic (Rule)
-            var exists = await _formFieldRepository.FieldKeyExistsAsync(request.fieldKey);
-            if (exists)
+            var newField = new FormField
             {
-                throw new Exception($"Field Key '{request.fieldKey}' đã tồn tại trong hệ thống.");
-            }
+                label = request.label,
+                field = request.fieldKey,
+                type = request.type,
+                entityName = request.entityName,
+                menuId = request.menuId
+            };
 
-            // 2. Map dữ liệu
-            var newField = request.ToFormField();
-
-            // 3. Ra lệnh lưu Data
             await _formFieldRepository.CreateFormFieldAsync(newField);
-
             return newField;
         }
 
         public async Task<FormField> UpdateFormFieldAsync(int id, UpdateFormFieldRequest request)
         {
-            // 1. Kiểm tra tồn tại
             var field = await _formFieldRepository.GetFormFieldByIdAsync(id);
             if (field == null) return null;
 
-            // 2. Cập nhật dữ liệu thông qua Mapper
             field.UpdateFormField(request);
 
-            // 3. Ra lệnh lưu
             await _formFieldRepository.UpdateFormFieldAsync(field);
             return field;
         }
@@ -55,9 +51,9 @@ namespace THUCTAP.Services
             return true;
         }
 
-        public async Task<List<FormField>> GetAllFieldsAsync(FormFieldFilterRequest filter)
+        public async Task<PagedResult<FormFieldResponse>> GetAllFieldsAsync(FormFieldFilterRequest filter)
         {
-            return await _formFieldRepository.GetAllFieldsFilteredAsync(filter);
+            return await _formFieldRepository.GetAllFieldsAsync(filter);
         }
     }
 }

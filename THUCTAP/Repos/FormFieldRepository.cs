@@ -1,16 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using THUCTAP.Data;
+using THUCTAP.Extensions;
 using THUCTAP.Interfaces;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Repos
 {
-    public class FormFieldRepository : RepositoryBase<FormField>, IFormFieldRepository
+    public class FormFieldRepository : IFormFieldRepository
     {
         private readonly AppDbContext _context;
 
-        public FormFieldRepository(AppDbContext context) : base(context)
+        public FormFieldRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -25,44 +28,53 @@ namespace THUCTAP.Repos
             return await _context.FormFields.FirstOrDefaultAsync(f => f.id == id);
         }
 
+        public async Task<PagedResult<FormFieldResponse>> GetAllFieldsAsync(FormFieldFilterRequest filter)
+        {
+            var query = _context.FormFields
+                .Include(f => f.menu)
+                .AsQueryable();
+
+            if (filter != null)
+            {
+                if (!string.IsNullOrWhiteSpace(filter.fieldKey))
+                    query = query.Where(f => f.field.Contains(filter.fieldKey));
+                if (!string.IsNullOrWhiteSpace(filter.type))
+                    query = query.Where(f => f.type.Contains(filter.type));
+            }
+
+            var pagedRawFields = await query
+                .AsNoTracking()
+                .OrderByDescending(f => f.id)
+                .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
+
+            return pagedRawFields.Map(f => new FormFieldResponse
+            {
+                id = f.id,
+                label = f.label,
+                fieldKey = f.field,
+                type = f.type,
+                menuId = f.menuId ?? 0,
+                menuName = f.menu != null ? f.menu.label : null
+            });
+        }
+
+        // --- GỌI SAVECHANGES TRỰC TIẾP TẠI ĐÂY ---
         public async Task CreateFormFieldAsync(FormField field)
         {
-            Create(field);
+            _context.FormFields.Add(field);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateFormFieldAsync(FormField field)
         {
-            Update(field); 
+            _context.FormFields.Update(field);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteFormFieldAsync(FormField field)
         {
-            Delete(field); 
+            _context.FormFields.Remove(field);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<FormField>> GetAllFieldsFilteredAsync(FormFieldFilterRequest filter)
-        {
-            var query = _context.FormFields.AsQueryable();
-
-            if (filter != null)
-            {
-                if (!string.IsNullOrWhiteSpace(filter.label))
-                    query = query.Where(f => f.label.Contains(filter.label));
-
-                if (!string.IsNullOrWhiteSpace(filter.fieldKey))
-                    query = query.Where(f => f.field.Contains(filter.fieldKey));
-
-                if (!string.IsNullOrWhiteSpace(filter.entityName))
-                    query = query.Where(f => f.entityName.Contains(filter.entityName));
-
-                if (!string.IsNullOrWhiteSpace(filter.type))
-                    query = query.Where(f => f.type.Contains(filter.type));
-            }
-
-            return await query.ToListAsync();
         }
     }
 }

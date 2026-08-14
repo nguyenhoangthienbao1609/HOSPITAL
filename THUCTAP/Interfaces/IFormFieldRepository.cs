@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using THUCTAP.Models;
+﻿using THUCTAP.Models;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Interfaces
@@ -8,11 +7,10 @@ namespace THUCTAP.Interfaces
     {
         Task<bool> FieldKeyExistsAsync(string fieldKey);
         Task<FormField?> GetFormFieldByIdAsync(int id);
+        Task<PagedResult<FormFieldResponse>> GetAllFieldsAsync(FormFieldFilterRequest filter);
+
         Task CreateFormFieldAsync(FormField field);
         Task UpdateFormFieldAsync(FormField field);
         Task DeleteFormFieldAsync(FormField field);
-        Task<List<FormField>> GetAllFieldsFilteredAsync(FormFieldFilterRequest filter);
-
-
     }
 }

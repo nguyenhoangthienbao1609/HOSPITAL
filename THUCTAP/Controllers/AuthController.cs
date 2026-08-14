@@ -26,7 +26,7 @@ namespace THUCTAP.Controllers
 
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request) // Chỉnh lại tên Request DTO nếu của bạn khác
+        public IActionResult Login([FromBody] LoginRequest request)
         {
             
             var user = _userRepository.GetUserByCredentials(request.userName, request.password);

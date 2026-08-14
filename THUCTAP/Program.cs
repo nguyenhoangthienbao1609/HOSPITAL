@@ -14,17 +14,33 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IActionService, ActionService>();
-builder.Services.AddScoped<IFormFieldService, FormFieldService>();
-builder.Services.AddScoped<IGroupService, GroupService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IActionRepository, ActionRepository>();
-builder.Services.AddScoped<IFormFieldRepository, FormFieldRepository>();
-builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
+
+builder.Services.AddScoped<IActionRepository, ActionRepository>();
+builder.Services.AddScoped<IActionService, ActionService>();
+
+builder.Services.AddScoped<IFormFieldRepository, FormFieldRepository>();
+builder.Services.AddScoped<IFormFieldService, FormFieldService>();
+
+builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+
+builder.Services.AddScoped<ICustomerCategoryRepository, CustomerCategoryRepository>();
+builder.Services.AddScoped<ICustomerCategoryService, CustomerCategoryService>();
+
+builder.Services.AddScoped<ICustomerMasterRepository, CustomerMasterRepository>();
+builder.Services.AddScoped<ICustomerMasterService, CustomerMasterService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -40,72 +56,61 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     });
-//builder.Services.AddSwaggerGen(c =>
-//    {
-//    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-//    {
-//        Description = "Nhập Token theo cú pháp: Bearer {chuỗi_token_của_bạn}\n\nVí dụ: Bearer eyJhbGciOi...",
-//        Name = "Authorization",
-//        In = ParameterLocation.Header,
-//        Type = SecuritySchemeType.ApiKey,
-//        Scheme = "Bearer"
-//    });
 
-//    // Bắt buộc Swagger phải dùng Security Scheme này
-//    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-//    {
-//        {
-//            new OpenApiSecurityScheme
-//            {
-//                Reference = new OpenApiReference
-//                {
-//                    Type = ReferenceType.SecurityScheme,
-//                    Id = "Bearer"
-//                },
-//                Scheme = "oauth2",
-//                Name = "Bearer",
-//                In = ParameterLocation.Header,
-//            },
-//            new List<string>()
-//        }
-//    });
-//});
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IActionRepository, ActionRepository>();
-builder.Services.AddScoped<IFormFieldRepository, FormFieldRepository>();
-builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
         builder.AllowAnyOrigin()
                .AllowAnyHeader()
-               .AllowAnyMethod(); 
+               .AllowAnyMethod();
     });
 });
 
-
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Nhập token theo cú pháp: Bearer {token của bạn}\nVí dụ: Bearer eyJhbGciOiJIUzI1Ni...",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
-
-//if (app.Environment.IsDevelopment())
+app.UseMiddleware<GlobalExceptionMiddleware>();
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<GlobalExceptionMiddleware>();
+
 app.UseHttpsRedirection();
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseRouting();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("AllowAll");
-
+app.UseMiddleware<PermissionMiddleware>();
 app.MapControllers();
 
 app.Run();

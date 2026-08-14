@@ -5,7 +5,6 @@ namespace THUCTAP.Mappers
 {
     public static class FormFieldMapper
     {
-        // Map từ Request tạo mới sang Entity FormField
         public static FormField ToFormField(this CustomFieldCreateRequest request)
         {
             return new FormField
@@ -21,7 +20,7 @@ namespace THUCTAP.Mappers
             };
         }
 
-        // Map cập nhật dữ liệu vào Entity có sẵn
+      
         public static void UpdateFormField(this FormField field, UpdateFormFieldRequest request)
         {
             field.label = request.label;
@@ -29,7 +28,7 @@ namespace THUCTAP.Mappers
             field.entityName = request.entityName;
             field.type = request.type;
             field.menuId = request.menuId;
-            field.updatedAt = DateTime.UtcNow; // Nếu bạn muốn cập nhật thời gian sửa
+            field.updatedAt = DateTime.UtcNow; 
         }
     }
 }

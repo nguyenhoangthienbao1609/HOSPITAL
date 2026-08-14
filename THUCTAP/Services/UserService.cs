@@ -1,4 +1,8 @@
-﻿using THUCTAP.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
@@ -9,6 +13,7 @@ namespace THUCTAP.Services
     {
         private readonly IUserRepository _userRepository;
 
+        // Tiêm trực tiếp Repository
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -29,7 +34,9 @@ namespace THUCTAP.Services
                 newUser.group = await _userRepository.GetGroupsByIdsAsync(request.groupId);
             }
 
+            // Gọi Repository và lưu luôn
             await _userRepository.CreateUserAsync(newUser);
+
             return newUser;
         }
 
@@ -50,7 +57,9 @@ namespace THUCTAP.Services
                 }
             }
 
+            // Gọi Repository và lưu luôn
             await _userRepository.UpdateUserAsync(user);
+
             return user;
         }
 
@@ -59,8 +68,15 @@ namespace THUCTAP.Services
             var user = await _userRepository.GetUserByIdWithGroupsAsync(id);
             if (user == null) return false;
 
+            // Gọi Repository và lưu luôn
             await _userRepository.DeleteUserAsync(user);
+
             return true;
+        }
+
+        public async Task<List<string>> GetAllDepartmentsAsync()
+        {
+            return await _userRepository.GetAllDepartmentsAsync();
         }
 
         public async Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync() =>
@@ -69,7 +85,7 @@ namespace THUCTAP.Services
         public async Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter) =>
             await _userRepository.GetAllUsersAsync(filter);
 
-        // LOGIC XÂY DỰNG CÂY MENU ĐƯỢC CHUYỂN VỀ ĐÂY
+        // LOGIC XÂY DỰNG CÂY MENU 
         public async Task<List<MenuResponseDto>> GetUserMenusAsync(int userId)
         {
             var userWithGroups = await _userRepository.GetUserWithFullPermissionsAsync(userId);
@@ -89,6 +105,7 @@ namespace THUCTAP.Services
                     label = parent.label,
                     to = parent.to,
                     icon = parent.icon,
+                    children = new List<MenuResponseDto>()
                 };
 
                 var childMenus = allAllowedMenus.Where(m => m.parentId == parent.id).OrderBy(m => m.id).ToList();

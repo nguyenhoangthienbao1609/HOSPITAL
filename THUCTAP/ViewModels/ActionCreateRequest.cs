@@ -9,5 +9,7 @@ namespace THUCTAP.ViewModels
 
         [JsonPropertyName("actionCode")]
         public string actionCode { get; set; } = string.Empty;
+
+        public int menuId { get; set; }
     }
 }

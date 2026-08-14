@@ -12,7 +12,7 @@ namespace THUCTAP.Mappers
                 userName = request.userName,
                 userCode = request.userCode,
                 email = request.email,
-                password = request.password, // Lưu ý: Thực tế nên hash password ở Service
+                password = request.password, 
                 department = request.department,
                 createdAt = DateTime.UtcNow,
                 updatedAt = DateTime.UtcNow

@@ -8,6 +8,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -77,6 +78,23 @@ namespace THUCTAP.Controllers
                 message = "Lấy danh sách người dùng thành công!",
                 data = users
             });
+        }
+        [HttpGet("departments")]
+        public async Task<IActionResult> GetAllDepartments()
+        {
+            try
+            {
+                var departments = await _userService.GetAllDepartmentsAsync();
+                return Ok(new
+                {
+                    message = "Lấy danh sách phòng ban thành công!",
+                    data = departments
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
     }

@@ -174,6 +174,9 @@ namespace THUCTAP.Migrations
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("endpoint")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -196,6 +199,9 @@ namespace THUCTAP.Migrations
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("id");
 
                     b.HasIndex("menuId");
@@ -209,111 +215,225 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             code = "VIEW",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3138),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/users",
                             label = "View",
                             menuId = 6,
                             method = "GET",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3139)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 2,
-                            code = "DETAIL",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3143),
-                            endpoint = "/api/users/{id}",
-                            label = "Detail",
-                            menuId = 6,
-                            method = "GET",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3143)
-                        },
-                        new
-                        {
-                            id = 3,
                             code = "CREATE",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3145),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/users",
                             label = "Create",
                             menuId = 6,
                             method = "POST",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3145)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 3,
+                            code = "EDIT",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            endpoint = "/api/users/{id}",
+                            label = "Update",
+                            menuId = 6,
+                            method = "PUT",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 4,
-                            code = "EDIT",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3147),
+                            code = "DELETE",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/users/{id}",
-                            label = "Update",
+                            label = "Delete",
                             menuId = 6,
-                            method = "PUT",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3147)
+                            method = "DELETE",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 5,
-                            code = "DELETE",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3148),
-                            endpoint = "/api/users/{id}",
-                            label = "Delete",
-                            menuId = 6,
-                            method = "DELETE",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3148)
-                        },
-                        new
-                        {
-                            id = 6,
                             code = "VIEW",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3150),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/groups",
                             label = "View",
                             menuId = 7,
                             method = "GET",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3150)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            id = 7,
+                            id = 6,
                             code = "CREATE",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3151),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/groups",
                             label = "Create",
                             menuId = 7,
                             method = "POST",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3151)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            id = 8,
+                            id = 7,
                             code = "EDIT",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3153),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/groups/{id}",
                             label = "Update",
                             menuId = 7,
                             method = "PUT",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3153)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            id = 9,
+                            id = 8,
                             code = "DELETE",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3154),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             endpoint = "/api/groups/{id}",
                             label = "Delete",
                             menuId = 7,
                             method = "DELETE",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3154)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.CustomerCategory", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("groupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("CustomerCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            createdAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            discount = 15.0m,
+                            groupName = "Khách hàng V.I.P",
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            id = 10,
-                            code = "DETAIL",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3155),
-                            endpoint = "/api/groups/{id}",
-                            label = "Detail",
-                            menuId = 7,
-                            method = "GET",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3156)
+                            id = 2,
+                            createdAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            discount = 10.0m,
+                            groupName = "Khách mua sỉ",
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 3,
+                            createdAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            discount = 0.0m,
+                            groupName = "Khách vãng lai",
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 4,
+                            createdAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            discount = 5.0m,
+                            groupName = "Khách hàng thân thiết",
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 5,
+                            createdAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            discount = 20.0m,
+                            groupName = "Đối tác chiến lược",
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.CustomerMaster", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("categoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("customerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("categoryId");
+
+                    b.ToTable("CustomerMasters");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            categoryId = 1,
+                            customerName = "Công ty Cổ phần Alpha"
+                        },
+                        new
+                        {
+                            id = 2,
+                            categoryId = 2,
+                            customerName = "Tập đoàn Beta"
+                        },
+                        new
+                        {
+                            id = 3,
+                            categoryId = 1,
+                            customerName = "Cửa hàng Tiện lợi 24/7"
+                        },
+                        new
+                        {
+                            id = 4,
+                            categoryId = 2,
+                            customerName = "Nhà phân phối Miền Nam"
+                        },
+                        new
+                        {
+                            id = 5,
+                            categoryId = 1,
+                            customerName = "Khách hàng Vãng lai"
                         });
                 });
 
@@ -331,6 +451,9 @@ namespace THUCTAP.Migrations
 
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("entityName")
                         .IsRequired()
@@ -395,6 +518,9 @@ namespace THUCTAP.Migrations
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("id");
 
                     b.HasIndex("menuId");
@@ -406,7 +532,7 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             colSpan = 6,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3232),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             entityName = "User",
                             field = "username",
                             isDetail = false,
@@ -417,13 +543,13 @@ namespace THUCTAP.Migrations
                             tabName = "",
                             tagField = "",
                             type = "text",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3232)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 2,
                             colSpan = 6,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3238),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             entityName = "User",
                             field = "department",
                             isDetail = false,
@@ -434,7 +560,7 @@ namespace THUCTAP.Migrations
                             tabName = "",
                             tagField = "",
                             type = "select",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3238)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -454,6 +580,9 @@ namespace THUCTAP.Migrations
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
@@ -461,6 +590,9 @@ namespace THUCTAP.Migrations
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
@@ -477,25 +609,25 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             code = "ADMIN",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3109),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             name = "Quản trị hệ thống",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3109)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 2,
                             code = "DOCTOR",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3112),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             name = "Bác sĩ",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3112)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 3,
                             code = "Employee",
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3114),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             name = "Nhân viên",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3114)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -509,6 +641,9 @@ namespace THUCTAP.Migrations
 
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("icon")
                         .IsRequired()
@@ -532,6 +667,9 @@ namespace THUCTAP.Migrations
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("id");
 
                     b.HasIndex("parentId");
@@ -544,137 +682,220 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3178),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "shield",
                             label = "SECURITY & SYSTEM",
                             to = "",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3179)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 2,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3184),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "users",
                             label = "EMPLOYEE MANAGEMENT",
                             to = "",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3184)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 3,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3186),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "settings",
                             label = "ADMINISTRATION",
                             to = "",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3186)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 4,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3188),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "shopping-cart",
                             label = "TRANSACTIONS",
                             to = "",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3188)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 5,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3189),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "database",
                             label = "MASTER DATA",
                             to = "",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3189)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 6,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3191),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "user",
                             label = "User Accounts",
                             parentId = 1,
                             to = "/system/users",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3191)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 7,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3192),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "users",
                             label = "User Groups",
                             parentId = 1,
                             to = "/system/groups",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3193)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 8,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3194),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "user-check",
                             label = "Employee Management",
                             parentId = 2,
                             to = "/employee/manage",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3194)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 9,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3196),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "sliders",
                             label = "Administration",
                             parentId = 3,
                             to = "/admin/settings",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3196)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 10,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3197),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "file-text",
                             label = "Orders",
                             parentId = 4,
                             to = "/transactions/orders",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3198)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 11,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3199),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "file-invoice",
                             label = "Invoice Management",
                             parentId = 4,
                             to = "/transactions/invoices",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3199)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 12,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3201),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "tag",
                             label = "Product Categories",
                             parentId = 5,
                             to = "/master/product-categories",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3201)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 13,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3202),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "users",
                             label = "Customer Categories",
                             parentId = 5,
                             to = "/master/customer-categories",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3203)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 14,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3204),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             icon = "user",
                             label = "Customer Master",
                             parentId = 5,
                             to = "/master/customers",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(3204)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.ProductCategory", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("categoryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("categoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("ProductCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            categoryCode = "MED_EQUIP",
+                            categoryName = "Dụng cụ y tế",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Các thiết bị và máy móc dùng trong khám chữa bệnh",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 2,
+                            categoryCode = "PHARMA",
+                            categoryName = "Thuốc tân dược",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Các loại thuốc kháng sinh, thuốc đặc trị và thực phẩm chức năng",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 3,
+                            categoryCode = "SUPPLIES",
+                            categoryName = "Vật tư tiêu hao",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Bơm kim tiêm, bông băng, găng tay y tế, khẩu trang",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 4,
+                            categoryCode = "CHEMICALS",
+                            categoryName = "Hóa chất xét nghiệm",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Hóa chất và dung dịch dùng trong phòng thí nghiệm",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 5,
+                            categoryCode = "UNIFORMS",
+                            categoryName = "Trang phục y tế",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Đồng phục bác sĩ, điều dưỡng, bệnh nhân và đồ bảo hộ",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -688,6 +909,9 @@ namespace THUCTAP.Migrations
 
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("department")
                         .IsRequired()
@@ -706,6 +930,9 @@ namespace THUCTAP.Migrations
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userCode")
                         .IsRequired()
@@ -728,22 +955,22 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2984),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             department = "Ban Giám Đốc",
                             email = "admin@test.com",
                             password = "123",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2987),
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             userCode = "NV001",
                             userName = "admin"
                         },
                         new
                         {
                             id = 2,
-                            createdAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2992),
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             department = "Khoa Nội",
                             email = "bs@test.com",
                             password = "123",
-                            updatedAt = new DateTime(2026, 8, 7, 7, 32, 35, 88, DateTimeKind.Utc).AddTicks(2992),
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             userCode = "BS001",
                             userName = "bacsi01"
                         });
@@ -805,13 +1032,25 @@ namespace THUCTAP.Migrations
                     b.Navigation("menu");
                 });
 
+            modelBuilder.Entity("THUCTAP.Models.CustomerMaster", b =>
+                {
+                    b.HasOne("THUCTAP.Models.CustomerCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("categoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("THUCTAP.Models.FormField", b =>
                 {
-                    b.HasOne("THUCTAP.Models.Menu", "Menu")
-                        .WithMany()
-                        .HasForeignKey("menuId");
+                    b.HasOne("THUCTAP.Models.Menu", "menu")
+                        .WithMany("formFields")
+                        .HasForeignKey("menuId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Menu");
+                    b.Navigation("menu");
                 });
 
             modelBuilder.Entity("THUCTAP.Models.Menu", b =>
@@ -829,6 +1068,8 @@ namespace THUCTAP.Migrations
                     b.Navigation("action");
 
                     b.Navigation("children");
+
+                    b.Navigation("formFields");
                 });
 #pragma warning restore 612, 618
         }

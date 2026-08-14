@@ -1,24 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using THUCTAP.Data;
+using THUCTAP.Extensions;
 using THUCTAP.Interfaces;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
-using THUCTAP.Extensions;
 
 namespace THUCTAP.Repos
 {
-    public class UserRepository : RepositoryBase<User>, IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
 
-        public UserRepository(AppDbContext context) : base(context)
+        public UserRepository(AppDbContext context)
         {
             _context = context;
         }
 
         public User? GetUserByCredentials(string username, string password)
         {
-            return FindByCondition(u => u.userName == username && u.password == password)
+            return _context.Users
+                .Where(u => u.userName == username && u.password == password)
                 .Include(u => u.group).ThenInclude(g => g.menu).ThenInclude(m => m.parent)
                 .Include(u => u.group).ThenInclude(g => g.action)
                 .FirstOrDefault();
@@ -39,6 +43,7 @@ namespace THUCTAP.Repos
         public async Task<List<Group>> GetGroupsByIdsAsync(List<int> groupIds) =>
             await _context.Groups.Where(g => groupIds.Contains(g.id)).ToListAsync();
 
+        // --- GỌI SAVECHANGES TRỰC TIẾP TẠI ĐÂY ---
         public async Task CreateUserAsync(User user)
         {
             _context.Users.Add(user);
@@ -47,6 +52,7 @@ namespace THUCTAP.Repos
 
         public async Task UpdateUserAsync(User user)
         {
+            _context.Users.Update(user); // EF Core sẽ tự detect changes, nhưng gọi Update cũng được
             await _context.SaveChangesAsync();
         }
 
@@ -76,6 +82,15 @@ namespace THUCTAP.Repos
             }).ToList();
         }
 
+        public async Task<List<string>> GetAllDepartmentsAsync()
+        {
+            return await _context.Users
+                .Where(u => !string.IsNullOrWhiteSpace(u.department))
+                .Select(u => u.department)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter)
         {
             var query = _context.Users.Include(u => u.group).AsQueryable();
@@ -90,12 +105,9 @@ namespace THUCTAP.Repos
                     query = query.Where(u => u.group.Any(g => g.name.Contains(filter.userGroup) || g.code.Contains(filter.userGroup)));
             }
 
-            var rawUsers = await query
-                .AsNoTracking()
-                .AsSplitQuery()
-                .ToListAsync();
             var pagedRawUsers = await query
-            .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
+                .OrderByDescending(u => u.id) // Luôn cần order trước khi skip/take
+                .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
 
             return pagedRawUsers.Map(u => new UserResponseDto
             {

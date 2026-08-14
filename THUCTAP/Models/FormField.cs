@@ -50,6 +50,6 @@ namespace THUCTAP.Models
 
         [ForeignKey("menuId")]
         [JsonIgnore] 
-        public Menu? Menu { get; set; }
+        public Menu? menu { get; set; }
     }
 }

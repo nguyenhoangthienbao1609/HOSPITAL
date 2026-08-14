@@ -9,7 +9,7 @@ namespace THUCTAP.Interfaces
         Task CreateGroupAsync(Group group);
         Task UpdateGroupAsync(Group group);
         Task DeleteGroupAsync(Group group);
-        Task<List<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter);
+        Task<PagedResult<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter);
 
         Task<List<int>> GetChildMenuIdsAsync(List<int> explicitMenuIds);
         Task<List<int>> GetAutoActionIdsAsync(List<int> childMenuIds);
@@ -18,5 +18,6 @@ namespace THUCTAP.Interfaces
 
         Task<List<Menu>> GetMenusByIdsAsync(List<int> menuIds);
         Task<List<AppAction>> GetActionsByIdsAsync(List<int> actionIds);
+     
     }
 }

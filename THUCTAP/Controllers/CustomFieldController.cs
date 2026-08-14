@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using THUCTAP.Interfaces;
 using THUCTAP.Repos;
 using THUCTAP.ViewModels;
@@ -7,6 +8,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CustomFieldController : ControllerBase
     {
         private readonly IFormFieldService _formFieldService;

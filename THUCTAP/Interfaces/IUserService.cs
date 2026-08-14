@@ -11,5 +11,7 @@ namespace THUCTAP.Interfaces
         Task<List<MenuResponseDto>> GetUserMenusAsync(int userId);
         Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync();
         Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter);
+        Task<List<string>> GetAllDepartmentsAsync();
+
     }
 }
