@@ -68,11 +68,30 @@ namespace THUCTAP.Services
             var user = await _userRepository.GetUserByIdWithGroupsAsync(id);
             if (user == null) return false;
 
-            // Gọi Repository và lưu luôn
             await _userRepository.DeleteUserAsync(user);
 
             return true;
         }
+        public async Task<List<User>> GetDeletedUsersAsync()
+        {
+            return await _userRepository.GetDeletedUsersAsync();
+        }
+
+        public async Task<bool> RestoreUserAsync(int id)
+        {
+            // Tìm người dùng trong thùng rác
+            var user = await _userRepository.GetDeletedUserByIdAsync(id);
+            if (user == null) return false;
+
+            // Đổi trạng thái sống lại
+            user.isActive = true;
+
+            // Tái sử dụng hàm Update của Repository (hoặc dùng hàm Save của bạn)
+            await _userRepository.UpdateUserAsync(user);
+
+            return true;
+        }
+
 
         public async Task<List<string>> GetAllDepartmentsAsync()
         {

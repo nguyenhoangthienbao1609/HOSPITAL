@@ -15,6 +15,8 @@ namespace THUCTAP.Interfaces
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(User user);
 
+        Task<List<User>> GetDeletedUsersAsync();
+        Task<User?> GetDeletedUserByIdAsync(int id);
         Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync();
         Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter);
         Task<List<string>> GetAllDepartmentsAsync();

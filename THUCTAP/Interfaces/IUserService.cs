@@ -1,4 +1,5 @@
-﻿using THUCTAP.Models;
+﻿using System.Threading.Tasks;
+using THUCTAP.Models;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Interfaces
@@ -8,6 +9,8 @@ namespace THUCTAP.Interfaces
         Task<User> CreateUserAsync(UserCreateRequest request);
         Task<User> UpdateUserAsync(int id, UserCreateRequest request);
         Task<bool> DeleteUserAsync(int id);
+        Task<List<User>> GetDeletedUsersAsync();
+        Task<bool> RestoreUserAsync(int id);
         Task<List<MenuResponseDto>> GetUserMenusAsync(int userId);
         Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync();
         Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter);

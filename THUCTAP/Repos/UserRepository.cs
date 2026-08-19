@@ -43,7 +43,6 @@ namespace THUCTAP.Repos
         public async Task<List<Group>> GetGroupsByIdsAsync(List<int> groupIds) =>
             await _context.Groups.Where(g => groupIds.Contains(g.id)).ToListAsync();
 
-        // --- GỌI SAVECHANGES TRỰC TIẾP TẠI ĐÂY ---
         public async Task CreateUserAsync(User user)
         {
             _context.Users.Add(user);
@@ -52,7 +51,7 @@ namespace THUCTAP.Repos
 
         public async Task UpdateUserAsync(User user)
         {
-            _context.Users.Update(user); // EF Core sẽ tự detect changes, nhưng gọi Update cũng được
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
 
@@ -60,6 +59,22 @@ namespace THUCTAP.Repos
         {
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<User>> GetDeletedUsersAsync()
+        {
+            return await _context.Users
+                                 .IgnoreQueryFilters() 
+                                 .Where(u => u.isActive == false)
+                                 .ToListAsync();
+        }
+
+        public async Task<User?> GetDeletedUserByIdAsync(int id)
+        {
+            return await _context.Users
+                                 .IgnoreQueryFilters()
+                                 .FirstOrDefaultAsync(u => u.id == id && u.isActive == false);
+
         }
 
         public async Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync()

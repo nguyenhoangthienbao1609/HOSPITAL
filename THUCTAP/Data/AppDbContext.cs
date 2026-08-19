@@ -26,6 +26,7 @@ namespace THUCTAP.Data
                               ?? _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
                               ?? "System";
             var entries = ChangeTracker.Entries<BaseModel>();
+            
 
             foreach (var entry in entries)
             {
@@ -67,17 +68,26 @@ namespace THUCTAP.Data
             modelBuilder.Entity<User>()
                 .HasMany(u => u.group)
                 .WithMany(g => g.user)
-                .UsingEntity(j => j.ToTable("User_Group")
+                .UsingEntity<Dictionary<string, object>>(
+                "User_Group",
+                right => right.HasOne<Group>().WithMany().HasForeignKey("groupid"),
+                left => left.HasOne<User>().WithMany().HasForeignKey("userid")
                 );
             modelBuilder.Entity<Group>()
                 .HasMany(g => g.menu)
                 .WithMany(m => m.group)
-                .UsingEntity(j => j.ToTable("Group_Menu")
+                .UsingEntity<Dictionary<string, object>>(
+                "Group_Menu",
+                 right => right.HasOne<Menu>().WithMany().HasForeignKey("menuid"),
+                 left => left.HasOne<Group>().WithMany().HasForeignKey("groupid")
                 );
             modelBuilder.Entity<Group>()
                  .HasMany(g => g.action)
                  .WithMany(a => a.group)
-                 .UsingEntity(j => j.ToTable("Group_Action")
+                 .UsingEntity<Dictionary<string, object>>(
+                "Group_Action",
+                 right => right.HasOne<AppAction>().WithMany().HasForeignKey("actionid"), // Lưu ý dùng AppAction theo cấu hình DbSet của bạn
+                 left => left.HasOne<Group>().WithMany().HasForeignKey("groupid")
                  );
             modelBuilder.Entity<FormField>()
                 .HasOne(f => f.menu)
@@ -91,6 +101,14 @@ namespace THUCTAP.Data
                 .HasForeignKey(c => c.categoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<User>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<Group>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<Menu>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<AppAction>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<FormField>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<ProductCategory>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<CustomerCategory>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<CustomerMaster>().HasQueryFilter(x => x.isActive);
             modelBuilder.Seed();
         }
     }

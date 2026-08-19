@@ -19,7 +19,7 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
-    Log.Information("Bắt đầu khởi chạy hệ thống Hospital API...");
+    Log.Information("Hospital is running...");
 
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.UseSerilog();
@@ -53,6 +53,7 @@ try
 
     builder.Services.AddScoped<ICustomerMasterRepository, CustomerMasterRepository>();
     builder.Services.AddScoped<ICustomerMasterService, CustomerMasterService>();
+    builder.Services.AddScoped<IReportService, ReportService>();
 
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
    
