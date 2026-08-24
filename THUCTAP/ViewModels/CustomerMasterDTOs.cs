@@ -2,6 +2,7 @@
 {
     public class CustomerMasterFilterRequest : PagingRequestBase
     {
+        public int id { get; set; }
         public string? customerName { get; set; }
         public int? categoryId { get; set; }
     }
@@ -18,5 +19,6 @@
         public string customerName { get; set; }
         public int categoryId { get; set; }
         public string categoryName { get; set; }
+
     }
 }

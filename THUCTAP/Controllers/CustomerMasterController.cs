@@ -8,7 +8,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CustomerMasterController : ControllerBase
     {
         private readonly ICustomerMasterService _service;
@@ -19,21 +19,21 @@ namespace THUCTAP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] CustomerMasterFilterRequest filter)
+        public async Task<IActionResult>GetAll([FromQuery] CustomerMasterFilterRequest filter)
         {
             var result = await _service.GetAllAsync(filter);
             return Ok(new { message = "Thành công", data = result });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CustomerMasterRequest request)
+        public async Task<IActionResult>Create([FromBody] CustomerMasterRequest request)
         {
             var result = await _service.CreateAsync(request);
             return Ok(new { message = "Thêm thành công", data = result });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CustomerMasterRequest request)
+        public async Task<IActionResult>Update(int id, [FromBody] CustomerMasterRequest request)
         {
             var result = await _service.UpdateAsync(id, request);
             if (result == null) return NotFound(new { message = "Không tìm thấy khách hàng này" });
@@ -41,7 +41,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult>Delete(int id)
         {
             var isDeleted = await _service.DeleteAsync(id);
             if (!isDeleted) return NotFound(new { message = "Không tìm thấy khách hàng này" });

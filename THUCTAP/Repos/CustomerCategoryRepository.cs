@@ -19,12 +19,13 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<PagedResult<CustomerCategoryResponseDto>> GetAllAsync(CustomerCategoryFilterRequest filter)
+        public async Task<PagedResult<CustomerCategoryResponseDto>>GetAllAsync(CustomerCategoryFilterRequest filter)
         {
             var query = _context.CustomerCategories.AsQueryable();
 
             if (filter != null && !string.IsNullOrWhiteSpace(filter.groupName))
                 query = query.Where(x => x.groupName.Contains(filter.groupName));
+            if (filter.id > 0)query = query.Where(x => x.id == filter.id);
 
             var pagedRawData = await query
                 .AsNoTracking()
@@ -34,7 +35,7 @@ namespace THUCTAP.Repos
             return pagedRawData.Map(x => x.ToCustomerCategoryResponse());
         }
 
-        public async Task<CustomerCategory?> GetByIdAsync(int id)
+        public async Task<CustomerCategory?>GetByIdAsync(int id)
         {
             return await _context.CustomerCategories.FindAsync(id);
         }

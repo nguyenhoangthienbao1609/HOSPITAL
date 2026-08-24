@@ -1,4 +1,5 @@
-﻿using THUCTAP.Models;
+﻿using System.Text.Json;
+using THUCTAP.Models;
 using THUCTAP.ViewModels;
 
 namespace THUCTAP.Mappers
@@ -10,11 +11,12 @@ namespace THUCTAP.Mappers
         {
             return new AppAction
             {
+                
                 label = request.actionName,
                 code = request.actionCode,
                 menuId = request.menuId, 
                 createdAt = DateTime.UtcNow,
-                updatedAt = DateTime.UtcNow
+                updatedAt = DateTime.UtcNow,
             };
         }
 

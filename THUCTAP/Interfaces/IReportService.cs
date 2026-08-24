@@ -1,8 +1,10 @@
-﻿namespace THUCTAP.Interfaces
+﻿using THUCTAP.ViewModels;
+
+namespace THUCTAP.Interfaces
 {
     public interface IReportService
     {
-        // Hàm  sẽ trả về file PDF dưới dạng mảng byte (byte[])
-        Task<byte[]> GenerateUserReportAsync();
+        Task<List<Dictionary<string, object>>> GetDynamicReportAsync(DynamicReportRequest request);
+        Task<byte[]> GenerateReportFromUploadedFileAsync(DynamicReportRequest request);
     }
 }

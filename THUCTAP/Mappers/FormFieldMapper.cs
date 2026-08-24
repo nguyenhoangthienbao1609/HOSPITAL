@@ -15,14 +15,15 @@ namespace THUCTAP.Mappers
                 entityName = request.entityName,
                 type = request.type,
                 colSpan = request.colSpan,
-                isDetail = request.isDetail,
                 option = request.option,
-                tabName = request.tabName,
                 sortOrder = request.sortOrder,
-                optionLabel = request.optionLabel,
-                optionValue = request.optionValue,
+                isSearchAble = request.isSearchAble,
+                isShowInForm = request.isShowInForm,
+                isShowInList = request.isShowInList,
                 subField = request.subField,
                 tagField = request.tagField,
+                tabName = request.tabName,
+                endPoint = request.endPoint,
                 menuId = request.menuId
               
             };
@@ -36,14 +37,15 @@ namespace THUCTAP.Mappers
             field.entityName = request.entityName;
             field.type = request.type;
             field.colSpan = request.colSpan;
-            field.isDetail = request.isDetail;
             field.option = request.option;
-            field.tabName = request.tabName;
             field.sortOrder = request.sortOrder;
-            field.optionLabel = request.optionLabel;
-            field.optionValue = request.optionValue;
+            field.isSearchAble = request.isSearchAble;
+            field.isShowInForm = request.isShowInForm;
+            field.isShowInList = request.isShowInList;
             field.subField = request.subField;
             field.tagField = request.tagField;
+            field.tabName = request.tabName;
+            field.endPoint = request.endPoint;
             field.menuId = request.menuId;
         }
     }

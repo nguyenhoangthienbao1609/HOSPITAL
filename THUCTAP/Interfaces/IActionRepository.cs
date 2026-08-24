@@ -5,9 +5,9 @@ namespace THUCTAP.Interfaces
 {
     public interface IActionRepository
     {
-        Task<bool> ActionCodeExistsAsync(string code, int menuId);
-        Task<AppAction?> GetByIdAsync(int id);
-        Task<PagedResult<ActionResponse>> GetAllActionsAsync(ActionFilterRequest filter);
+        Task<bool>ActionCodeExistsAsync(string code, int menuId);
+        Task<AppAction?>GetByIdAsync(int id);
+        Task<PagedResult<ActionResponse>>GetAllActionsAsync(ActionFilterRequest filter);
 
         Task CreateAsync(AppAction entity);
         Task UpdateAsync(AppAction entity);

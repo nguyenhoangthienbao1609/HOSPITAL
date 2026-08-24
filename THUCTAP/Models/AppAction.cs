@@ -27,5 +27,6 @@ namespace THUCTAP.Models
 
         [JsonIgnore]
         public ICollection<Group> group { get; set; } = new List<Group>();
+
     }
 }

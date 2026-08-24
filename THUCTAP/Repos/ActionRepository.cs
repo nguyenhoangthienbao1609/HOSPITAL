@@ -18,17 +18,17 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<bool> ActionCodeExistsAsync(string code, int menuId)
+        public async Task<bool>ActionCodeExistsAsync(string code, int menuId)
         {
             return await _context.Actions.AnyAsync(a => a.code == code && a.menuId == menuId);
         }
 
-        public async Task<AppAction?> GetByIdAsync(int id)
+        public async Task<AppAction?>GetByIdAsync(int id)
         {
             return await _context.Actions.FindAsync(id);
         }
 
-        public async Task<PagedResult<ActionResponse>> GetAllActionsAsync(ActionFilterRequest filter)
+        public async Task<PagedResult<ActionResponse>>GetAllActionsAsync(ActionFilterRequest filter)
         {
             var query = _context.Actions.AsQueryable();
 
@@ -40,6 +40,8 @@ namespace THUCTAP.Repos
                     query = query.Where(a => a.code.Contains(filter.code));
                 if (!string.IsNullOrWhiteSpace(filter.method))
                     query = query.Where(a => a.method.Contains(filter.method));
+                if (filter.id > 0)
+                    query = query.Where(a => a.id == filter.id);
             }
 
             var pagedRawActions = await query

@@ -2,7 +2,7 @@
 
 namespace THUCTAP.ViewModels
 {
-    public class ActionResponse
+    public class ActionResponse 
     {
         public int id { get; set; }
         public int menuId { get; set; }

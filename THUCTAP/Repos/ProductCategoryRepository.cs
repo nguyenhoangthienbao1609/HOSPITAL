@@ -16,7 +16,7 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<PagedResult<ProductCategoryResponseDto>> GetAllAsync(ProductCategoryFilterRequest filter)
+        public async Task<PagedResult<ProductCategoryResponseDto>>GetAllAsync(ProductCategoryFilterRequest filter)
         {
             var query = _context.ProductCategories.AsQueryable();
 
@@ -27,6 +27,8 @@ namespace THUCTAP.Repos
 
                 if (!string.IsNullOrWhiteSpace(filter.categoryCode))
                     query = query.Where(x => x.categoryCode.Contains(filter.categoryCode));
+                if (filter.id > 0)
+                    query = query.Where(x => x.id == filter.id);
             }
 
             var pagedRawData = await query
@@ -43,7 +45,7 @@ namespace THUCTAP.Repos
             });
         }
 
-        public async Task<ProductCategory?> GetByIdAsync(int id)
+        public async Task<ProductCategory?>GetByIdAsync(int id)
         {
             return await _context.ProductCategories.FindAsync(id);
         }

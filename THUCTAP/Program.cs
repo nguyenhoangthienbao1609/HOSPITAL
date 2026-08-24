@@ -53,6 +53,10 @@ try
 
     builder.Services.AddScoped<ICustomerMasterRepository, CustomerMasterRepository>();
     builder.Services.AddScoped<ICustomerMasterService, CustomerMasterService>();
+
+    builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+    builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+
     builder.Services.AddScoped<IReportService, ReportService>();
 
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

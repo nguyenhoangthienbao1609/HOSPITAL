@@ -4,7 +4,7 @@ namespace THUCTAP.Interfaces
 {
     public interface IMenuService
     {
-       
-        Task<List<MenuResponseDto>> GetFullMenuTreeAsync();
+        Task<List<MenuResponse>>GetFullMenuTreeAsync();
+        Task<MenuResponse> CreateDynamicMenuAsync(MenuCreateRequest request);
     }
 }

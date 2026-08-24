@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using THUCTAP.Interfaces;
+﻿using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
-using System.Reflection;
+
 
 namespace THUCTAP.Services
 {
@@ -17,7 +16,7 @@ namespace THUCTAP.Services
             _formFieldRepository = formFieldRepository;
         }
         
-        public async Task<FormField> CreateFormFieldAsync(FormFieldRequest request)
+        public async Task<FormField>CreateFormFieldAsync(FormFieldRequest request)
         {
             var newField = new FormField
             {
@@ -26,14 +25,15 @@ namespace THUCTAP.Services
                 entityName = request.entityName,
                 type = request.type,
                 colSpan = request.colSpan,
-                isDetail = request.isDetail,
                 option = request.option,
-                tabName = request.tabName,
-                sortOrder = request.sortOrder,
-                optionLabel = request.optionLabel,
-                optionValue = request.optionValue,
                 subField = request.subField,
                 tagField = request.tagField,
+                isSearchAble = request.isSearchAble,
+                isShowInForm = request.isShowInForm,
+                isShowInList = request.isShowInList,
+                tabName = request.tabName,
+                endPoint = request.endPoint,
+                sortOrder = request.sortOrder,
                 menuId = request.menuId
             };
 
@@ -42,7 +42,7 @@ namespace THUCTAP.Services
             return newField;
         }
 
-        public async Task<FormField> UpdateFormFieldAsync(int id, FormFieldRequest request)
+        public async Task<FormField>UpdateFormFieldAsync(int id, FormFieldRequest request)
         {
             var field = await _formFieldRepository.GetFormFieldByIdAsync(id);
             if (field == null) return null;
@@ -53,7 +53,7 @@ namespace THUCTAP.Services
             return field;
         }
 
-        public async Task<bool> DeleteFormFieldAsync(int id)
+        public async Task<bool>DeleteFormFieldAsync(int id)
         {
             var field = await _formFieldRepository.GetFormFieldByIdAsync(id);
             if (field == null) return false;
@@ -62,7 +62,7 @@ namespace THUCTAP.Services
             return true;
         }
 
-        public async Task<PagedResult<FormFieldResponse>> GetAllFieldsAsync(FormFieldFilterRequest filter)
+        public async Task<PagedResult<FormFieldResponse>>GetAllFieldsAsync(FormFieldFilterRequest filter)
         {
             return await _formFieldRepository.GetAllFieldsAsync(filter);
         }

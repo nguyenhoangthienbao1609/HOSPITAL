@@ -6,6 +6,7 @@ namespace THUCTAP.ViewModels
     
     public class ProductCategoryFilterRequest : PagingRequestBase
     {
+        public int id { get; set; }
         public string? categoryName { get; set; }
         public string? categoryCode { get; set; }
     }

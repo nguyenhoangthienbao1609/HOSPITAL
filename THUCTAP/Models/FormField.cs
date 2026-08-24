@@ -22,28 +22,17 @@ namespace THUCTAP.Models
         public int colSpan { get; set; }
 
         [JsonPropertyName("option")]
-        public string option { get; set; } = string.Empty;
-
-        [JsonPropertyName("tabName")]
-        public string tabName { get; set; } = string.Empty;
-
-        [JsonPropertyName("isDetail")]
-        public bool isDetail { get; set; }
+        public string? option { get; set; } = string.Empty;
 
         [JsonPropertyName("sortOrder")]
         public int sortOrder { get; set; }
-
-        [JsonPropertyName("optionLabel")]
-        public string? optionLabel { get; set; }
-
-        [JsonPropertyName("optionValue")]
-        public string? optionValue { get; set; }
-
-        [JsonPropertyName("subField")]
-        public string subField { get; set; } = string.Empty;
-
-        [JsonPropertyName("tagField")]
-        public string tagField { get; set; } = string.Empty;
+        public bool isSearchAble { get; set; }
+        public bool isShowInForm { get; set; }
+        public bool isShowInList { get; set; }
+        public string? subField { get; set; }
+        public string? tagField { get; set; }
+        public string? tabName { get; set; }
+        public string? endPoint { get; set; }
 
         [JsonPropertyName("menuId")]
         public int? menuId { get; set; }

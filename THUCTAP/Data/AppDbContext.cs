@@ -20,6 +20,9 @@ namespace THUCTAP.Data
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<CustomerCategory> CustomerCategories { get; set; }
         public DbSet<CustomerMaster> CustomerMasters { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<EquipmentManager> EquipmentManagers { get; set; }
+        public DbSet<EquipmentMaintenance> EquipmentMaintenances { get; set; }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var currentUser = _httpContextAccessor.HttpContext?.User?.FindFirst("userId")?.Value
@@ -86,7 +89,7 @@ namespace THUCTAP.Data
                  .WithMany(a => a.group)
                  .UsingEntity<Dictionary<string, object>>(
                 "Group_Action",
-                 right => right.HasOne<AppAction>().WithMany().HasForeignKey("actionid"), // Lưu ý dùng AppAction theo cấu hình DbSet của bạn
+                 right => right.HasOne<AppAction>().WithMany().HasForeignKey("actionid"),
                  left => left.HasOne<Group>().WithMany().HasForeignKey("groupid")
                  );
             modelBuilder.Entity<FormField>()
@@ -100,6 +103,23 @@ namespace THUCTAP.Data
                 .WithMany()
                 .HasForeignKey(c => c.categoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<EquipmentManager>()
+                .HasOne(m => m.equipment)
+                .WithMany(e => e.managers)
+                .HasForeignKey(m => m.equipmentId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<EquipmentManager>()
+                .HasOne(m => m.user)
+                .WithMany()
+                .HasForeignKey(m => m.userId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentMaintenance>()
+                .HasOne(m => m.equipment)
+                .WithMany(e => e.maintenances)
+                .HasForeignKey(m => m.equipmentId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<Group>().HasQueryFilter(x => x.isActive);
@@ -109,6 +129,10 @@ namespace THUCTAP.Data
             modelBuilder.Entity<ProductCategory>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<CustomerCategory>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<CustomerMaster>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<Equipment>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<EquipmentManager>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<EquipmentMaintenance>().HasQueryFilter(x => x.isActive);
+
             modelBuilder.Seed();
         }
     }

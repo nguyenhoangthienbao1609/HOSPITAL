@@ -30,26 +30,20 @@ namespace THUCTAP.ViewModels
         [JsonPropertyName("option")]
         public string? option { get; set; }
 
-        [JsonPropertyName("tabName")]
-        public string? tabName { get; set; }
-
-        [JsonPropertyName("isDetail")]
-        public bool isDetail { get; set; }
-
         [JsonPropertyName("sortOrder")]
         public int sortOrder { get; set; }
+        [JsonPropertyName("isSearchAble")]
+        public bool isSearchAble { get; set; }
 
-        [JsonPropertyName("optionLabel")]
-        public string? optionLabel { get; set; }
+        [JsonPropertyName("isShowInForm")]
+        public bool isShowInForm { get; set; }
 
-        [JsonPropertyName("optionValue")]
-        public string? optionValue { get; set; }
-
-        [JsonPropertyName("subField")]
-        public string? subField { get; set; }
-
-        [JsonPropertyName("tagField")]
-        public string? tagField { get; set; }
+        [JsonPropertyName("isShowInList")]
+        public bool isShowInList { get; set; }
+        public string? subfield { get; set; }
+        public string? tagfield { get; set; }
+        public string? tabname { get; set; }
+        public string? endpoint { get; set; }
 
         [JsonPropertyName("menuId")]
         [Required(ErrorMessage = "Menu ID không được để trống!")]

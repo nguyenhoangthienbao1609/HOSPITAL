@@ -8,20 +8,20 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class UserController : ControllerBase
+    //[Authorize]
+    public class UserAccountsController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
 
-        public UserController(IUserService userService, ITokenService tokenService)
+        public UserAccountsController(IUserService userService, ITokenService tokenService)
         {
             _userService = userService;
             _tokenService = tokenService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
+        public async Task<IActionResult>CreateUser([FromBody] UserCreateRequest request)
         {
             {
                 if (!ModelState.IsValid)
@@ -42,7 +42,7 @@ namespace THUCTAP.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserCreateRequest request)
+        public async Task<IActionResult>UpdateUser(int id, [FromBody] UserCreateRequest request)
         {
             var updatedUser = await _userService.UpdateUserAsync(id, request);
 
@@ -55,7 +55,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult>DeleteUser(int id)
         {
             var isDeleted = await _userService.DeleteUserAsync(id);
 
@@ -69,7 +69,7 @@ namespace THUCTAP.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers([FromQuery] UserFilterRequest filter)
+        public async Task<IActionResult>GetAllUsers([FromQuery] UserFilterRequest filter)
         {
             var users = await _userService.GetAllUsersAsync(filter);
 
@@ -80,7 +80,7 @@ namespace THUCTAP.Controllers
             });
         }
         [HttpGet("departments")]
-        public async Task<IActionResult> GetAllDepartments()
+        public async Task<IActionResult>GetAllDepartments()
         {
             try
             {

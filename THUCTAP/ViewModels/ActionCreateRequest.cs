@@ -11,5 +11,6 @@ namespace THUCTAP.ViewModels
         public string actionCode { get; set; } = string.Empty;
 
         public int menuId { get; set; }
+
     }
 }

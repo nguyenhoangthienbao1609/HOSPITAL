@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using THUCTAP.Data;
 using THUCTAP.Interfaces;
 using THUCTAP.Models;
@@ -15,14 +11,13 @@ namespace THUCTAP.Services
         private readonly IGroupRepository _groupRepository;
         private readonly AppDbContext _context;
 
-        // Tiêm trực tiếp Repository
         public GroupService(IGroupRepository groupRepository, AppDbContext context)
         {
             _groupRepository = groupRepository;
             _context = context;
         }
 
-        public async Task<Group> CreateGroupAsync(CreateGroupRequest request)
+        public async Task<Group>CreateGroupAsync(CreateGroupRequest request)
         {
             var group = new Group
             {
@@ -52,7 +47,7 @@ namespace THUCTAP.Services
             return group;
         }
 
-        public async Task<Group> UpdateGroupAsync(int id, CreateGroupRequest request)
+        public async Task<Group>UpdateGroupAsync(int id, CreateGroupRequest request)
         {
             var group = await _groupRepository.GetGroupByIdAsync(id);
             if (group == null) throw new Exception("Không tìm thấy nhóm quyền!");
@@ -82,7 +77,7 @@ namespace THUCTAP.Services
             return group;
         }
 
-        public async Task<bool> DeleteGroupAsync(int id)
+        public async Task<bool>DeleteGroupAsync(int id)
         {
             var group = await _groupRepository.GetGroupByIdAsync(id);
             if (group == null) return false;
@@ -93,13 +88,12 @@ namespace THUCTAP.Services
             return true;
         }
 
-        public async Task<PagedResult<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter)
+        public async Task<PagedResult<GroupResponse>>GetAllGroupsAsync(GroupFilterRequest filter)
         {
             return await _groupRepository.GetAllGroupsAsync(filter);
         }
 
-        // HÀM LẤY MA TRẬN QUYỀN (GIỮ NGUYÊN)
-        public async Task<List<MenuMatrixDto>> GetGroupPermissionMatrixAsync(int groupId)
+        public async Task<List<MenuMatrixDto>>GetGroupPermissionMatrixAsync(int groupId)
         {
             var allMenus = await _context.Menus.AsNoTracking().ToListAsync();
             var allActions = await _context.Actions.AsNoTracking().ToListAsync();

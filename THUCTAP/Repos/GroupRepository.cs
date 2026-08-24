@@ -19,7 +19,7 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<Group?> GetGroupByIdAsync(int id)
+        public async Task<Group?>GetGroupByIdAsync(int id)
         {
             return await _context.Groups
                 .Include(g => g.menu)
@@ -27,7 +27,7 @@ namespace THUCTAP.Repos
                 .FirstOrDefaultAsync(g => g.id == id);
         }
 
-        public async Task<PagedResult<GroupResponse>> GetAllGroupsAsync(GroupFilterRequest filter)
+        public async Task<PagedResult<GroupResponse>>GetAllGroupsAsync(GroupFilterRequest filter)
         {
             var query = _context.Groups
                 .Include(g => g.menu)
@@ -41,10 +41,12 @@ namespace THUCTAP.Repos
 
                 if (!string.IsNullOrWhiteSpace(filter.groupCode))
                     query = query.Where(g => g.code.Contains(filter.groupCode));
+                if(filter.id>0)
+                    query = query.Where(g => g.id == filter.id);
             }
 
             var pagedRawGroups = await query
-                .OrderByDescending(g => g.id) // Cần thiết để phân trang không lỗi
+                .OrderByDescending(g => g.id) 
                 .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
 
             return pagedRawGroups.Map(g =>
@@ -71,7 +73,6 @@ namespace THUCTAP.Repos
             });
         }
 
-        // --- GỌI SAVECHANGES TRỰC TIẾP TẠI ĐÂY ---
         public async Task CreateGroupAsync(Group group)
         {
             _context.Groups.Add(group);
@@ -90,14 +91,13 @@ namespace THUCTAP.Repos
             await _context.SaveChangesAsync();
         }
 
-        // --- CÁC HÀM GET DỮ LIỆU PHỤ TRỢ (GIỮ NGUYÊN) ---
-        public async Task<List<int>> GetChildMenuIdsAsync(List<int> explicitMenuIds) =>
+        public async Task<List<int>>GetChildMenuIdsAsync(List<int> explicitMenuIds) =>
             await _context.Menus
                 .Where(m => m.parentId != null && explicitMenuIds.Contains(m.parentId.Value))
                 .Select(m => m.id)
                 .ToListAsync();
 
-        public async Task<List<int>> GetAutoActionIdsAsync(List<int> childMenuIds) =>
+        public async Task<List<int>>GetAutoActionIdsAsync(List<int> childMenuIds) =>
             await _context.Actions
                 .Where(a => childMenuIds.Contains(a.menuId))
                 .Select(a => a.id)

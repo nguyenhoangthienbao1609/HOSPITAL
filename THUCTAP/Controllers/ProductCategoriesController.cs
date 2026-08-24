@@ -7,18 +7,18 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class ProductCategoryController : ControllerBase
+    //[Authorize]
+    public class ProductCategoriesController : ControllerBase
     {
         private readonly IProductCategoryService _service;
 
-        public ProductCategoryController(IProductCategoryService service)
+        public ProductCategoriesController(IProductCategoryService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] ProductCategoryFilterRequest filter)
+        public async Task<IActionResult>GetAll([FromQuery] ProductCategoryFilterRequest filter)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace THUCTAP.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProductCategoryRequest request)
+        public async Task<IActionResult>Create([FromBody] ProductCategoryRequest request)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace THUCTAP.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ProductCategoryRequest request)
+        public async Task<IActionResult>Update(int id, [FromBody] ProductCategoryRequest request)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace THUCTAP.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult>Delete(int id)
         {
             try
             {

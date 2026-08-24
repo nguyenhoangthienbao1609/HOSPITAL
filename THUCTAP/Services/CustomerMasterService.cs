@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using THUCTAP.Interfaces;
+﻿using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.ViewModels;
 
@@ -14,12 +13,12 @@ namespace THUCTAP.Services
             _repository = repository;
         }
 
-        public async Task<PagedResult<CustomerMasterResponseDto>> GetAllAsync(CustomerMasterFilterRequest filter)
+        public async Task<PagedResult<CustomerMasterResponseDto>>GetAllAsync(CustomerMasterFilterRequest filter)
         {
             return await _repository.GetAllAsync(filter);
         }
 
-        public async Task<CustomerMasterResponseDto> CreateAsync(CustomerMasterRequest request)
+        public async Task<CustomerMasterResponseDto>CreateAsync(CustomerMasterRequest request)
         {
             var entity = request.ToCustomerMaster();
 
@@ -28,7 +27,7 @@ namespace THUCTAP.Services
             return entity.ToCustomerMasterResponse();
         }
 
-        public async Task<CustomerMasterResponseDto?> UpdateAsync(int id, CustomerMasterRequest request)
+        public async Task<CustomerMasterResponseDto?>UpdateAsync(int id, CustomerMasterRequest request)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
@@ -40,7 +39,7 @@ namespace THUCTAP.Services
             return entity.ToCustomerMasterResponse();
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool>DeleteAsync(int id)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return false;

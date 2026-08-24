@@ -9,17 +9,17 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class ActionController : ControllerBase
+    //[Authorize]
+    public class FormActionsController : ControllerBase
     {
         private readonly IActionService _actionService;
-        public ActionController(IActionService actionService)
+        public FormActionsController(IActionService actionService)
         {
             _actionService = actionService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAction([FromBody] ActionCreateRequest request)
+        public async Task<IActionResult>CreateAction([FromBody] ActionCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAction(int id, [FromBody] UpdateActionRequest request)
+        public async Task<IActionResult>UpdateAction(int id, [FromBody] UpdateActionRequest request)
         {
             var updatedAction = await _actionService.UpdateActionAsync(id, request);
 
@@ -57,7 +57,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAction(int id)
+        public async Task<IActionResult>DeleteAction(int id)
         {
             var isDeleted = await _actionService.DeleteActionAsync(id);
 
@@ -70,7 +70,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllActions([FromQuery] ActionFilterRequest filter)
+        public async Task<IActionResult>GetAllActions([FromQuery] ActionFilterRequest filter)
         {
             var actions = await _actionService.GetAllActionsAsync(filter);
             return Ok(new { message = "Thành công!", data = actions });

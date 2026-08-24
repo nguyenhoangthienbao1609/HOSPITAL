@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using THUCTAP.Interfaces;
+﻿using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
@@ -11,13 +9,12 @@ namespace THUCTAP.Services
     {
         private readonly IActionRepository _actionRepository;
 
-        // Tiêm trực tiếp Repository lẻ
         public ActionService(IActionRepository actionRepository)
         {
             _actionRepository = actionRepository;
         }
 
-        public async Task<AppAction> CreateActionAsync(ActionCreateRequest request)
+        public async Task<AppAction>CreateActionAsync(ActionCreateRequest request)
         {
             var exists = await _actionRepository.ActionCodeExistsAsync(request.actionCode, request.menuId);
             if (exists)
@@ -27,37 +24,34 @@ namespace THUCTAP.Services
 
             var newAction = request.ToAppAction();
 
-            // Gọi Repository và lưu luôn
             await _actionRepository.CreateAsync(newAction);
 
             return newAction;
         }
 
-        public async Task<AppAction> UpdateActionAsync(int id, UpdateActionRequest request)
+        public async Task<AppAction>UpdateActionAsync(int id, UpdateActionRequest request)
         {
             var action = await _actionRepository.GetByIdAsync(id);
             if (action == null) return null;
 
             action.UpdateAppAction(request);
 
-            // Gọi Repository và lưu luôn
             await _actionRepository.UpdateAsync(action);
 
             return action;
         }
 
-        public async Task<bool> DeleteActionAsync(int id)
+        public async Task<bool>DeleteActionAsync(int id)
         {
             var action = await _actionRepository.GetByIdAsync(id);
             if (action == null) return false;
 
-            // Gọi Repository và lưu luôn
             await _actionRepository.DeleteAsync(action);
 
             return true;
         }
 
-        public async Task<PagedResult<ActionResponse>> GetAllActionsAsync(ActionFilterRequest filter)
+        public async Task<PagedResult<ActionResponse>>GetAllActionsAsync(ActionFilterRequest filter)
         {
             return await _actionRepository.GetAllActionsAsync(filter);
         }

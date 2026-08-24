@@ -4,10 +4,10 @@
   <DataSources>
     <DataSource Name="DataSource1">
       <ConnectionProperties>
-        <DataProvider>XML</DataProvider>
-        <ConnectString />
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=THIENBAO\MSSQLSERVER01;Initial Catalog=HOSPITAL_DB</ConnectString>
       </ConnectionProperties>
-      <rd:SecurityType>None</rd:SecurityType>
+      <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>1d6dad03-f809-418e-8cb3-20f6f03bb691</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -15,7 +15,13 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText />
+        <QueryParameters>
+          <QueryParameter Name="@DepartmentName">
+            <Value>=Parameters!DepartmentName.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>GetDynamicUserReport</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -23,7 +29,8 @@
           <rd:UserDefined>true</rd:UserDefined>
         </Field>
         <Field Name="userName">
-          <Value>userName</Value>
+          <DataField>userName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="email">
           <DataField>email</DataField>
@@ -47,7 +54,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>danh sách người dùng</Value>
+                    <Value>=Parameters!DepartmentName.Value</Value>
                     <Style>
                       <FontFamily>Verdana</FontFamily>
                       <FontSize>20pt</FontSize>
@@ -61,6 +68,8 @@
             </Paragraphs>
             <rd:WatermarkTextbox>Title</rd:WatermarkTextbox>
             <rd:DefaultName>ReportTitle</rd:DefaultName>
+            <Top>0.08556in</Top>
+            <Left>0.86389in</Left>
             <Height>0.4in</Height>
             <Width>5.5in</Width>
             <Style>
@@ -77,21 +86,21 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.23889in</Width>
+                  <Width>0.71736in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.23889in</Width>
+                  <Width>1.46181in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.23889in</Width>
+                  <Width>1.7007in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15833in</Width>
+                  <Width>1.62014in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.775in</Height>
+                  <Height>0.3in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -106,7 +115,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox1</rd:DefaultName>
@@ -125,7 +136,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox3">
+                        <Textbox Name="Textbox8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -136,10 +147,12 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -166,7 +179,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox5</rd:DefaultName>
@@ -196,7 +211,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox7</rd:DefaultName>
@@ -216,7 +233,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.775in</Height>
+                  <Height>0.3in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -231,7 +248,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>id</rd:DefaultName>
@@ -261,7 +280,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>userName</rd:DefaultName>
@@ -291,7 +312,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>email</rd:DefaultName>
@@ -321,7 +344,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>department</rd:DefaultName>
@@ -361,10 +386,10 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet1</DataSetName>
-            <Top>0.555in</Top>
-            <Left>0.44667in</Left>
-            <Height>1.55in</Height>
-            <Width>4.875in</Width>
+            <Top>0.93833in</Top>
+            <Left>0.86389in</Left>
+            <Height>0.6in</Height>
+            <Width>5.5in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -373,17 +398,17 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.25in</Height>
+        <Height>4.16983cm</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>6in</Width>
+      <Width>19.45216cm</Width>
       <Page>
         <PageFooter>
-          <Height>0.45in</Height>
+          <Height>4.2545cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -399,15 +424,15 @@
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Right</TextAlign>
+                    <TextAlign>Left</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>ExecutionTime</rd:DefaultName>
-              <Top>0.2in</Top>
-              <Left>4in</Left>
+              <Top>0.225in</Top>
+              <Left>4.74375in</Left>
               <Height>0.25in</Height>
-              <Width>2in</Width>
+              <Width>1.62014in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -425,14 +450,23 @@
             </Border>
           </Style>
         </PageFooter>
-        <LeftMargin>1in</LeftMargin>
-        <RightMargin>1in</RightMargin>
-        <TopMargin>1in</TopMargin>
-        <BottomMargin>1in</BottomMargin>
+        <PageHeight>21cm</PageHeight>
+        <PageWidth>29.7cm</PageWidth>
+        <LeftMargin>2.54cm</LeftMargin>
+        <RightMargin>2.54cm</RightMargin>
+        <TopMargin>2.54cm</TopMargin>
+        <BottomMargin>2.54cm</BottomMargin>
+        <ColumnSpacing>1.27cm</ColumnSpacing>
         <Style />
       </Page>
     </ReportSection>
   </ReportSections>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <ReportParameters>
+    <ReportParameter Name="DepartmentName">
+      <DataType>String</DataType>
+      <Prompt>Department Name</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>c3b59e92-11b8-48ae-b7d8-bcaa05583e7c</rd:ReportID>
 </Report>

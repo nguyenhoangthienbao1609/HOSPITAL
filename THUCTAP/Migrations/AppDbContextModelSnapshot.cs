@@ -22,7 +22,7 @@ namespace THUCTAP.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AppActionGroup", b =>
+            modelBuilder.Entity("Group_Action", b =>
                 {
                     b.Property<int>("actionid")
                         .HasColumnType("int");
@@ -34,7 +34,7 @@ namespace THUCTAP.Migrations
 
                     b.HasIndex("groupid");
 
-                    b.ToTable("Group_Action", (string)null);
+                    b.ToTable("Group_Action");
 
                     b.HasData(
                         new
@@ -84,7 +84,7 @@ namespace THUCTAP.Migrations
                         });
                 });
 
-            modelBuilder.Entity("GroupMenu", b =>
+            modelBuilder.Entity("Group_Menu", b =>
                 {
                     b.Property<int>("groupid")
                         .HasColumnType("int");
@@ -96,7 +96,7 @@ namespace THUCTAP.Migrations
 
                     b.HasIndex("menuid");
 
-                    b.ToTable("Group_Menu", (string)null);
+                    b.ToTable("Group_Menu");
 
                     b.HasData(
                         new
@@ -128,33 +128,6 @@ namespace THUCTAP.Migrations
                         {
                             groupid = 3,
                             menuid = 8
-                        });
-                });
-
-            modelBuilder.Entity("GroupUser", b =>
-                {
-                    b.Property<int>("groupid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userid")
-                        .HasColumnType("int");
-
-                    b.HasKey("groupid", "userid");
-
-                    b.HasIndex("userid");
-
-                    b.ToTable("User_Group", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            groupid = 1,
-                            userid = 1
-                        },
-                        new
-                        {
-                            groupid = 2,
-                            userid = 2
                         });
                 });
 
@@ -478,6 +451,291 @@ namespace THUCTAP.Migrations
                         });
                 });
 
+            modelBuilder.Entity("THUCTAP.Models.Equipment", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("conditionWhenReceived")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("conditionWhenStarted")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("countryOfOrigin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("engineerInCharge")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipmentCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("manufacturer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("receivedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("serialNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("startDateOfUse")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("supplierAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("supplierEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("supplierName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("supplierPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Equipments");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            conditionWhenReceived = "Mới 100%",
+                            conditionWhenStarted = "Hoạt động tốt",
+                            countryOfOrigin = "Đức",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            engineerInCharge = "Nguyễn Văn A",
+                            equipmentCode = "TB-XN-01",
+                            equipmentName = "Máy ly tâm Huyết học",
+                            isActive = true,
+                            location = "Phòng Xét nghiệm Hóa sinh",
+                            manufacturer = "BioTech Lab",
+                            model = "CENT-200",
+                            receivedDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            serialNumber = "SN-2026001",
+                            startDateOfUse = new DateTime(2026, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            supplierAddress = "Quận 1, TP.HCM",
+                            supplierEmail = "contact@abc.com",
+                            supplierName = "Công ty TBYT ABC",
+                            supplierPhone = "0909123456",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.EquipmentMaintenance", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("actionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("engineerSignature")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("equipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isEngineerArrived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isIncident")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("labSignature")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("maintenanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("purpose")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("equipmentId");
+
+                    b.ToTable("EquipmentMaintenances");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            actionType = "Bảo trì",
+                            content = "Vệ sinh buồng ly tâm, kiểm tra rotor",
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            engineerSignature = "Nguyễn Văn A",
+                            equipmentId = 1,
+                            isActive = true,
+                            isCompleted = true,
+                            isEngineerArrived = true,
+                            isIncident = false,
+                            labSignature = "Đã ký",
+                            maintenanceDate = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            purpose = "Bảo trì định kỳ 6 tháng",
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 2,
+                            actionType = "Sửa chữa",
+                            content = "Thay thế bo mạch nguồn",
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            engineerSignature = "Trần Văn B",
+                            equipmentId = 1,
+                            isActive = true,
+                            isCompleted = true,
+                            isEngineerArrived = true,
+                            isIncident = true,
+                            labSignature = "Đã ký",
+                            maintenanceDate = new DateTime(2026, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            purpose = "Khắc phục lỗi không lên nguồn",
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.EquipmentManager", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("equipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("fromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("updatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("equipmentId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("EquipmentManagers");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            equipmentId = 1,
+                            fromDate = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            userId = 1,
+                            userName = "admin"
+                        },
+                        new
+                        {
+                            id = 2,
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            equipmentId = 1,
+                            fromDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            isActive = true,
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            userId = 2,
+                            userName = "bacsi01"
+                        });
+                });
+
             modelBuilder.Entity("THUCTAP.Models.FormField", b =>
                 {
                     b.Property<int>("id")
@@ -496,6 +754,9 @@ namespace THUCTAP.Migrations
                     b.Property<string>("createdBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("endPoint")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("entityName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -509,9 +770,14 @@ namespace THUCTAP.Migrations
                     b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("isDetail")
-                        .HasColumnType("bit")
-                        .HasAnnotation("Relational:JsonPropertyName", "isDetail");
+                    b.Property<bool>("isSearchAble")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isShowInForm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isShowInList")
+                        .HasColumnType("bit");
 
                     b.Property<string>("label")
                         .IsRequired()
@@ -523,36 +789,21 @@ namespace THUCTAP.Migrations
                         .HasAnnotation("Relational:JsonPropertyName", "menuId");
 
                     b.Property<string>("option")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "option");
-
-                    b.Property<string>("optionLabel")
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "optionLabel");
-
-                    b.Property<string>("optionValue")
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "optionValue");
 
                     b.Property<int>("sortOrder")
                         .HasColumnType("int")
                         .HasAnnotation("Relational:JsonPropertyName", "sortOrder");
 
                     b.Property<string>("subField")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "subField");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("tabName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "tabName");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("tagField")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "tagField");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("type")
                         .IsRequired()
@@ -580,13 +831,12 @@ namespace THUCTAP.Migrations
                             entityName = "User",
                             field = "username",
                             isActive = true,
-                            isDetail = false,
+                            isSearchAble = false,
+                            isShowInForm = false,
+                            isShowInList = false,
                             label = "Tên đăng nhập",
                             option = "",
                             sortOrder = 1,
-                            subField = "",
-                            tabName = "",
-                            tagField = "",
                             type = "text",
                             updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -598,13 +848,12 @@ namespace THUCTAP.Migrations
                             entityName = "User",
                             field = "department",
                             isActive = true,
-                            isDetail = false,
+                            isSearchAble = false,
+                            isShowInForm = false,
+                            isShowInList = false,
                             label = "Phòng ban",
                             option = "",
                             sortOrder = 2,
-                            subField = "",
-                            tabName = "",
-                            tagField = "",
                             type = "select",
                             updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -1058,7 +1307,34 @@ namespace THUCTAP.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AppActionGroup", b =>
+            modelBuilder.Entity("User_Group", b =>
+                {
+                    b.Property<int>("groupid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userid")
+                        .HasColumnType("int");
+
+                    b.HasKey("groupid", "userid");
+
+                    b.HasIndex("userid");
+
+                    b.ToTable("User_Group");
+
+                    b.HasData(
+                        new
+                        {
+                            groupid = 1,
+                            userid = 1
+                        },
+                        new
+                        {
+                            groupid = 2,
+                            userid = 2
+                        });
+                });
+
+            modelBuilder.Entity("Group_Action", b =>
                 {
                     b.HasOne("THUCTAP.Models.AppAction", null)
                         .WithMany()
@@ -1073,7 +1349,7 @@ namespace THUCTAP.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GroupMenu", b =>
+            modelBuilder.Entity("Group_Menu", b =>
                 {
                     b.HasOne("THUCTAP.Models.Group", null)
                         .WithMany()
@@ -1084,21 +1360,6 @@ namespace THUCTAP.Migrations
                     b.HasOne("THUCTAP.Models.Menu", null)
                         .WithMany()
                         .HasForeignKey("menuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GroupUser", b =>
-                {
-                    b.HasOne("THUCTAP.Models.Group", null)
-                        .WithMany()
-                        .HasForeignKey("groupid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("THUCTAP.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("userid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1125,6 +1386,36 @@ namespace THUCTAP.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("THUCTAP.Models.EquipmentMaintenance", b =>
+                {
+                    b.HasOne("THUCTAP.Models.Equipment", "equipment")
+                        .WithMany("maintenances")
+                        .HasForeignKey("equipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("equipment");
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.EquipmentManager", b =>
+                {
+                    b.HasOne("THUCTAP.Models.Equipment", "equipment")
+                        .WithMany("managers")
+                        .HasForeignKey("equipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("THUCTAP.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("equipment");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("THUCTAP.Models.FormField", b =>
                 {
                     b.HasOne("THUCTAP.Models.Menu", "menu")
@@ -1143,6 +1434,28 @@ namespace THUCTAP.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("parent");
+                });
+
+            modelBuilder.Entity("User_Group", b =>
+                {
+                    b.HasOne("THUCTAP.Models.Group", null)
+                        .WithMany()
+                        .HasForeignKey("groupid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("THUCTAP.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("THUCTAP.Models.Equipment", b =>
+                {
+                    b.Navigation("maintenances");
+
+                    b.Navigation("managers");
                 });
 
             modelBuilder.Entity("THUCTAP.Models.Menu", b =>

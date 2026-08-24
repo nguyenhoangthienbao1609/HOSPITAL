@@ -2,7 +2,7 @@
 
 namespace THUCTAP.ViewModels
 {
-    public class MenuResponseDto
+    public class MenuResponse
     {
         [JsonPropertyName("id")]
         public int id { get; set; }
@@ -17,7 +17,7 @@ namespace THUCTAP.ViewModels
         public string icon { get; set; } = string.Empty;
 
         [JsonPropertyName("children")]
-        public List<MenuResponseDto> children { get; set; } = new List<MenuResponseDto>();
+        public List<MenuResponse> children { get; set; } = new List<MenuResponse>();
        
         [JsonPropertyName("action")]
         public List<string> action { get; set; } = new List<string>();

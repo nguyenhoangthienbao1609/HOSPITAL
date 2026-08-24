@@ -2,6 +2,7 @@
 {
     public class UserFilterRequest : PagingRequestBase
     {
+        public int id { get; set; }
         public string? userName { get; set; }
         public string? userCode { get; set; }
         public string? email { get; set; }

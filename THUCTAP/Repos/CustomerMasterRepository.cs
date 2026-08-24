@@ -19,9 +19,8 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<PagedResult<CustomerMasterResponseDto>> GetAllAsync(CustomerMasterFilterRequest filter)
+        public async Task<PagedResult<CustomerMasterResponseDto>>GetAllAsync(CustomerMasterFilterRequest filter)
         {
-            // Dùng Include để Entity Framework tự động Join với bảng Category và lấy tên Category
             var query = _context.CustomerMasters
                                 .Include(c => c.Category)
                                 .AsQueryable();
@@ -33,6 +32,8 @@ namespace THUCTAP.Repos
 
                 if (filter.categoryId.HasValue && filter.categoryId.Value > 0)
                     query = query.Where(x => x.categoryId == filter.categoryId.Value);
+                if(filter.id > 0)
+                    query = query.Where(x => x.id == filter.id);
             }
 
             var pagedRawData = await query

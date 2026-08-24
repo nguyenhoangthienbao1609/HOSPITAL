@@ -5,7 +5,9 @@ namespace THUCTAP.ViewModels
 {
     public class CustomerCategoryFilterRequest : PagingRequestBase
     {
+        public int id { get; set; }
         public string? groupName { get; set; }
+
     }
 
     public class CustomerCategoryRequest

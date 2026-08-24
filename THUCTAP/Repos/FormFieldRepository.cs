@@ -18,7 +18,7 @@ namespace THUCTAP.Repos
             _context = context;
         }
 
-        public async Task<bool> FieldKeyExistsAsync(string field)
+        public async Task<bool>FieldKeyExistsAsync(string field)
         {
             return await _context.FormFields.AnyAsync(f => f.field == field);
         }
@@ -28,7 +28,7 @@ namespace THUCTAP.Repos
             return await _context.FormFields.FirstOrDefaultAsync(f => f.id == id);
         }
 
-        public async Task<PagedResult<FormFieldResponse>> GetAllFieldsAsync(FormFieldFilterRequest filter)
+        public async Task<PagedResult<FormFieldResponse>>GetAllFieldsAsync(FormFieldFilterRequest filter)
         {
             var query = _context.FormFields
                 .Include(f => f.menu)
@@ -40,6 +40,10 @@ namespace THUCTAP.Repos
                     query = query.Where(f => f.field.Contains(filter.field));
                 if (!string.IsNullOrWhiteSpace(filter.type))
                     query = query.Where(f => f.type.Contains(filter.type));
+                if (filter.menuId.HasValue)
+                    query = query.Where(f => f.menuId == filter.menuId.Value);
+                if (filter.id > 0)
+                    query = query.Where(f => f.id == filter.id);
             }
 
             var pagedRawFields = await query
@@ -49,10 +53,22 @@ namespace THUCTAP.Repos
 
             return pagedRawFields.Map(f => new FormFieldResponse
             {
+
                 id = f.id,
+                entityName = f.entityName,
                 label = f.label,
                 field = f.field,
                 type = f.type,
+                option = f.option,
+                colSpan = f.colSpan,
+                sortOrder = f.sortOrder,
+                subfield = f.subField,
+                tagfield = f.tagField,
+                tabname = f.tabName,
+                endpoint = f.endPoint,
+                isSearchAble = f.isSearchAble,
+                isShowInForm = f.isShowInForm,
+                isShowInList = f.isShowInList,
                 menuId = f.menuId ?? 0,
                 menuName = f.menu != null ? f.menu.label : null
             });

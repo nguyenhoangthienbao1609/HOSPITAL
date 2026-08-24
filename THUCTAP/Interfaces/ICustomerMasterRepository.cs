@@ -6,8 +6,8 @@ namespace THUCTAP.Interfaces
 {
     public interface ICustomerMasterRepository
     {
-        Task<PagedResult<CustomerMasterResponseDto>> GetAllAsync(CustomerMasterFilterRequest filter);
-        Task<CustomerMaster?> GetByIdAsync(int id);
+        Task<PagedResult<CustomerMasterResponseDto>>GetAllAsync(CustomerMasterFilterRequest filter);
+        Task<CustomerMaster?>GetByIdAsync(int id);
 
         Task CreateAsync(CustomerMaster entity);
         Task UpdateAsync(CustomerMaster entity);

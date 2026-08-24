@@ -7,20 +7,20 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class GroupController : ControllerBase
+    //[Authorize]
+    public class UserGroupsController : ControllerBase
     {
         
         private readonly IGroupService _groupService;
 
-        public GroupController(IGroupService groupService)
+        public UserGroupsController(IGroupService groupService)
         {
             
             _groupService = groupService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGroup([FromBody] CreateGroupRequest request)
+        public async Task<IActionResult>CreateGroup([FromBody] CreateGroupRequest request)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace THUCTAP.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGroup(int id, [FromBody] CreateGroupRequest request)
+        public async Task<IActionResult>UpdateGroup(int id, [FromBody] CreateGroupRequest request)
         {
             var updatedGroup = await _groupService.UpdateGroupAsync(id, request);
 
@@ -48,7 +48,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup(int id)
+        public async Task<IActionResult>DeleteGroup(int id)
         {
             var isDeleted = await _groupService.DeleteGroupAsync(id);
 
@@ -58,7 +58,7 @@ namespace THUCTAP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllGroups([FromQuery] GroupFilterRequest filter)
+        public async Task<IActionResult>GetAllGroups([FromQuery] GroupFilterRequest filter)
         {
             var groups = await _groupService.GetAllGroupsAsync(filter);
 
@@ -70,7 +70,7 @@ namespace THUCTAP.Controllers
         }
        
         [HttpGet("permissions-matrix")]
-        public async Task<IActionResult> GetGroupPermissionMatrix([FromQuery] int groupId = 0)
+        public async Task<IActionResult>GetGroupPermissionMatrix([FromQuery] int groupId = 0)
         {
             try
             {

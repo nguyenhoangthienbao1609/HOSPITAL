@@ -26,7 +26,7 @@ namespace THUCTAP.Models
         [JsonPropertyName("department")]
         public string department { get; set; } = string.Empty;
 
-      
+
         [JsonIgnore]
         public ICollection<Group> group { get; set; } = new List<Group>();
     }

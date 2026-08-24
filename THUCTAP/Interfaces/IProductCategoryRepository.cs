@@ -5,8 +5,8 @@ namespace THUCTAP.Interfaces
 {
     public interface IProductCategoryRepository
     {
-        Task<PagedResult<ProductCategoryResponseDto>> GetAllAsync(ProductCategoryFilterRequest filter);
-        Task<ProductCategory?> GetByIdAsync(int id);
+        Task<PagedResult<ProductCategoryResponseDto>>GetAllAsync(ProductCategoryFilterRequest filter);
+        Task<ProductCategory?>GetByIdAsync(int id);
 
         Task CreateAsync(ProductCategory entity);
         Task UpdateAsync(ProductCategory entity);

@@ -28,19 +28,19 @@ namespace THUCTAP.Repos
                 .FirstOrDefault();
         }
 
-        public async Task<bool> UserCodeExistsAsync(string userCode) =>
+        public async Task<bool>UserCodeExistsAsync(string userCode) =>
             await _context.Users.AnyAsync(u => u.userCode == userCode);
 
-        public async Task<User?> GetUserByIdWithGroupsAsync(int id) =>
+        public async Task<User?>GetUserByIdWithGroupsAsync(int id) =>
             await _context.Users.Include(u => u.group).FirstOrDefaultAsync(u => u.id == id);
 
-        public async Task<User?> GetUserWithFullPermissionsAsync(int userId) =>
+        public async Task<User?>GetUserWithFullPermissionsAsync(int userId) =>
             await _context.Users
                 .Include(u => u.group).ThenInclude(g => g.menu)
                 .Include(u => u.group).ThenInclude(g => g.action)
                 .FirstOrDefaultAsync(u => u.id == userId);
 
-        public async Task<List<Group>> GetGroupsByIdsAsync(List<int> groupIds) =>
+        public async Task<List<Group>>GetGroupsByIdsAsync(List<int> groupIds) =>
             await _context.Groups.Where(g => groupIds.Contains(g.id)).ToListAsync();
 
         public async Task CreateUserAsync(User user)
@@ -61,7 +61,7 @@ namespace THUCTAP.Repos
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetDeletedUsersAsync()
+        public async Task<List<User>>GetDeletedUsersAsync()
         {
             return await _context.Users
                                  .IgnoreQueryFilters() 
@@ -69,7 +69,7 @@ namespace THUCTAP.Repos
                                  .ToListAsync();
         }
 
-        public async Task<User?> GetDeletedUserByIdAsync(int id)
+        public async Task<User?>GetDeletedUserByIdAsync(int id)
         {
             return await _context.Users
                                  .IgnoreQueryFilters()
@@ -77,7 +77,7 @@ namespace THUCTAP.Repos
 
         }
 
-        public async Task<List<UserResponseDto>> GetAllUsersWithPermissionsAsync()
+        public async Task<List<UserResponseDto>>GetAllUsersWithPermissionsAsync()
         {
             var rawUsers = await _context.Users
                 .Include(u => u.group).ThenInclude(g => g.action)
@@ -97,7 +97,7 @@ namespace THUCTAP.Repos
             }).ToList();
         }
 
-        public async Task<List<string>> GetAllDepartmentsAsync()
+        public async Task<List<string>>GetAllDepartmentsAsync()
         {
             return await _context.Users
                 .Where(u => !string.IsNullOrWhiteSpace(u.department))
@@ -106,7 +106,7 @@ namespace THUCTAP.Repos
                 .ToListAsync();
         }
 
-        public async Task<PagedResult<UserResponseDto>> GetAllUsersAsync(UserFilterRequest filter)
+        public async Task<PagedResult<UserResponseDto>>GetAllUsersAsync(UserFilterRequest filter)
         {
             var query = _context.Users.Include(u => u.group).AsQueryable();
 
@@ -118,10 +118,11 @@ namespace THUCTAP.Repos
                 if (!string.IsNullOrWhiteSpace(filter.department)) query = query.Where(u => u.department.Contains(filter.department));
                 if (!string.IsNullOrWhiteSpace(filter.userGroup))
                     query = query.Where(u => u.group.Any(g => g.name.Contains(filter.userGroup) || g.code.Contains(filter.userGroup)));
+                if (filter.id > 0) query = query.Where(u => u.id == filter.id);
             }
 
             var pagedRawUsers = await query
-                .OrderByDescending(u => u.id) // Luôn cần order trước khi skip/take
+                .OrderByDescending(u => u.id)
                 .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
 
             return pagedRawUsers.Map(u => new UserResponseDto

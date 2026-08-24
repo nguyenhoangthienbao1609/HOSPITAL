@@ -1,5 +1,4 @@
 ﻿using THUCTAP.Interfaces;
-using THUCTAP.Models;
 using THUCTAP.ViewModels;
 using THUCTAP.Mappers;
 

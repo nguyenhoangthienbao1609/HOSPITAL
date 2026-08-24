@@ -64,8 +64,8 @@ namespace THUCTAP.Data
             );
 
             modelBuilder.Entity<FormField>().HasData(
-                new FormField { id = 1, entityName = "User", field = "username", label = "Tên đăng nhập", type = "text", colSpan = 6, sortOrder = 1, isDetail = false },
-                new FormField { id = 2, entityName = "User", field = "department", label = "Phòng ban", type = "select", colSpan = 6, sortOrder = 2, isDetail = false }
+                new FormField { id = 1, entityName = "User", field = "username", label = "Tên đăng nhập", type = "text", colSpan = 6, sortOrder = 1},
+                new FormField { id = 2, entityName = "User", field = "department", label = "Phòng ban", type = "select", colSpan = 6, sortOrder = 2}
             );
 
             modelBuilder.Entity<CustomerMaster>().HasData(
@@ -75,8 +75,70 @@ namespace THUCTAP.Data
                 new CustomerMaster { id = 4, customerName = "Nhà phân phối Miền Nam", categoryId = 2 },
                 new CustomerMaster { id = 5, customerName = "Khách hàng Vãng lai", categoryId = 1 }
             );
+            modelBuilder.Entity<Equipment>().HasData(
+                new Equipment{id = 1,equipmentName = "Máy ly tâm Huyết học",model = "CENT-200",serialNumber = "SN-2026001",manufacturer = "BioTech Lab", countryOfOrigin = "Đức",equipmentCode = "TB-XN-01",location = "Phòng Xét nghiệm Hóa sinh",receivedDate = new DateTime(2026, 8, 1), conditionWhenReceived = "Mới 100%",startDateOfUse = new DateTime(2026, 8, 5),conditionWhenStarted = "Hoạt động tốt",supplierName = "Công ty TBYT ABC",supplierAddress = "Quận 1, TP.HCM",engineerInCharge = "Nguyễn Văn A",supplierPhone = "0909123456",supplierEmail = "contact@abc.com",}
+            );
+            modelBuilder.Entity<EquipmentManager>().HasData(
+    new EquipmentManager
+    {
+        id = 1,
+        equipmentId = 1, 
+        userId = 1,
+        userName = "admin",
+        fromDate = new DateTime(2026, 8, 20),
+        isActive = true,
+        createdAt = new DateTime(2026, 8, 20),
+        updatedAt = new DateTime(2026, 8, 20)
+    },
+    new EquipmentManager
+    {
+        id = 2,
+        equipmentId = 1,
+        userId = 2,  
+        userName = "bacsi01",
+        fromDate = new DateTime(2026, 9, 1),
+        isActive = true,
+        createdAt = new DateTime(2026, 8, 20),
+        updatedAt = new DateTime(2026, 8, 20)
+    }
+);
+            modelBuilder.Entity<EquipmentMaintenance>().HasData(
+                new EquipmentMaintenance
+                {
+                    id = 1,
+                    equipmentId = 1,
+                    maintenanceDate = new DateTime(2026, 10, 15),
+                    isIncident = false,
+                    isEngineerArrived = true,
+                    isCompleted = true,
+                    actionType = "Bảo trì",
+                    content = "Vệ sinh buồng ly tâm, kiểm tra rotor",
+                    purpose = "Bảo trì định kỳ 6 tháng",
+                    labSignature = "Đã ký",
+                    engineerSignature = "Nguyễn Văn A",
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 20),
+                    updatedAt = new DateTime(2026, 8, 20)
+                },
+                new EquipmentMaintenance
+                {
+                    id = 2,
+                    equipmentId = 1,
+                    maintenanceDate = new DateTime(2026, 12, 05),
+                    isIncident = true,
+                    isEngineerArrived = true,
+                    isCompleted = true,
+                    actionType = "Sửa chữa",
+                    content = "Thay thế bo mạch nguồn",
+                    purpose = "Khắc phục lỗi không lên nguồn",
+                    labSignature = "Đã ký",
+                    engineerSignature = "Trần Văn B",
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 20),
+                    updatedAt = new DateTime(2026, 8, 20)
+                }
+            );
 
-            // Dữ liệu cho các bảng trung gian (Nhiều - Nhiều)
             modelBuilder.Entity("User_Group").HasData(
                 new { userid = 1, groupid = 1 },
                 new { userid = 2, groupid = 2 }

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using THUCTAP.Interfaces;
+using THUCTAP.ViewModels;
 
 namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    //[ApiController]
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;
@@ -14,20 +15,35 @@ namespace THUCTAP.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet("users-pdf")]
-        public async Task<IActionResult> DownloadUserReport()
+        [HttpPost]
+        public async Task<IActionResult> GenerateReport([FromForm] DynamicReportRequest request)
         {
             try
             {
-                var pdfBytes = await _reportService.GenerateUserReportAsync();
+                if (string.Equals(request.exportType, "json", StringComparison.OrdinalIgnoreCase))
+                {
+                    var data = await _reportService.GetDynamicReportAsync(request);
+                    return Ok(new { Message = "Lấy dữ liệu thành công", Data = data });
+                }
 
-                return File(pdfBytes, "application/pdf", "DanhSachNguoiDung.pdf");
+                if (string.Equals(request.exportType, "word", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (request.templateFile == null)
+                    {
+                        return BadRequest("Bạn chọn xuất Word nhưng lại quên tải file Template lên!");
+                    }
+                    byte[] fileBytes = await _reportService.GenerateReportFromUploadedFileAsync(request);
+                    string fileName = $"BaoCao_TuyChinh_{DateTime.Now:yyyyMMddHHmmss}.docx";
+                    string contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+                    return File(fileBytes, contentType, fileName);
+                }
+
+                return BadRequest("Loại xuất báo cáo không hợp lệ!");
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                var realError = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-
-                return BadRequest(new { message = "Lỗi xuất báo cáo: " + ex.Message });
+                return BadRequest(new { Message = "Lỗi hệ thống", Error = ex.Message });
             }
         }
     }

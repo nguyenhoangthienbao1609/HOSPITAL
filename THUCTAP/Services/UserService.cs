@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using THUCTAP.Interfaces;
+﻿using THUCTAP.Interfaces;
 using THUCTAP.Mappers;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
@@ -13,13 +9,12 @@ namespace THUCTAP.Services
     {
         private readonly IUserRepository _userRepository;
 
-        // Tiêm trực tiếp Repository
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<User> CreateUserAsync(UserCreateRequest request)
+        public async Task<User>CreateUserAsync(UserCreateRequest request)
         {
             var exists = await _userRepository.UserCodeExistsAsync(request.userCode);
             if (exists)
@@ -40,7 +35,7 @@ namespace THUCTAP.Services
             return newUser;
         }
 
-        public async Task<User> UpdateUserAsync(int id, UserCreateRequest request)
+        public async Task<User>UpdateUserAsync(int id, UserCreateRequest request)
         {
             var user = await _userRepository.GetUserByIdWithGroupsAsync(id);
             if (user == null) return null;
@@ -63,7 +58,7 @@ namespace THUCTAP.Services
             return user;
         }
 
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<bool>DeleteUserAsync(int id)
         {
             var user = await _userRepository.GetUserByIdWithGroupsAsync(id);
             if (user == null) return false;
@@ -77,7 +72,7 @@ namespace THUCTAP.Services
             return await _userRepository.GetDeletedUsersAsync();
         }
 
-        public async Task<bool> RestoreUserAsync(int id)
+        public async Task<bool>RestoreUserAsync(int id)
         {
             // Tìm người dùng trong thùng rác
             var user = await _userRepository.GetDeletedUserByIdAsync(id);
@@ -93,7 +88,7 @@ namespace THUCTAP.Services
         }
 
 
-        public async Task<List<string>> GetAllDepartmentsAsync()
+        public async Task<List<string>>GetAllDepartmentsAsync()
         {
             return await _userRepository.GetAllDepartmentsAsync();
         }
@@ -105,32 +100,32 @@ namespace THUCTAP.Services
             await _userRepository.GetAllUsersAsync(filter);
 
         // LOGIC XÂY DỰNG CÂY MENU 
-        public async Task<List<MenuResponseDto>> GetUserMenusAsync(int userId)
+        public async Task<List<MenuResponse>>GetUserMenusAsync(int userId)
         {
             var userWithGroups = await _userRepository.GetUserWithFullPermissionsAsync(userId);
-            if (userWithGroups == null) return new List<MenuResponseDto>();
+            if (userWithGroups == null) return new List<MenuResponse>();
 
             var allAllowedMenus = userWithGroups.group.SelectMany(g => g.menu).DistinctBy(m => m.id).ToList();
             var allAllowedActions = userWithGroups.group.SelectMany(g => g.action).DistinctBy(a => a.id).ToList();
 
-            var menuTree = new List<MenuResponseDto>();
+            var menuTree = new List<MenuResponse>();
             var parentMenus = allAllowedMenus.Where(m => m.parentId == null).OrderBy(m => m.id).ToList();
 
             foreach (var parent in parentMenus)
             {
-                var parentDto = new MenuResponseDto
+                var parentDto = new MenuResponse
                 {
                     id = parent.id,
                     label = parent.label,
                     to = parent.to,
                     icon = parent.icon,
-                    children = new List<MenuResponseDto>()
+                    children = new List<MenuResponse>()
                 };
 
                 var childMenus = allAllowedMenus.Where(m => m.parentId == parent.id).OrderBy(m => m.id).ToList();
                 foreach (var child in childMenus)
                 {
-                    var childDto = new MenuResponseDto
+                    var childDto = new MenuResponse
                     {
                         id = child.id,
                         label = child.label,
