@@ -27,12 +27,13 @@ namespace THUCTAP.Repos
 
             if (filter != null)
             {
-                if (!string.IsNullOrWhiteSpace(filter.customerName))
-                    query = query.Where(x => x.customerName.Contains(filter.customerName));
+                if (!string.IsNullOrWhiteSpace(filter.supplierName))
+                    query = query.Where(x => x.supplierName.Contains(filter.supplierName));
 
                 if (filter.categoryId.HasValue && filter.categoryId.Value > 0)
                     query = query.Where(x => x.categoryId == filter.categoryId.Value);
-                if(filter.id > 0)
+
+                if (filter.id > 0)
                     query = query.Where(x => x.id == filter.id);
             }
 

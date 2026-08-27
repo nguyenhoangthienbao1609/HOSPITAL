@@ -9,10 +9,9 @@ namespace THUCTAP.Models
         public Equipment? equipment { get; set; }
 
         public DateTime? maintenanceDate { get; set; }
-        public bool isIncident { get; set; }
-        public bool isEngineerArrived { get; set; }
-        public bool isCompleted { get; set; }
-
+        public DateTime? incidentTime { get; set; }
+        public DateTime? engineerArrivedTime { get; set; }
+        public DateTime? completedTime { get; set; }
         public string actionType { get; set; } = string.Empty;
         public string content { get; set; } = string.Empty;
         public string purpose { get; set; } = string.Empty;

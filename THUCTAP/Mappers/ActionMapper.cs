@@ -11,10 +11,12 @@ namespace THUCTAP.Mappers
         {
             return new AppAction
             {
-                
-                label = request.actionName,
-                code = request.actionCode,
-                menuId = request.menuId, 
+
+                label = request.label,       
+                code = request.code,        
+                endpoint = request.endpoint ?? string.Empty, 
+                method = request.method  ?? string.Empty,     
+                menuId = request.menuId,
                 createdAt = DateTime.UtcNow,
                 updatedAt = DateTime.UtcNow,
             };
@@ -25,8 +27,8 @@ namespace THUCTAP.Mappers
             action.menuId = request.menuId;
             action.label = request.label;
             action.code = request.code;
-            action.endpoint = request.endpoint;
-            action.method = request.method;
+            action.endpoint = request.endpoint ?? string.Empty;
+            action.method = request.method ?? string.Empty;
             action.updatedAt = DateTime.UtcNow;
         }
     }

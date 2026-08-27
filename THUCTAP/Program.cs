@@ -57,6 +57,12 @@ try
     builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
     builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 
+    builder.Services.AddScoped<IMaintenanceLogRepository, MaintenanceLogRepository>();
+    builder.Services.AddScoped<IMaintenanceLogService, MaintenanceLogService>();
+
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
+
     builder.Services.AddScoped<IReportService, ReportService>();
 
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

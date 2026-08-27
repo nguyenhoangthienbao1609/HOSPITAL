@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using THUCTAP.Data;
 
@@ -11,9 +12,11 @@ using THUCTAP.Data;
 namespace THUCTAP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260826081730_RecreateSupplierTable")]
+    partial class RecreateSupplierTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,17 +459,76 @@ namespace THUCTAP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<string>("conditionWhenReceived")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("conditionWhenStarted")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("countryOfOrigin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("createdBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("engineerInCharge")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipmentCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("productCategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("manufacturer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("receivedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("serialNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("startDateOfUse")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("supplierAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("supplierEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("supplierName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("supplierPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
@@ -476,34 +538,31 @@ namespace THUCTAP.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("productCategoryId");
-
                     b.ToTable("Equipments");
 
                     b.HasData(
                         new
                         {
                             id = 1,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            conditionWhenReceived = "Mới 100%",
+                            conditionWhenStarted = "Hoạt động tốt",
+                            countryOfOrigin = "Đức",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            engineerInCharge = "Nguyễn Văn A",
+                            equipmentCode = "TB-XN-01",
+                            equipmentName = "Máy ly tâm Huyết học",
                             isActive = true,
-                            productCategoryId = 1,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 2,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            productCategoryId = 2,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 3,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            productCategoryId = 3,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            location = "Phòng Xét nghiệm Hóa sinh",
+                            manufacturer = "BioTech Lab",
+                            model = "CENT-200",
+                            receivedDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            serialNumber = "SN-2026001",
+                            startDateOfUse = new DateTime(2026, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            supplierAddress = "Quận 1, TP.HCM",
+                            supplierEmail = "contact@abc.com",
+                            supplierName = "Công ty TBYT ABC",
+                            supplierPhone = "0909123456",
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -519,9 +578,6 @@ namespace THUCTAP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("completedTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -532,9 +588,6 @@ namespace THUCTAP.Migrations
                     b.Property<string>("createdBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("engineerArrivedTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("engineerSignature")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -542,10 +595,16 @@ namespace THUCTAP.Migrations
                     b.Property<int>("equipmentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("incidentTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isEngineerArrived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isIncident")
                         .HasColumnType("bit");
 
                     b.Property<string>("labSignature")
@@ -576,451 +635,35 @@ namespace THUCTAP.Migrations
                         {
                             id = 1,
                             actionType = "Bảo trì",
-                            completedTime = new DateTime(2026, 10, 15, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             content = "Vệ sinh buồng ly tâm, kiểm tra rotor",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            engineerArrivedTime = new DateTime(2026, 10, 15, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             engineerSignature = "Nguyễn Văn A",
                             equipmentId = 1,
                             isActive = true,
+                            isCompleted = true,
+                            isEngineerArrived = true,
+                            isIncident = false,
                             labSignature = "Đã ký",
                             maintenanceDate = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             purpose = "Bảo trì định kỳ 6 tháng",
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 2,
                             actionType = "Sửa chữa",
-                            completedTime = new DateTime(2026, 12, 5, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             content = "Thay thế bo mạch nguồn",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            engineerArrivedTime = new DateTime(2026, 12, 5, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             engineerSignature = "Trần Văn B",
                             equipmentId = 1,
-                            incidentTime = new DateTime(2026, 12, 5, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             isActive = true,
+                            isCompleted = true,
+                            isEngineerArrived = true,
+                            isIncident = true,
                             labSignature = "Đã ký",
                             maintenanceDate = new DateTime(2026, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             purpose = "Khắc phục lỗi không lên nguồn",
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 3,
-                            actionType = "Hiệu chuẩn",
-                            completedTime = new DateTime(2026, 11, 20, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            content = "Hiệu chuẩn cảm biến áp suất",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            engineerArrivedTime = new DateTime(2026, 11, 20, 13, 30, 0, 0, DateTimeKind.Unspecified),
-                            engineerSignature = "Lê Văn C",
-                            equipmentId = 2,
-                            isActive = true,
-                            labSignature = "Đã ký",
-                            maintenanceDate = new DateTime(2026, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            purpose = "Đảm bảo độ chính xác",
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 4,
-                            actionType = "Sửa chữa",
-                            completedTime = new DateTime(2026, 11, 25, 15, 45, 0, 0, DateTimeKind.Unspecified),
-                            content = "Thay bộ lọc khí",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            engineerArrivedTime = new DateTime(2026, 11, 25, 11, 15, 0, 0, DateTimeKind.Unspecified),
-                            engineerSignature = "Trần Văn B",
-                            equipmentId = 3,
-                            incidentTime = new DateTime(2026, 11, 25, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            labSignature = "Đã ký",
-                            maintenanceDate = new DateTime(2026, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            purpose = "Máy kêu to",
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
-            modelBuilder.Entity("THUCTAP.Models.EquipmentMaintenanceLog", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("createdBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("equipmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("executorId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("inspectionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("inspectorId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isAsNeeded")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isDaily")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isMonthly")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isQuarterly")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isWeekly")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("logDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("relatedMaintenanceId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("reviewDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("reviewerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("updatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("updatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("equipmentId");
-
-                    b.HasIndex("executorId");
-
-                    b.HasIndex("inspectorId");
-
-                    b.HasIndex("relatedMaintenanceId");
-
-                    b.HasIndex("reviewerId");
-
-                    b.ToTable("EquipmentMaintenanceLogs");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            createdAt = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Máy hoạt động bình thường",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 2,
-                            createdAt = new DateTime(2026, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Vệ sinh buồng mẫu",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 3,
-                            createdAt = new DateTime(2026, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 4,
-                            createdAt = new DateTime(2026, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Chạy mẫu test OK",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 5,
-                            createdAt = new DateTime(2026, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 6,
-                            createdAt = new DateTime(2026, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 7,
-                            createdAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = true,
-                            logDate = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Bảo dưỡng cuối tuần, xả sương",
-                            reviewDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            reviewerId = 1,
-                            status = 3,
-                            updatedAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 8,
-                            createdAt = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 9,
-                            createdAt = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 10,
-                            createdAt = new DateTime(2026, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = true,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Lỗi bo mạch, đã gọi kỹ sư",
-                            relatedMaintenanceId = 2,
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 11,
-                            createdAt = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Máy đã sửa xong, chạy ổn",
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 12,
-                            createdAt = new DateTime(2026, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 13,
-                            createdAt = new DateTime(2026, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 3,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "",
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 14,
-                            createdAt = new DateTime(2026, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            inspectionDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            inspectorId = 1,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = true,
-                            logDate = new DateTime(2026, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Bảo dưỡng cuối tuần",
-                            status = 2,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            id = 15,
-                            createdAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            executorId = 2,
-                            isActive = true,
-                            isAsNeeded = false,
-                            isDaily = true,
-                            isMonthly = false,
-                            isQuarterly = false,
-                            isWeekly = false,
-                            logDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            note = "Khởi động đầu ca tốt",
-                            status = 1,
-                            updatedAt = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1072,101 +715,24 @@ namespace THUCTAP.Migrations
                         new
                         {
                             id = 1,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             equipmentId = 1,
                             fromDate = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             userId = 1,
                             userName = "admin"
                         },
                         new
                         {
                             id = 2,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            createdAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             equipmentId = 1,
                             fromDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            updatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             userId = 2,
                             userName = "bacsi01"
-                        },
-                        new
-                        {
-                            id = 3,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 1,
-                            fromDate = new DateTime(2026, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 3,
-                            userName = "dieuduong01"
-                        },
-                        new
-                        {
-                            id = 4,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 2,
-                            fromDate = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 1,
-                            userName = "admin"
-                        },
-                        new
-                        {
-                            id = 5,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 2,
-                            fromDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 2,
-                            userName = "bacsi01"
-                        },
-                        new
-                        {
-                            id = 6,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 2,
-                            fromDate = new DateTime(2026, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 4,
-                            userName = "ktv01"
-                        },
-                        new
-                        {
-                            id = 7,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 3,
-                            fromDate = new DateTime(2026, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 2,
-                            userName = "bacsi01"
-                        },
-                        new
-                        {
-                            id = 8,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 3,
-                            fromDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 3,
-                            userName = "dieuduong01"
-                        },
-                        new
-                        {
-                            id = 9,
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentId = 3,
-                            fromDate = new DateTime(2026, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isActive = true,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            userId = 4,
-                            userName = "ktv01"
                         });
                 });
 
@@ -1676,15 +1242,11 @@ namespace THUCTAP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("conditionWhenReceived")
+                    b.Property<string>("categoryCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("conditionWhenStarted")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("countryOfOrigin")
+                    b.Property<string>("categoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -1694,41 +1256,11 @@ namespace THUCTAP.Migrations
                     b.Property<string>("createdBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("equipmentCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("equipmentName")
-                        .IsRequired()
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("manufacturer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("model")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("receivedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("serialNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("startDateOfUse")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("supplierId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
@@ -1738,67 +1270,58 @@ namespace THUCTAP.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("supplierId");
-
                     b.ToTable("ProductCategories");
 
                     b.HasData(
                         new
                         {
                             id = 1,
-                            conditionWhenReceived = "Mới 100%",
-                            conditionWhenStarted = "Hoạt động tốt",
-                            countryOfOrigin = "Đức",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentCode = "TB-XN-01",
-                            equipmentName = "Máy ly tâm Huyết học",
+                            categoryCode = "MED_EQUIP",
+                            categoryName = "Dụng cụ y tế",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Các thiết bị và máy móc dùng trong khám chữa bệnh",
                             isActive = true,
-                            location = "Phòng Xét nghiệm Hóa sinh",
-                            manufacturer = "BioTech Lab",
-                            model = "CENT-200",
-                            receivedDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            serialNumber = "SN-2026001",
-                            startDateOfUse = new DateTime(2026, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            supplierId = 1,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 2,
-                            conditionWhenReceived = "Mới 100%",
-                            conditionWhenStarted = "Hoạt động tốt",
-                            countryOfOrigin = "Nhật Bản",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentCode = "HA-OM-01",
-                            equipmentName = "Máy đo huyết áp điện tử",
+                            categoryCode = "PHARMA",
+                            categoryName = "Thuốc tân dược",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Các loại thuốc kháng sinh, thuốc đặc trị và thực phẩm chức năng",
                             isActive = true,
-                            location = "Phòng Khám Nội",
-                            manufacturer = "Omron",
-                            model = "HEM-7120",
-                            receivedDate = new DateTime(2026, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            serialNumber = "SN-2026002",
-                            startDateOfUse = new DateTime(2026, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            supplierId = 2,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             id = 3,
-                            conditionWhenReceived = "Mới 100%",
-                            conditionWhenStarted = "Hoạt động tốt",
-                            countryOfOrigin = "Trung Quốc",
-                            createdAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            equipmentCode = "OXY-5L-01",
-                            equipmentName = "Máy tạo oxy 5 Lít",
+                            categoryCode = "SUPPLIES",
+                            categoryName = "Vật tư tiêu hao",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Bơm kim tiêm, bông băng, găng tay y tế, khẩu trang",
                             isActive = true,
-                            location = "Phòng Cấp Cứu",
-                            manufacturer = "Yuwell",
-                            model = "OXY-5",
-                            receivedDate = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            serialNumber = "SN-2026003",
-                            startDateOfUse = new DateTime(2026, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            supplierId = 1,
-                            updatedAt = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 4,
+                            categoryCode = "CHEMICALS",
+                            categoryName = "Hóa chất xét nghiệm",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Hóa chất và dung dịch dùng trong phòng thí nghiệm",
+                            isActive = true,
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            id = 5,
+                            categoryCode = "UNIFORMS",
+                            categoryName = "Trang phục y tế",
+                            createdAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            description = "Đồng phục bác sĩ, điều dưỡng, bệnh nhân và đồ bảo hộ",
+                            isActive = true,
+                            updatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1963,17 +1486,6 @@ namespace THUCTAP.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("THUCTAP.Models.Equipment", b =>
-                {
-                    b.HasOne("THUCTAP.Models.ProductCategory", "productCategory")
-                        .WithMany()
-                        .HasForeignKey("productCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("productCategory");
-                });
-
             modelBuilder.Entity("THUCTAP.Models.EquipmentMaintenance", b =>
                 {
                     b.HasOne("THUCTAP.Models.Equipment", "equipment")
@@ -1983,43 +1495,6 @@ namespace THUCTAP.Migrations
                         .IsRequired();
 
                     b.Navigation("equipment");
-                });
-
-            modelBuilder.Entity("THUCTAP.Models.EquipmentMaintenanceLog", b =>
-                {
-                    b.HasOne("THUCTAP.Models.Equipment", "equipment")
-                        .WithMany()
-                        .HasForeignKey("equipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("THUCTAP.Models.User", "executor")
-                        .WithMany()
-                        .HasForeignKey("executorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("THUCTAP.Models.User", "inspector")
-                        .WithMany()
-                        .HasForeignKey("inspectorId");
-
-                    b.HasOne("THUCTAP.Models.EquipmentMaintenance", "relatedMaintenance")
-                        .WithMany()
-                        .HasForeignKey("relatedMaintenanceId");
-
-                    b.HasOne("THUCTAP.Models.User", "reviewer")
-                        .WithMany()
-                        .HasForeignKey("reviewerId");
-
-                    b.Navigation("equipment");
-
-                    b.Navigation("executor");
-
-                    b.Navigation("inspector");
-
-                    b.Navigation("relatedMaintenance");
-
-                    b.Navigation("reviewer");
                 });
 
             modelBuilder.Entity("THUCTAP.Models.EquipmentManager", b =>
@@ -2070,17 +1545,6 @@ namespace THUCTAP.Migrations
                         .IsRequired();
 
                     b.Navigation("customer");
-                });
-
-            modelBuilder.Entity("THUCTAP.Models.ProductCategory", b =>
-                {
-                    b.HasOne("THUCTAP.Models.CustomerMaster", "supplier")
-                        .WithMany()
-                        .HasForeignKey("supplierId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("supplier");
                 });
 
             modelBuilder.Entity("User_Group", b =>

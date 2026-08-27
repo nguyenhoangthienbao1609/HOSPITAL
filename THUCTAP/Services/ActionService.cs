@@ -16,14 +16,13 @@ namespace THUCTAP.Services
 
         public async Task<AppAction>CreateActionAsync(ActionCreateRequest request)
         {
-            var exists = await _actionRepository.ActionCodeExistsAsync(request.actionCode, request.menuId);
+            var exists = await _actionRepository.ActionCodeExistsAsync(request.code, request.menuId);
             if (exists)
             {
-                throw new Exception($"Mã Action '{request.actionCode}' đã tồn tại trong Menu này.");
+                throw new Exception($"Mã Action '{request.code}' đã tồn tại trong Menu này.");
             }
 
             var newAction = request.ToAppAction();
-
             await _actionRepository.CreateAsync(newAction);
 
             return newAction;

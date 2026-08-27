@@ -9,14 +9,22 @@ namespace THUCTAP.Mappers
         {
             return new CustomerMaster
             {
-                customerName = request.customerName,
+                supplierName = request.supplierName,
+                supplierAddress = request.supplierAddress,
+                engineerInCharge = request.engineerInCharge,
+                supplierPhone = request.supplierPhone,
+                supplierEmail = request.supplierEmail,
                 categoryId = request.categoryId
             };
         }
 
         public static void UpdateCustomerMaster(this CustomerMaster entity, CustomerMasterRequest request)
         {
-            entity.customerName = request.customerName;
+            entity.supplierName = request.supplierName;
+            entity.supplierAddress = request.supplierAddress;
+            entity.engineerInCharge = request.engineerInCharge;
+            entity.supplierPhone = request.supplierPhone;
+            entity.supplierEmail = request.supplierEmail;
             entity.categoryId = request.categoryId;
         }
 
@@ -25,9 +33,13 @@ namespace THUCTAP.Mappers
             return new CustomerMasterResponseDto
             {
                 id = entity.id,
-                customerName = entity.customerName,
+                supplierName = entity.supplierName,
+                supplierAddress = entity.supplierAddress,
+                engineerInCharge = entity.engineerInCharge,
+                supplierPhone = entity.supplierPhone,
+                supplierEmail = entity.supplierEmail,
                 categoryId = entity.categoryId,
-                categoryName = entity.Category?.groupName
+                categoryName = entity.Category?.groupName ?? ""
             };
         }
     }

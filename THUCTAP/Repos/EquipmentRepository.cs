@@ -21,15 +21,20 @@ namespace THUCTAP.Repos
 
         public async Task<PagedResult<EquipmentResponseDto>> GetAllAsync(EquipmentFilterRequest filter)
         {
-            var query = _context.Equipments.AsQueryable();
+            var query = _context.Equipments
+                .Include(e => e.productCategory)
+                    .ThenInclude(p => p.supplier) 
+                .Include(e => e.managers)
+                .Include(e => e.maintenances)
+                .AsQueryable();
 
             if (filter != null)
             {
                 if (!string.IsNullOrWhiteSpace(filter.equipmentName))
-                    query = query.Where(x => x.equipmentName.Contains(filter.equipmentName));
+                    query = query.Where(x => x.productCategory.equipmentName.Contains(filter.equipmentName));
 
                 if (!string.IsNullOrWhiteSpace(filter.equipmentCode))
-                    query = query.Where(x => x.equipmentCode.Contains(filter.equipmentCode));
+                    query = query.Where(x => x.productCategory.equipmentCode.Contains(filter.equipmentCode));
 
                 if (filter.id > 0)
                     query = query.Where(x => x.id == filter.id);
@@ -46,8 +51,10 @@ namespace THUCTAP.Repos
         public async Task<Equipment?> GetByIdAsync(int id)
         {
             return await _context.Equipments
+                .Include(e => e.productCategory)
+                    .ThenInclude(p => p.supplier)
                 .Include(e => e.managers)
-                .ThenInclude(m => m.user) 
+                    .ThenInclude(m => m.user)
                 .Include(e => e.maintenances)
                 .FirstOrDefaultAsync(x => x.id == id);
         }

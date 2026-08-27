@@ -4,6 +4,7 @@ using THUCTAP.Extensions;
 using THUCTAP.Interfaces;
 using THUCTAP.Models;
 using THUCTAP.ViewModels;
+using THUCTAP.Mappers; // Thêm thư viện Mapper
 
 namespace THUCTAP.Repos
 {
@@ -11,22 +12,21 @@ namespace THUCTAP.Repos
     {
         private readonly AppDbContext _context;
 
-        public ProductCategoryRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        public ProductCategoryRepository(AppDbContext context) { _context = context; }
 
-        public async Task<PagedResult<ProductCategoryResponseDto>>GetAllAsync(ProductCategoryFilterRequest filter)
+        public async Task<PagedResult<ProductCategoryResponseDto>> GetAllAsync(ProductCategoryFilterRequest filter)
         {
-            var query = _context.ProductCategories.AsQueryable();
+            // Join bảng supplier để lấy tên hiển thị
+            var query = _context.ProductCategories.Include(x => x.supplier).AsQueryable();
 
             if (filter != null)
             {
-                if (!string.IsNullOrWhiteSpace(filter.categoryName))
-                    query = query.Where(x => x.categoryName.Contains(filter.categoryName));
-
-                if (!string.IsNullOrWhiteSpace(filter.categoryCode))
-                    query = query.Where(x => x.categoryCode.Contains(filter.categoryCode));
+                if (!string.IsNullOrWhiteSpace(filter.equipmentName))
+                    query = query.Where(x => x.equipmentName.Contains(filter.equipmentName));
+                if (!string.IsNullOrWhiteSpace(filter.equipmentCode))
+                    query = query.Where(x => x.equipmentCode.Contains(filter.equipmentCode));
+                if (filter.supplierId.HasValue && filter.supplierId.Value > 0)
+                    query = query.Where(x => x.supplierId == filter.supplierId.Value);
                 if (filter.id > 0)
                     query = query.Where(x => x.id == filter.id);
             }
@@ -36,21 +36,15 @@ namespace THUCTAP.Repos
                 .OrderByDescending(x => x.id)
                 .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
 
-            return pagedRawData.Map(x => new ProductCategoryResponseDto
-            {
-                id = x.id,
-                categoryName = x.categoryName,
-                categoryCode = x.categoryCode,
-                description = x.description
-            });
+            // Dùng Mapper mở rộng để code gọn hơn
+            return pagedRawData.Map(x => x.ToProductCategoryResponse());
         }
 
-        public async Task<ProductCategory?>GetByIdAsync(int id)
+        public async Task<ProductCategory?> GetByIdAsync(int id)
         {
-            return await _context.ProductCategories.FindAsync(id);
+            return await _context.ProductCategories.Include(x => x.supplier).FirstOrDefaultAsync(x => x.id == id);
         }
 
-        // --- KHÔI PHỤC LẠI SAVECHANGES ---
         public async Task CreateAsync(ProductCategory entity)
         {
             _context.ProductCategories.Add(entity);

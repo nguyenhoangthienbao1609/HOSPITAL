@@ -23,6 +23,8 @@ namespace THUCTAP.Data
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<EquipmentManager> EquipmentManagers { get; set; }
         public DbSet<EquipmentMaintenance> EquipmentMaintenances { get; set; }
+        public DbSet<EquipmentMaintenanceLog> EquipmentMaintenanceLogs { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var currentUser = _httpContextAccessor.HttpContext?.User?.FindFirst("userId")?.Value
@@ -120,6 +122,17 @@ namespace THUCTAP.Data
                 .WithMany(e => e.maintenances)
                 .HasForeignKey(m => m.equipmentId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(p => p.supplier)
+                .WithMany()
+                .HasForeignKey(p => p.supplierId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Equipment>()
+                .HasOne(e => e.productCategory)
+                .WithMany()
+                .HasForeignKey(e => e.productCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<Group>().HasQueryFilter(x => x.isActive);

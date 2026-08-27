@@ -46,52 +46,52 @@ namespace THUCTAP.Controllers
             if (!isDeleted) return NotFound(new { message = "Không tìm thấy" });
             return Ok(new { message = "Xóa thành công" });
         }
-        [HttpPost("{id}/export-word")]
-        public async Task<IActionResult> ExportEquipmentProfile(int id, IFormFile templateFile)
-        {
-            if (templateFile == null || templateFile.Length == 0)
-            {
-                return BadRequest(new { message = "Vui lòng tải lên file mẫu lylichthietbi.docx!" });
-            }
+        //[HttpPost("{id}/export-word")]
+        //public async Task<IActionResult> ExportEquipmentProfile(int id, IFormFile templateFile)
+        //{
+        //    if (templateFile == null || templateFile.Length == 0)
+        //    {
+        //        return BadRequest(new { message = "Vui lòng tải lên file mẫu lylichthietbi.docx!" });
+        //    }
 
-            var extension = Path.GetExtension(templateFile.FileName).ToLower();
-            if (extension != ".docx")
-            {
-                return BadRequest(new { message = "Hệ thống chỉ hỗ trợ file Word định dạng .docx!" });
-            }
+        //    var extension = Path.GetExtension(templateFile.FileName).ToLower();
+        //    if (extension != ".docx")
+        //    {
+        //        return BadRequest(new { message = "Hệ thống chỉ hỗ trợ file Word định dạng .docx!" });
+        //    }
 
-            // Gọi hàm GetByIdAsync mà chúng ta vừa thêm ở Service
-            var equipmentData = await _service.GetByIdAsync(id);
-            if (equipmentData == null)
-            {
-                return NotFound(new { message = "Không tìm thấy thông tin thiết bị!" });
-            }
+        //    // Gọi hàm GetByIdAsync mà chúng ta vừa thêm ở Service
+        //    var equipmentData = await _service.GetByIdAsync(id);
+        //    if (equipmentData == null)
+        //    {
+        //        return NotFound(new { message = "Không tìm thấy thông tin thiết bị!" });
+        //    }
 
-            try
-            {
-                byte[] templateBytes;
-                using (var ms = new MemoryStream())
-                {
-                    await templateFile.CopyToAsync(ms);
-                    templateBytes = ms.ToArray();
-                }
+        //    try
+        //    {
+        //        byte[] templateBytes;
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            await templateFile.CopyToAsync(ms);
+        //            templateBytes = ms.ToArray();
+        //        }
 
-                using (var outputStream = new MemoryStream())
-                {
-                    // MiniWord lấp đầy dữ liệu vào file
-                    MiniWord.SaveAsByTemplate(outputStream, templateBytes, equipmentData);
+        //        using (var outputStream = new MemoryStream())
+        //        {
+        //            // MiniWord lấp đầy dữ liệu vào file
+        //            MiniWord.SaveAsByTemplate(outputStream, templateBytes, equipmentData);
 
-                    byte[] fileBytes = outputStream.ToArray();
-                    string fileName = $"LyLich_{equipmentData.equipmentCode}_{DateTime.Now:yyyyMMddHHmmss}.docx";
-                    string contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        //            byte[] fileBytes = outputStream.ToArray();
+        //            string fileName = $"LyLich_{equipmentData.equipmentCode}_{DateTime.Now:yyyyMMddHHmmss}.docx";
+        //            string contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-                    return File(fileBytes, contentType, fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
-            }
-        }
+        //            return File(fileBytes, contentType, fileName);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
+        //    }
+        //}
     }
 }

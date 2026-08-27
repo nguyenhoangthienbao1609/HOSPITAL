@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using THUCTAP.Models;
 
 namespace THUCTAP.ViewModels
 {
@@ -12,56 +14,36 @@ namespace THUCTAP.ViewModels
 
     public class EquipmentRequest
     {
-        [JsonPropertyName("equipmentName")]
-        [Required(ErrorMessage = "Tên thiết bị không được để trống!")]
-        public string equipmentName { get; set; } = string.Empty;
+        public int productCategoryId { get; set; }
 
-        [JsonPropertyName("equipmentCode")]
-        [Required(ErrorMessage = "Mã thiết bị không được để trống!")]
-        public string equipmentCode { get; set; } = string.Empty;
-
-        [JsonPropertyName("model")] public string model { get; set; } = string.Empty;
-        [JsonPropertyName("serialNumber")] public string serialNumber { get; set; } = string.Empty;
-        [JsonPropertyName("manufacturer")] public string manufacturer { get; set; } = string.Empty;
-        [JsonPropertyName("countryOfOrigin")] public string countryOfOrigin { get; set; } = string.Empty;
-        [JsonPropertyName("location")] public string location { get; set; } = string.Empty;
-
-        [JsonPropertyName("receivedDate")] public DateTime? receivedDate { get; set; }
-        [JsonPropertyName("conditionWhenReceived")] public string conditionWhenReceived { get; set; } = string.Empty;
-        [JsonPropertyName("startDateOfUse")] public DateTime? startDateOfUse { get; set; }
-        [JsonPropertyName("conditionWhenStarted")] public string conditionWhenStarted { get; set; } = string.Empty;
-
-        [JsonPropertyName("supplierName")] public string supplierName { get; set; } = string.Empty;
-        [JsonPropertyName("supplierAddress")] public string supplierAddress { get; set; } = string.Empty;
-        [JsonPropertyName("engineerInCharge")] public string engineerInCharge { get; set; } = string.Empty;
-        [JsonPropertyName("supplierPhone")] public string supplierPhone { get; set; } = string.Empty;
-        [JsonPropertyName("supplierEmail")] public string supplierEmail { get; set; } = string.Empty;
         public List<EquipmentManagerRequest> managers { get; set; } = new List<EquipmentManagerRequest>();
         public List<EquipmentMaintenanceRequest> maintenances { get; set; } = new List<EquipmentMaintenanceRequest>();
-
-        [JsonPropertyName("isActive")]
         public bool isActive { get; set; } = true;
     }
 
     public class EquipmentResponseDto
     {
         public int id { get; set; }
+        public int productCategoryId { get; set; }
+
         public string equipmentName { get; set; } = string.Empty;
         public string equipmentCode { get; set; } = string.Empty;
         public string model { get; set; } = string.Empty;
-        public string serialNumber { get; set; } = string.Empty;
         public string manufacturer { get; set; } = string.Empty;
         public string countryOfOrigin { get; set; } = string.Empty;
-        public string location { get; set; } = string.Empty;
-        public DateTime? receivedDate { get; set; }
-        public string conditionWhenReceived { get; set; } = string.Empty;
-        public DateTime? startDateOfUse { get; set; }
-        public string conditionWhenStarted { get; set; } = string.Empty;
+
         public string supplierName { get; set; } = string.Empty;
         public string supplierAddress { get; set; } = string.Empty;
         public string engineerInCharge { get; set; } = string.Empty;
         public string supplierPhone { get; set; } = string.Empty;
         public string supplierEmail { get; set; } = string.Empty;
+
+        public string serialNumber { get; set; } = string.Empty;
+        public string location { get; set; } = string.Empty;
+        public DateTime? receivedDate { get; set; }
+        public string conditionWhenReceived { get; set; } = string.Empty;
+        public DateTime? startDateOfUse { get; set; }
+        public string conditionWhenStarted { get; set; } = string.Empty;
         public bool isActive { get; set; } = true;
         public List<EquipmentManagerResponseDto> managers { get; set; } = new List<EquipmentManagerResponseDto>();
         public List<EquipmentMaintenanceResponseDto> maintenances { get; set; } = new List<EquipmentMaintenanceResponseDto>();
@@ -75,9 +57,9 @@ namespace THUCTAP.ViewModels
     public class EquipmentMaintenanceRequest
     {
         public DateTime? maintenanceDate { get; set; }
-        public bool isIncident { get; set; }
-        public bool isEngineerArrived { get; set; }
-        public bool isCompleted { get; set; }
+        public DateTime? incidentTime { get; set; }
+        public DateTime? engineerArrivedTime { get; set; }
+        public DateTime? completedTime { get; set; }
         public string actionType { get; set; } = string.Empty;
         public string content { get; set; } = string.Empty;
         public string purpose { get; set; } = string.Empty;
@@ -95,9 +77,9 @@ namespace THUCTAP.ViewModels
     {
         public int id { get; set; }
         public DateTime? maintenanceDate { get; set; }
-        public string isIncident { get; set; }
-        public string isEngineerArrived { get; set; }
-        public string isCompleted { get; set; }
+        public string incidentTime { get; set; } = string.Empty;
+        public string engineerArrivedTime { get; set; } = string.Empty;
+        public string completedTime { get; set; } = string.Empty;
         public string actionType { get; set; } = string.Empty;
         public string isMaintenance { get; set; } = string.Empty;
         public string isRepair { get; set; } = string.Empty;

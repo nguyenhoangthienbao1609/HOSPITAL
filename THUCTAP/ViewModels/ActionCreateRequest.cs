@@ -4,12 +4,10 @@ namespace THUCTAP.ViewModels
 {
     public class ActionCreateRequest
     {
-        [JsonPropertyName("actionName")]
-        public string actionName { get; set; } = string.Empty;
-
-        [JsonPropertyName("actionCode")]
-        public string actionCode { get; set; } = string.Empty;
-
+        public string label { get; set; }
+        public string code { get; set; }
+        public string? endpoint { get; set; }
+        public string? method { get; set; }
         public int menuId { get; set; }
 
     }
