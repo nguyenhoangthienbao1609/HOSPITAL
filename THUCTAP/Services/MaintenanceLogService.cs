@@ -71,6 +71,14 @@ namespace THUCTAP.Services
                 equipmentName = firstLog?.equipment?.productCategory?.equipmentName ?? string.Empty,
                 month = month,
                 year = year,
+
+                // --- BỔ SUNG: Móc dữ liệu 5 Task từ DANH MỤC THIẾT BỊ ---
+                dailyTask = firstLog?.equipment?.productCategory?.dailyTask ?? string.Empty,
+                weeklyTask = firstLog?.equipment?.productCategory?.weeklyTask ?? string.Empty,
+                monthlyTask = firstLog?.equipment?.productCategory?.monthlyTask ?? string.Empty,
+                quarterlyTask = firstLog?.equipment?.productCategory?.quarterlyTask ?? string.Empty,
+                asNeededTask = firstLog?.equipment?.productCategory?.asNeededTask ?? string.Empty,
+
                 dailyLogs = logs.Select(x => x.ToResponse()).ToList(),
                 allInspectors = string.Join(", ", inspectors),
                 allReviewers = string.Join(", ", reviewers)

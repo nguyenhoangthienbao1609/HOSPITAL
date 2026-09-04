@@ -8,11 +8,11 @@ namespace THUCTAP.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize]
-    public class EquipmentsController : ControllerBase
+    public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _service;
 
-        public EquipmentsController(IEquipmentService service)
+        public EquipmentController(IEquipmentService service)
         {
             _service = service;
         }

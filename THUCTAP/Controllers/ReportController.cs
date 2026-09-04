@@ -1,42 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MiniSoftware;
 using THUCTAP.Interfaces;
+using THUCTAP.ViewModels;
 using System.IO;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using THUCTAP.Services;
+using System.Collections.Generic;
 
 namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class ReportController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;
-        private readonly IMaintenanceLogService _maintenanceLogService; // Thêm Service Nhật ký
+        private readonly IMaintenanceLogService _maintenanceLogService;
+        private readonly IReportService _reportService;
 
-        public ReportController(IEquipmentService equipmentService, IMaintenanceLogService maintenanceLogService)
+        public ReportController(IEquipmentService equipmentService, IMaintenanceLogService maintenanceLogService, IReportService reportService)
         {
             _equipmentService = equipmentService;
             _maintenanceLogService = maintenanceLogService;
+            _reportService = reportService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ExportEquipmentProfile(int id, IFormFile templateFile)
+        [HttpPost("equipment/{id}/export-word")]
+        public async Task<IActionResult> ExportEquipmentProfile(int id, [FromBody] ExportReportRequest request)
         {
-            if (templateFile == null || templateFile.Length == 0)
-            {
-                return BadRequest(new { message = "Vui lòng tải lên file mẫu lylichthietbi.docx!" });
-            }
-
-            var extension = Path.GetExtension(templateFile.FileName).ToLower();
-            if (extension != ".docx")
-            {
-                return BadRequest(new { message = "Hệ thống chỉ hỗ trợ file Word định dạng .docx!" });
-            }
-
             var equipmentData = await _equipmentService.GetByIdAsync(id);
             if (equipmentData == null)
             {
@@ -45,22 +35,22 @@ namespace THUCTAP.Controllers
 
             try
             {
-                byte[] templateBytes;
-                using (var ms = new MemoryStream())
-                {
-                    await templateFile.CopyToAsync(ms);
-                    templateBytes = ms.ToArray();
-                }
+                string tplName = string.IsNullOrWhiteSpace(request.templateName) ? "lylichthietbi.docx" : request.templateName;
+
+                byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
 
                 using (var outputStream = new MemoryStream())
                 {
                     MiniWord.SaveAsByTemplate(outputStream, templateBytes, equipmentData);
-
-                    byte[] fileBytes = outputStream.ToArray();
+                    string resultBase64 = Convert.ToBase64String(outputStream.ToArray());
                     string fileName = $"LyLich_{equipmentData.equipmentCode}_{DateTime.Now:yyyyMMddHHmmss}.docx";
-                    string contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-                    return File(fileBytes, contentType, fileName);
+                    return Ok(new
+                    {
+                        message = "Xuất file thành công",
+                        fileName = fileName,
+                        fileBase64 = resultBase64
+                    });
                 }
             }
             catch (Exception ex)
@@ -68,35 +58,29 @@ namespace THUCTAP.Controllers
                 return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
             }
         }
-        [HttpPost("maintenance-log/monthly/export-word")]
-        public async Task<IActionResult> ExportMonthlyMaintenanceLog([FromQuery] int equipmentId, [FromQuery] int month, [FromQuery] int year, IFormFile templateFile)
+
+        [HttpPost("maintenance-log/export-word")]
+        public async Task<IActionResult> ExportMonthlyMaintenanceLog([FromQuery] int equipmentId, [FromQuery] int month, [FromQuery] int year, [FromBody] ExportReportRequest request)
         {
-            if (templateFile == null || templateFile.Length == 0)
-            {
-                return BadRequest(new { message = "Vui lòng tải lên file mẫu NhatKiBaoDuong.docx!" });
-            }
-
-            var extension = Path.GetExtension(templateFile.FileName).ToLower();
-            if (extension != ".docx")
-            {
-                return BadRequest(new { message = "Hệ thống chỉ hỗ trợ file Word định dạng .docx!" });
-            }
-
             var report = await _maintenanceLogService.GetMonthlyReportAsync(equipmentId, month, year);
             if (report == null)
             {
                 return NotFound(new { message = "Không tìm thấy dữ liệu báo cáo!" });
             }
 
-            try 
-            { 
-  
+            try
+            {
                 var wordData = new Dictionary<string, object>
                 {
                     { "equipmentName", report.equipmentName },
                     { "equipmentCode", report.equipmentCode },
-                    { "month", month.ToString("D2") }, 
+                    { "month", month.ToString("D2") },
                     { "year", year.ToString() },
+                    { "dailyTask", "Kiểm tra hoạt động" },
+                    { "weeklyTask", "Vệ sinh bên ngoài" },
+                    { "monthlyTask", "Vệ sinh bộ lọc" },
+                    { "quarterlyTask", "Bảo dưỡng tổng thể" },
+                    { "asNeededTask", "Sửa chữa/thay thế" },
                     { "allInspectors", report.allInspectors },
                     { "allReviewers", report.allReviewers },
                     { "inspectionDate", DateTime.Now.ToString("dd/MM/yyyy") },
@@ -105,44 +89,69 @@ namespace THUCTAP.Controllers
 
                 for (int i = 1; i <= 31; i++)
                 {
-                    wordData.Add($"d{i}_daily", "");
-                    wordData.Add($"d{i}_weekly", "");
-                    wordData.Add($"d{i}_monthly", "");
-                    wordData.Add($"d{i}_quarterly", "");
-                    wordData.Add($"d{i}_asNeeded", "");
-                    wordData.Add($"d{i}_note", "");
-                    wordData.Add($"d{i}_exe", "");
+                    wordData.Add($"d{i}_daily", ""); wordData.Add($"d{i}_weekly", ""); wordData.Add($"d{i}_monthly", "");
+                    wordData.Add($"d{i}_quarterly", ""); wordData.Add($"d{i}_asNeeded", ""); wordData.Add($"d{i}_note", ""); wordData.Add($"d{i}_exe", "");
                 }
 
                 foreach (var log in report.dailyLogs)
                 {
-                    int day = log.logDate.Day; 
-
+                    int day = log.logDate.Day;
                     wordData[$"d{day}_daily"] = log.isDaily;
                     wordData[$"d{day}_weekly"] = log.isWeekly;
                     wordData[$"d{day}_monthly"] = log.isMonthly;
                     wordData[$"d{day}_quarterly"] = log.isQuarterly;
                     wordData[$"d{day}_asNeeded"] = log.isAsNeeded;
                     wordData[$"d{day}_note"] = log.note;
-                    wordData[$"d{day}_exe"] = log.executorName; // Tên nhân viên
+                    wordData[$"d{day}_exe"] = log.executorName;
                 }
 
-                byte[] templateBytes;
-                using (var ms = new MemoryStream())
-                {
-                    await templateFile.CopyToAsync(ms);
-                    templateBytes = ms.ToArray();
-                }
+                string tplName = string.IsNullOrWhiteSpace(request.templateName) ? "NhatKiBaoDuong.docx" : request.templateName;
+                byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
 
                 using (var outputStream = new MemoryStream())
                 {
                     MiniWord.SaveAsByTemplate(outputStream, templateBytes, wordData);
-
-                    byte[] fileBytes = outputStream.ToArray();
+                    string resultBase64 = Convert.ToBase64String(outputStream.ToArray());
                     string fileName = $"NhatKyBaoDuong_{report.equipmentCode}_Thang{month:D2}_{year}.docx";
-                    string contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-                    return File(fileBytes, contentType, fileName);
+                    return Ok(new
+                    {
+                        message = "Xuất file thành công",
+                        fileName = fileName,
+                        fileBase64 = resultBase64
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
+            }
+        }
+        [HttpPost("maintenance-plan/export-word")]
+        public async Task<IActionResult> ExportYearlyPlan([FromQuery] int year, [FromBody] ExportReportRequest request)
+        {
+            try
+            {
+                var data = await _reportService.GetYearlyPlanDataAsync(year);
+
+                string tplName = string.IsNullOrWhiteSpace(request.templateName)
+                    ? "baoduongthietbi.docx"
+                    : request.templateName;
+
+                byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
+
+                using (var outputStream = new MemoryStream())
+                {
+                    MiniWord.SaveAsByTemplate(outputStream, templateBytes, data);
+                    string resultBase64 = Convert.ToBase64String(outputStream.ToArray());
+                    string fileName = $"KeHoachBaoTri_{year}.docx";
+
+                    return Ok(new
+                    {
+                        message = "Xuất file Kế hoạch năm thành công",
+                        fileName = fileName,
+                        fileBase64 = resultBase64
+                    });
                 }
             }
             catch (Exception ex)

@@ -1,9 +1,15 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MiniSoftware;
 using THUCTAP.Data;
 using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
 
 namespace THUCTAP.Services
 {
@@ -17,10 +23,10 @@ namespace THUCTAP.Services
             _context = context;
             _env = env;
         }
+
         public async Task<List<Dictionary<string, object>>> GetDynamicReportAsync(DynamicReportRequest request)
         {
             var resultList = new List<Dictionary<string, object>>();
-
             string columns = string.IsNullOrWhiteSpace(request.selectColumns) ? "*" : request.selectColumns;
             string sql = $"SELECT {columns} FROM {request.tableName}";
 
@@ -51,26 +57,34 @@ namespace THUCTAP.Services
                     }
                 }
             }
-
             return resultList;
         }
-        public async Task<byte[]> GenerateReportFromUploadedFileAsync(DynamicReportRequest request)
+
+        public async Task<byte[]> GetTemplateBytesAsync(string? base64Template, string templateName)
         {
-            if (request.templateFile == null || request.templateFile.Length == 0)
+            if (!string.IsNullOrWhiteSpace(base64Template))
             {
-                throw new Exception("Vui lòng tải lên file Word mẫu (.docx)!");
+                var cleanBase64 = base64Template.Contains(",") ? base64Template.Split(',')[1] : base64Template;
+                return Convert.FromBase64String(cleanBase64);
             }
 
-            var fileName = request.templateFile.FileName.ToLower();
-            if (fileName.EndsWith(".doc"))
+            if (string.IsNullOrWhiteSpace(templateName))
             {
-                throw new Exception("Hệ thống không hỗ trợ định dạng .doc cũ. Vui lòng Save As sang .docx!");
-            }
-            else if (!fileName.EndsWith(".docx"))
-            {
-                throw new Exception("Chỉ hỗ trợ file mẫu định dạng .docx!");
+                throw new Exception("Vui lòng cung cấp chuỗi Base64 hoặc tên file mẫu (templateName)!");
             }
 
+            string serverTemplatePath = Path.Combine(_env.ContentRootPath, "Templates", templateName);
+
+            if (!File.Exists(serverTemplatePath))
+            {
+                throw new Exception($"Không tìm thấy file mẫu '{templateName}' trên máy chủ. Vui lòng kiểm tra lại thư mục Templates!");
+            }
+
+            return await File.ReadAllBytesAsync(serverTemplatePath);
+        }
+
+        public async Task<string> GenerateReportBase64Async(DynamicReportRequest request)
+        {
             var reportData = await GetDynamicReportAsync(request);
 
             if (reportData == null || reportData.Count == 0)
@@ -79,18 +93,58 @@ namespace THUCTAP.Services
             }
             var dataToFill = reportData.FirstOrDefault();
 
-            byte[] templateBytes;
-            using (var ms = new MemoryStream())
-            {
-                await request.templateFile.CopyToAsync(ms);
-                templateBytes = ms.ToArray();
-            }
+            byte[] templateBytes = await GetTemplateBytesAsync(request.base64Template, request.templateName);
 
             using (var outputStream = new MemoryStream())
             {
                 MiniWord.SaveAsByTemplate(outputStream, templateBytes, dataToFill);
-                return outputStream.ToArray();
+
+                return Convert.ToBase64String(outputStream.ToArray());
             }
+        }
+        public async Task<MaintenancePlanDto> GetYearlyPlanDataAsync(int year)
+        {
+            var categories = await _context.ProductCategories
+                .Where(x => x.isActive == true)
+                .OrderBy(x => x.equipmentName)
+                .ToListAsync();
+
+            var reportData = new MaintenancePlanDto
+            {
+                year = year,
+                day = DateTime.Now.Day.ToString("D2"),
+                month = DateTime.Now.Month.ToString("D2"),
+                yearNow = DateTime.Now.Year.ToString(),
+                item = new List<Dictionary<string, object>>()
+            };
+
+            int index = 1;
+            foreach (var cat in categories)
+            {
+                var item = new Dictionary<string, object>
+                {
+                    { "stt", index++ },
+                    { "equipmentName", cat.equipmentName ?? "" },
+                    { "equipmentCode", cat.equipmentCode ?? "" },
+                    { "location", cat.location ?? "" },
+                    { "task", "Bảo trì, bảo dưỡng định kỳ" },
+                    { "note", "" }
+                };
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    item.Add($"m{i}", "");
+                }
+
+                item["m3"] = "X";
+                item["m6"] = "X";
+                item["m9"] = "X";
+                item["m12"] = "X";
+
+                reportData.item.Add(item);
+            }
+
+            return reportData;
         }
     }
 }

@@ -33,7 +33,8 @@ namespace THUCTAP.Data
                  new Menu { id = 11, label = "Invoice Management", to = "/transactions/invoices", icon = "file-invoice", parentId = 4 },
                  new Menu { id = 12, label = "Product Categories", to = "/master/product-categories", icon = "tag", parentId = 5 },
                  new Menu { id = 13, label = "Customer Categories", to = "/master/customer-categories", icon = "users", parentId = 5 },
-                 new Menu { id = 14, label = "Customer Master", to = "/master/customers", icon = "user", parentId = 5 }
+                 new Menu { id = 14, label = "Customer Master", to = "/master/customers", icon = "user", parentId = 5 },
+                 new Menu { id = 15, label = "Maintenance Plan", to = "/transactions/maintenance-plan", icon = "calendar", parentId = 4 }
              );
 
             modelBuilder.Entity<ProductCategory>().HasData(
@@ -52,6 +53,13 @@ namespace THUCTAP.Data
                      conditionWhenReceived = "Mới 100%",
                      startDateOfUse = new DateTime(2026, 8, 5),
                      conditionWhenStarted = "Hoạt động tốt",
+
+                     dailyTask = "Kiểm tra hoạt động máy",
+                     weeklyTask = "Vệ sinh buồng ly tâm",
+                     monthlyTask = "Tra dầu rotor",
+                     quarterlyTask = "Bảo trì động cơ",
+                     asNeededTask = "Thay thế linh kiện",
+
                      isActive = true,
                      createdAt = new DateTime(2026, 8, 26),
                      updatedAt = new DateTime(2026, 8, 26)
@@ -71,6 +79,13 @@ namespace THUCTAP.Data
                      conditionWhenReceived = "Mới 100%",
                      startDateOfUse = new DateTime(2026, 8, 12),
                      conditionWhenStarted = "Hoạt động tốt",
+
+                     dailyTask = "Kiểm tra pin và nguồn",
+                     weeklyTask = "Vệ sinh màn hình",
+                     monthlyTask = "Kiểm tra vòng bít",
+                     quarterlyTask = "Đo kiểm định kỳ",
+                     asNeededTask = "Thay pin/vòng bít",
+
                      isActive = true,
                      createdAt = new DateTime(2026, 8, 26),
                      updatedAt = new DateTime(2026, 8, 26)
@@ -90,6 +105,13 @@ namespace THUCTAP.Data
                      conditionWhenReceived = "Mới 100%",
                      startDateOfUse = new DateTime(2026, 8, 16),
                      conditionWhenStarted = "Hoạt động tốt",
+
+                     dailyTask = "Kiểm tra lưu lượng oxy",
+                     weeklyTask = "Vệ sinh bình làm ẩm",
+                     monthlyTask = "Thay bộ lọc thô",
+                     quarterlyTask = "Bảo trì động cơ nén",
+                     asNeededTask = "Thay hạt zeolite",
+
                      isActive = true,
                      createdAt = new DateTime(2026, 8, 26),
                      updatedAt = new DateTime(2026, 8, 26)
@@ -129,20 +151,22 @@ namespace THUCTAP.Data
                 new Equipment { id = 3, productCategoryId = 3, isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) }
             );
             modelBuilder.Entity<EquipmentManager>().HasData(
-                // Thiết bị 1
+               
                 new EquipmentManager { id = 1, equipmentId = 1, userId = 1, userName = "admin", fromDate = new DateTime(2026, 8, 20), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
                 new EquipmentManager { id = 2, equipmentId = 1, userId = 2, userName = "bacsi01", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-                new EquipmentManager { id = 3, equipmentId = 1, userId = 3, userName = "dieuduong01", fromDate = new DateTime(2026, 9, 5), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
+             
+                new EquipmentManager { id = 3, equipmentId = 1, userId = 3, userName = "admin02", fromDate = new DateTime(2026, 9, 5), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
 
-                // Thiết bị 2
                 new EquipmentManager { id = 4, equipmentId = 2, userId = 1, userName = "admin", fromDate = new DateTime(2026, 8, 20), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
                 new EquipmentManager { id = 5, equipmentId = 2, userId = 2, userName = "bacsi01", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-                new EquipmentManager { id = 6, equipmentId = 2, userId = 4, userName = "ktv01", fromDate = new DateTime(2026, 9, 10), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
+        
+                new EquipmentManager { id = 6, equipmentId = 2, userId = 4, userName = "Nguyễn Văn An", fromDate = new DateTime(2026, 9, 10), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
 
-                // Thiết bị 3
                 new EquipmentManager { id = 7, equipmentId = 3, userId = 2, userName = "bacsi01", fromDate = new DateTime(2026, 8, 25), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-                new EquipmentManager { id = 8, equipmentId = 3, userId = 3, userName = "dieuduong01", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-                new EquipmentManager { id = 9, equipmentId = 3, userId = 4, userName = "ktv01", fromDate = new DateTime(2026, 9, 15), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) }
+                
+                new EquipmentManager { id = 8, equipmentId = 3, userId = 3, userName = "admin02", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
+            
+                new EquipmentManager { id = 9, equipmentId = 3, userId = 4, userName = "Nguyễn Văn An", fromDate = new DateTime(2026, 9, 15), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) }
             );
             modelBuilder.Entity<EquipmentMaintenance>().HasData(
                

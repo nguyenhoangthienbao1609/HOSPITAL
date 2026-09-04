@@ -6,5 +6,7 @@ namespace THUCTAP.Interfaces
     {
         Task<List<MenuResponse>>GetFullMenuTreeAsync();
         Task<MenuResponse> CreateDynamicMenuAsync(MenuCreateRequest request);
+        Task<MenuResponse> UpdateMenuAsync(int id, MenuUpdateRequest request);
+        Task<bool> DeleteMenuAsync(int id);
     }
 }

@@ -43,5 +43,50 @@ namespace THUCTAP.Controllers
                 });
             }
         }
+        // Thêm vào bên dưới hàm CreateDynamicMenu trong MenusController
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMenu(int id, [FromBody] MenuUpdateRequest request)
+        {
+            try
+            {
+                var result = await _menuService.UpdateMenuAsync(id, request);
+                return Ok(new
+                {
+                    Message = "Cập nhật Menu thành công!",
+                    Data = result
+                });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = "Đã xảy ra lỗi khi cập nhật Menu",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMenu(int id)
+        {
+            try
+            {
+                var isDeleted = await _menuService.DeleteMenuAsync(id);
+                if (!isDeleted)
+                {
+                    return NotFound(new { Message = "Không tìm thấy Menu để xóa!" });
+                }
+
+                return Ok(new { Message = "Xóa Menu thành công!" });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = "Đã xảy ra lỗi khi xóa Menu",
+                    Error = ex.Message
+                });
+            }
+        }
     }
 }

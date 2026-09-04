@@ -19,5 +19,10 @@ namespace THUCTAP.Models
         public int supplierId { get; set; }
         [ForeignKey("supplierId")]
         public CustomerMaster? supplier { get; set; }
+        public string? dailyTask { get; set; } = string.Empty;
+        public string? weeklyTask { get; set; } = string.Empty;
+        public string? monthlyTask { get; set; } = string.Empty;
+        public string? quarterlyTask { get; set; } = string.Empty;
+        public string? asNeededTask { get; set; } = string.Empty;
     }
 }

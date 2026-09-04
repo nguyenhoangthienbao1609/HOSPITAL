@@ -88,5 +88,21 @@ namespace THUCTAP.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [HttpPost("import-excel")]
+        public async Task<IActionResult> ImportExcel(IFormFile file)
+        {
+            try
+            {
+                int count = await _service.ImportExcelAsync(file);
+                return Ok(new
+                {
+                    message = $"Import thành công {count} danh mục sản phẩm từ file Excel!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -68,6 +68,11 @@ namespace THUCTAP.ViewModels
         public int equipmentId { get; set; }
         public string equipmentCode { get; set; } = string.Empty;
         public string equipmentName { get; set; } = string.Empty;
+        public string dailyTask { get; set; } = string.Empty;
+        public string weeklyTask { get; set; } = string.Empty;
+        public string monthlyTask { get; set; } = string.Empty;
+        public string quarterlyTask { get; set; } = string.Empty;
+        public string asNeededTask { get; set; } = string.Empty;
         public int month { get; set; }
         public int year { get; set; }
 

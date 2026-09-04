@@ -102,5 +102,52 @@ namespace THUCTAP.Services
 
         return response;
     }
-}
+        public async Task<MenuResponse> UpdateMenuAsync(int id, MenuUpdateRequest request)
+        {
+            var menu = await _context.Menus.FirstOrDefaultAsync(m => m.id == id);
+            if (menu == null)
+            {
+                throw new Exception("Không tìm thấy Menu này!");
+            }
+
+            menu.label = request.label;
+            menu.to = request.to;
+            menu.icon = request.icon;
+
+            if (request.parentId == 0)
+            {
+                request.parentId = null;
+            }
+            if (request.parentId.HasValue)
+            {
+                var parentExists = await _context.Menus.AnyAsync(m => m.id == request.parentId.Value);
+                if (!parentExists) throw new Exception("Menu cha không tồn tại!");
+            }
+            menu.parentId = request.parentId;
+
+            _context.Menus.Update(menu);
+            await _context.SaveChangesAsync();
+
+            return MenuMapper.ToMenuResponseDto(menu);
+        }
+
+        public async Task<bool> DeleteMenuAsync(int id)
+        {
+            var menu = await _context.Menus.FirstOrDefaultAsync(m => m.id == id);
+            if (menu == null)
+            {
+                return false;
+            }
+
+            var hasChildren = await _context.Menus.AnyAsync(m => m.parentId == id);
+            if (hasChildren)
+            {
+                throw new Exception("Không thể xóa Menu này vì đang chứa Menu con. Vui lòng xóa Menu con trước!");
+            }
+
+            _context.Menus.Remove(menu);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
 }

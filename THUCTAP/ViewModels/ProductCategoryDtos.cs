@@ -29,6 +29,11 @@ namespace THUCTAP.ViewModels
 
         [Required(ErrorMessage = "Vui lòng chọn nhà cung cấp!")]
         public int supplierId { get; set; }
+        public string? dailyTask { get; set; } = string.Empty;
+        public string? weeklyTask { get; set; } = string.Empty;
+        public string? monthlyTask { get; set; } = string.Empty;
+        public string? quarterlyTask { get; set; } = string.Empty;
+        public string? asNeededTask { get; set; } = string.Empty;
     }
 
     public class ProductCategoryResponseDto
@@ -46,6 +51,11 @@ namespace THUCTAP.ViewModels
         public DateTime? startDateOfUse { get; set; }
         public string conditionWhenStarted { get; set; } = string.Empty;
         public int supplierId { get; set; }
-        public string supplierName { get; set; } = string.Empty;
+        public string? supplierName { get; set; } = string.Empty;
+        public string? dailyTask { get; set; } = string.Empty;
+        public string? weeklyTask { get; set; } = string.Empty;
+        public string? monthlyTask { get; set; } = string.Empty;
+        public string? quarterlyTask { get; set; } = string.Empty;
+        public string? asNeededTask { get; set; } = string.Empty;
     }
 }

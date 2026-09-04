@@ -36,7 +36,6 @@ namespace THUCTAP.Repos
                 .OrderByDescending(x => x.id)
                 .ToPagedResultAsync(filter.pageIndex, filter.pageSize);
 
-            // Dùng Mapper mở rộng để code gọn hơn
             return pagedRawData.Map(x => x.ToProductCategoryResponse());
         }
 
