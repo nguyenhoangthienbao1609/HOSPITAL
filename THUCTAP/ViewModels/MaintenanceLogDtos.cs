@@ -58,9 +58,6 @@ namespace THUCTAP.ViewModels
         public string reviewerName { get; set; } = string.Empty;
         public DateTime? reviewDate { get; set; }
 
-        public string incidentTime { get; set; } = string.Empty;
-        public string engineerArrivedTime { get; set; } = string.Empty;
-        public string completedTime { get; set; } = string.Empty;
     }
 
     public class MonthlyMaintenanceReportDto

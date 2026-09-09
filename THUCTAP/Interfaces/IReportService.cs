@@ -11,6 +11,7 @@ namespace THUCTAP.Interfaces
         Task<string> GenerateReportBase64Async(DynamicReportRequest request);
 
         Task<byte[]> GetTemplateBytesAsync(string? base64Template, string templateName);
-        Task<MaintenancePlanDto> GetYearlyPlanDataAsync(int year);
+        Task<MaintenanceScheduleExportWord> GetYearlyPlanDataAsync(int year);
+        Task<WaterSystemLogExportWord> GetWaterSystemLogDataAsync(int logId);
     }
 }

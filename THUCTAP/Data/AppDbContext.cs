@@ -12,19 +12,22 @@ namespace THUCTAP.Data
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Group> Groups { get; set; }
-        public DbSet<Menu> Menus { get; set; }
-        public DbSet<AppAction> Actions { get; set; }
-        public DbSet<FormField> FormFields { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<CustomerCategory> CustomerCategories { get; set; }
-        public DbSet<CustomerMaster> CustomerMasters { get; set; }
-        public DbSet<Equipment> Equipments { get; set; }
-        public DbSet<EquipmentManager> EquipmentManagers { get; set; }
-        public DbSet<EquipmentMaintenance> EquipmentMaintenances { get; set; }
-        public DbSet<EquipmentMaintenanceLog> EquipmentMaintenanceLogs { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Group> Group { get; set; }
+        public DbSet<Menu> Menu { get; set; }
+        public DbSet<AppAction> Action { get; set; }
+        public DbSet<FormField> FormField { get; set; }
+        public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<CustomerCategory> CustomerCategory { get; set; }
+        public DbSet<CustomerMaster> CustomerMaster { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<EquipmentManager> EquipmentManager { get; set; }
+        public DbSet<EquipmentMaintenance> EquipmentMaintenance { get; set; }
+        public DbSet<EquipmentMaintenanceLog> EquipmentMaintenanceLog { get; set; }
+        public DbSet<EquipmentMaintenanceSchedule> EquipmentMaintenanceSchedule { get; set; }
+        public DbSet<WaterSystemLog> WaterSystemLog { get; set; }
+        public DbSet<WaterSystemDailyLog> WaterSystemDailyLog { get; set; }
+        public DbSet<Order> Order { get; set; }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var currentUser = _httpContextAccessor.HttpContext?.User?.FindFirst("userId")?.Value
@@ -134,6 +137,55 @@ namespace THUCTAP.Data
                 .HasForeignKey(e => e.productCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<EquipmentMaintenanceSchedule>()
+                .HasOne(m => m.equipment).WithMany().HasForeignKey(m => m.equipmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<EquipmentMaintenanceSchedule>()
+                .HasOne(m => m.preparer).WithMany().HasForeignKey(m => m.preparerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentMaintenanceSchedule>()
+                .HasOne(m => m.approver).WithMany().HasForeignKey(m => m.approverId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<EquipmentMaintenanceLog>()
+                .HasOne(m => m.executor).WithMany().HasForeignKey(m => m.executorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentMaintenanceLog>()
+                .HasOne(m => m.inspector).WithMany().HasForeignKey(m => m.inspectorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentMaintenanceLog>()
+                .HasOne(m => m.reviewer).WithMany().HasForeignKey(m => m.reviewerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WaterSystemLog>()
+                .HasOne(w => w.equipment).WithMany().HasForeignKey(w => w.equipmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<WaterSystemLog>()
+                .HasOne(w => w.preparer).WithMany().HasForeignKey(w => w.preparerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WaterSystemLog>()
+                .HasOne(w => w.inspector).WithMany().HasForeignKey(w => w.inspectorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WaterSystemLog>()
+                .HasOne(w => w.reviewer).WithMany().HasForeignKey(w => w.reviewerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WaterSystemDailyLog>()
+                .HasOne(d => d.waterSystemLog)
+                .WithMany(w => w.dailyLogs)
+                .HasForeignKey(d => d.waterSystemLogId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<WaterSystemDailyLog>()
+                .HasOne(d => d.tracker).WithMany().HasForeignKey(d => d.trackerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<User>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<Group>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<Menu>().HasQueryFilter(x => x.isActive);
@@ -145,6 +197,9 @@ namespace THUCTAP.Data
             modelBuilder.Entity<Equipment>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<EquipmentManager>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<EquipmentMaintenance>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<EquipmentMaintenanceSchedule>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<WaterSystemLog>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<WaterSystemDailyLog>().HasQueryFilter(x => x.isActive);
 
             modelBuilder.Seed();
         }

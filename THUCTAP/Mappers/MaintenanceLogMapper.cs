@@ -45,17 +45,11 @@ namespace THUCTAP.Mappers
                 note = entity.note,
                 statusName = entity.status.ToString(),
                 
-                // Tự động lấy tên từ bảng User thay vì lưu thủ công
                 executorName = entity.executor?.userName ?? string.Empty,
                 inspectorName = entity.inspector?.userName ?? string.Empty,
                 inspectionDate = entity.inspectionDate,
                 reviewerName = entity.reviewer?.userName ?? string.Empty,
-                reviewDate = entity.reviewDate,
-
-                // Tự động lấy thời gian nếu nối với phiếu sự cố
-                incidentTime = maintenance?.incidentTime?.ToString("dd/MM/yyyy HH:mm") ?? "",
-                engineerArrivedTime = maintenance?.engineerArrivedTime?.ToString("dd/MM/yyyy HH:mm") ?? "",
-                completedTime = maintenance?.completedTime?.ToString("dd/MM/yyyy HH:mm") ?? ""
+                reviewDate = entity.reviewDate, 
             };
         }
         public static void UpdateEntity(this EquipmentMaintenanceLog entity, MaintenanceLogRequest request)
@@ -70,7 +64,7 @@ namespace THUCTAP.Mappers
             entity.note = request.note;
             entity.executorId = request.executorId;
             entity.relatedMaintenanceId = request.relatedMaintenanceId;
-            // Lưu ý: Không cập nhật trạng thái ở đây vì nó do quy trình duyệt quyết định
+         
         }
     }
 }

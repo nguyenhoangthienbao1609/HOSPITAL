@@ -115,6 +115,30 @@ namespace THUCTAP.Data
                      isActive = true,
                      createdAt = new DateTime(2026, 8, 26),
                      updatedAt = new DateTime(2026, 8, 26)
+                 },
+                 new ProductCategory
+                 {
+                     id = 4,
+                     equipmentCode = "KXN-RO-01",
+                     equipmentName = "Hệ thống lọc nước RO",
+                     model = "RO-LAB-500",
+                     manufacturer = "AquaCare",
+                     countryOfOrigin = "Việt Nam",
+                     supplierId = 1,
+                     serialNumber = "SN-RO-2026",
+                     location = "Sinh hóa - Huyết học - Miễn dịch",
+                     receivedDate = new DateTime(2026, 1, 10),
+                     conditionWhenReceived = "Mới 100%",
+                     startDateOfUse = new DateTime(2026, 1, 15),
+                     conditionWhenStarted = "Hoạt động tốt",
+                     dailyTask = "Kiểm tra độ dẫn điện <1,0 µS/cm",
+                     weeklyTask = "Vệ sinh buồng lọc",
+                     monthlyTask = "Rửa màng lọc",
+                     quarterlyTask = "Bảo trì hệ thống van",
+                     asNeededTask = "Thay thế lõi lọc/màng RO",
+                     isActive = true,
+                     createdAt = new DateTime(2026, 8, 26),
+                     updatedAt = new DateTime(2026, 8, 26)
                  }
              );
             modelBuilder.Entity<CustomerCategory>().HasData(
@@ -137,8 +161,8 @@ namespace THUCTAP.Data
             );
 
             modelBuilder.Entity<FormField>().HasData(
-                new FormField { id = 1, entityName = "User", field = "username", label = "Tên đăng nhập", type = "text", colSpan = 6, sortOrder = 1},
-                new FormField { id = 2, entityName = "User", field = "department", label = "Phòng ban", type = "select", colSpan = 6, sortOrder = 2}
+                new FormField { id = 1, entityName = "User", field = "username", label = "Tên đăng nhập", type = "text", colSpan = 6, sortOrder = 1 },
+                new FormField { id = 2, entityName = "User", field = "department", label = "Phòng ban", type = "select", colSpan = 6, sortOrder = 2 }
             );
 
             modelBuilder.Entity<CustomerMaster>().HasData(
@@ -148,28 +172,29 @@ namespace THUCTAP.Data
             modelBuilder.Entity<Equipment>().HasData(
                 new Equipment { id = 1, productCategoryId = 1, isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
                 new Equipment { id = 2, productCategoryId = 2, isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-                new Equipment { id = 3, productCategoryId = 3, isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) }
+                new Equipment { id = 3, productCategoryId = 3, isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
+                new Equipment { id = 4, productCategoryId = 4, isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) }
             );
             modelBuilder.Entity<EquipmentManager>().HasData(
-               
+
                 new EquipmentManager { id = 1, equipmentId = 1, userId = 1, userName = "admin", fromDate = new DateTime(2026, 8, 20), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
                 new EquipmentManager { id = 2, equipmentId = 1, userId = 2, userName = "bacsi01", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-             
+
                 new EquipmentManager { id = 3, equipmentId = 1, userId = 3, userName = "admin02", fromDate = new DateTime(2026, 9, 5), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
 
                 new EquipmentManager { id = 4, equipmentId = 2, userId = 1, userName = "admin", fromDate = new DateTime(2026, 8, 20), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
                 new EquipmentManager { id = 5, equipmentId = 2, userId = 2, userName = "bacsi01", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-        
+
                 new EquipmentManager { id = 6, equipmentId = 2, userId = 4, userName = "Nguyễn Văn An", fromDate = new DateTime(2026, 9, 10), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
 
                 new EquipmentManager { id = 7, equipmentId = 3, userId = 2, userName = "bacsi01", fromDate = new DateTime(2026, 8, 25), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-                
+
                 new EquipmentManager { id = 8, equipmentId = 3, userId = 3, userName = "admin02", fromDate = new DateTime(2026, 9, 1), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) },
-            
+
                 new EquipmentManager { id = 9, equipmentId = 3, userId = 4, userName = "Nguyễn Văn An", fromDate = new DateTime(2026, 9, 15), isActive = true, createdAt = new DateTime(2026, 8, 26), updatedAt = new DateTime(2026, 8, 26) }
             );
             modelBuilder.Entity<EquipmentMaintenance>().HasData(
-               
+
                 new EquipmentMaintenance
                 {
                     id = 1,
@@ -243,7 +268,7 @@ namespace THUCTAP.Data
                 }
             );
             modelBuilder.Entity<EquipmentMaintenanceLog>().HasData(
-               
+
                 new EquipmentMaintenanceLog { id = 1, equipmentId = 1, logDate = new DateTime(2026, 8, 1), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "Máy hoạt động bình thường", status = MaintenanceLogStatus.Completed, executorId = 2, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 8), reviewerId = 1, reviewDate = new DateTime(2026, 8, 9), isActive = true, createdAt = new DateTime(2026, 8, 1), updatedAt = new DateTime(2026, 8, 9) },
                 new EquipmentMaintenanceLog { id = 2, equipmentId = 1, logDate = new DateTime(2026, 8, 2), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "Vệ sinh buồng mẫu", status = MaintenanceLogStatus.Completed, executorId = 2, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 8), reviewerId = 1, reviewDate = new DateTime(2026, 8, 9), isActive = true, createdAt = new DateTime(2026, 8, 2), updatedAt = new DateTime(2026, 8, 9) },
                 new EquipmentMaintenanceLog { id = 3, equipmentId = 1, logDate = new DateTime(2026, 8, 3), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "", status = MaintenanceLogStatus.Completed, executorId = 2, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 8), reviewerId = 1, reviewDate = new DateTime(2026, 8, 9), isActive = true, createdAt = new DateTime(2026, 8, 3), updatedAt = new DateTime(2026, 8, 9) },
@@ -254,7 +279,7 @@ namespace THUCTAP.Data
 
                 new EquipmentMaintenanceLog { id = 8, equipmentId = 1, logDate = new DateTime(2026, 8, 8), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "", status = MaintenanceLogStatus.PendingReview, executorId = 3, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 15), reviewerId = null, reviewDate = null, isActive = true, createdAt = new DateTime(2026, 8, 8), updatedAt = new DateTime(2026, 8, 15) },
                 new EquipmentMaintenanceLog { id = 9, equipmentId = 1, logDate = new DateTime(2026, 8, 9), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "", status = MaintenanceLogStatus.PendingReview, executorId = 3, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 15), reviewerId = null, reviewDate = null, isActive = true, createdAt = new DateTime(2026, 8, 9), updatedAt = new DateTime(2026, 8, 15) },
-              
+
                 new EquipmentMaintenanceLog { id = 10, equipmentId = 1, logDate = new DateTime(2026, 8, 10), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = true, note = "Lỗi bo mạch, đã gọi kỹ sư", status = MaintenanceLogStatus.PendingReview, executorId = 2, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 15), reviewerId = null, reviewDate = null, relatedMaintenanceId = 2, isActive = true, createdAt = new DateTime(2026, 8, 10), updatedAt = new DateTime(2026, 8, 15) },
                 new EquipmentMaintenanceLog { id = 11, equipmentId = 1, logDate = new DateTime(2026, 8, 11), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "Máy đã sửa xong, chạy ổn", status = MaintenanceLogStatus.PendingReview, executorId = 2, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 15), reviewerId = null, reviewDate = null, isActive = true, createdAt = new DateTime(2026, 8, 11), updatedAt = new DateTime(2026, 8, 15) },
                 new EquipmentMaintenanceLog { id = 12, equipmentId = 1, logDate = new DateTime(2026, 8, 12), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "", status = MaintenanceLogStatus.PendingReview, executorId = 3, inspectorId = 1, inspectionDate = new DateTime(2026, 8, 15), reviewerId = null, reviewDate = null, isActive = true, createdAt = new DateTime(2026, 8, 12), updatedAt = new DateTime(2026, 8, 15) },
@@ -263,6 +288,121 @@ namespace THUCTAP.Data
 
                 new EquipmentMaintenanceLog { id = 15, equipmentId = 1, logDate = new DateTime(2026, 8, 15), isDaily = true, isWeekly = false, isMonthly = false, isQuarterly = false, isAsNeeded = false, note = "Khởi động đầu ca tốt", status = MaintenanceLogStatus.PendingInspection, executorId = 2, inspectorId = null, inspectionDate = null, reviewerId = null, reviewDate = null, isActive = true, createdAt = new DateTime(2026, 8, 15), updatedAt = new DateTime(2026, 8, 15) }
             );
+            modelBuilder.Entity<EquipmentMaintenanceSchedule>().HasData(
+                new EquipmentMaintenanceSchedule
+                {
+                    id = 1,
+                    equipmentId = 1,
+                    year = 2026,
+                    task = "Bảo dưỡng hệ thống quay và tra dầu",
+                    note = "Yêu cầu kỹ sư hãng",
+                    m1 = false,
+                    m2 = false,
+                    m3 = true,
+                    m4 = false,
+                    m5 = false,
+                    m6 = true,
+                    m7 = false,
+                    m8 = false,
+                    m9 = true,
+                    m10 = false,
+                    m11 = false,
+                    m12 = true,
+                    status = MaintenanceScheduleStatus.Approved, // Trạng thái Đã duyệt
+                    preparerId = 2,
+                    approverId = 1,
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 26),
+                    updatedAt = new DateTime(2026, 8, 26)
+                },
+                new EquipmentMaintenanceSchedule
+                {
+                    id = 2,
+                    equipmentId = 2,
+                    year = 2026,
+                    task = "Hiệu chuẩn cảm biến áp suất",
+                    note = "Đo đối chiếu máy thủy ngân",
+                    m1 = false,
+                    m2 = false,
+                    m3 = false,
+                    m4 = false,
+                    m5 = false,
+                    m6 = true,
+                    m7 = false,
+                    m8 = false,
+                    m9 = false,
+                    m10 = false,
+                    m11 = false,
+                    m12 = true,
+                    status = MaintenanceScheduleStatus.Approved,
+                    preparerId = 2,
+                    approverId = 1,
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 26),
+                    updatedAt = new DateTime(2026, 8, 26)
+                },
+                new EquipmentMaintenanceSchedule
+                {
+                    id = 3,
+                    equipmentId = 3,
+                    year = 2026,
+                    task = "Thay bộ lọc và kiểm tra lưu lượng",
+                    note = "Ưu tiên làm đầu tháng",
+                    m1 = true,
+                    m2 = true,
+                    m3 = true,
+                    m4 = true,
+                    m5 = true,
+                    m6 = true,
+                    m7 = true,
+                    m8 = true,
+                    m9 = true,
+                    m10 = true,
+                    m11 = true,
+                    m12 = true,
+                    status = MaintenanceScheduleStatus.Approved,
+                    preparerId = 2,
+                    approverId = 1,
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 26),
+                    updatedAt = new DateTime(2026, 8, 26)
+                }
+            );
+            modelBuilder.Entity<WaterSystemLog>().HasData(
+                new WaterSystemLog
+                {
+                    id = 1,
+                    equipmentId = 4,
+                    month = 8,
+                    year = 2026,
+                    status = WaterLogStatus.Completed,
+                    preparerId = 2,
+                    inspectorId = 1,
+                    inspectionDate = new DateTime(2026, 8, 31),
+                    reviewerId = 1,
+                    reviewDate = new DateTime(2026, 9, 1),
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 1),
+                    updatedAt = new DateTime(2026, 9, 1)
+                }
+            );
+
+            var dailyLogs = new List<WaterSystemDailyLog>();
+            for (int i = 1; i <= 31; i++)
+            {
+                dailyLogs.Add(new WaterSystemDailyLog
+                {
+                    id = i,
+                    waterSystemLogId = 1,
+                    day = i,
+                    usValue = "<1,0",
+                    trackerId = 2,
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, i),
+                    updatedAt = new DateTime(2026, 8, i)
+                });
+            }
+            modelBuilder.Entity<WaterSystemDailyLog>().HasData(dailyLogs);
             modelBuilder.Entity<Order>().HasData(
                 new Order { id = 1, orderNumber = "ORD-2026-001", orderDate = new DateTime(2026, 8, 1), customerId = 1, estimatedTotal = 2500000m, isActive = true, createdAt = new DateTime(2026, 8, 1), updatedAt = new DateTime(2026, 8, 1) },
                 new Order { id = 2, orderNumber = "ORD-2026-002", orderDate = new DateTime(2026, 8, 5), customerId = 2, estimatedTotal = 2600000m, isActive = true, createdAt = new DateTime(2026, 8, 5), updatedAt = new DateTime(2026, 8, 5) },

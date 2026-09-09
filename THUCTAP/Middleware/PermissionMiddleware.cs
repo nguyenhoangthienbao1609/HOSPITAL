@@ -46,7 +46,7 @@ namespace THUCTAP.Middlewares
 
             if (int.TryParse(userIdString, out int userId))
             {
-                var hasPermission = await dbContext.Users
+                var hasPermission = await dbContext.User
                     .Where(u => u.id == userId)
                     .SelectMany(u => u.group) 
                     .SelectMany(g => g.action) 

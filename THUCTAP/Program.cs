@@ -60,6 +60,12 @@ try
     builder.Services.AddScoped<IMaintenanceLogRepository, MaintenanceLogRepository>();
     builder.Services.AddScoped<IMaintenanceLogService, MaintenanceLogService>();
 
+    builder.Services.AddScoped<IMaintenanceScheduleRepository, MaintenanceScheduleRepository>();
+    builder.Services.AddScoped<IMaintenanceScheduleService, MaintenanceScheduleService>();
+
+    builder.Services.AddScoped<IWaterSystemRepository, WaterSystemRepository>();
+    builder.Services.AddScoped<IWaterSystemService, WaterSystemService>();
+
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IOrderService, OrderService>();
 

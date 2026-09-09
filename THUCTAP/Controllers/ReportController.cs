@@ -127,7 +127,7 @@ namespace THUCTAP.Controllers
                 return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
             }
         }
-        [HttpPost("maintenance-plan/export-word")]
+        [HttpPost("maintenance-schedule/export-word")]
         public async Task<IActionResult> ExportYearlyPlan([FromQuery] int year, [FromBody] ExportReportRequest request)
         {
             try
@@ -135,7 +135,7 @@ namespace THUCTAP.Controllers
                 var data = await _reportService.GetYearlyPlanDataAsync(year);
 
                 string tplName = string.IsNullOrWhiteSpace(request.templateName)
-                    ? "baoduongthietbi.docx"
+                    ? "kehoachbaoduong.docx"
                     : request.templateName;
 
                 byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
@@ -149,6 +149,38 @@ namespace THUCTAP.Controllers
                     return Ok(new
                     {
                         message = "Xuất file Kế hoạch năm thành công",
+                        fileName = fileName,
+                        fileBase64 = resultBase64
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
+            }
+        }
+        [HttpPost("water-system-log/export-word/{logId}")]
+        public async Task<IActionResult> ExportWaterSystemLog(int logId, [FromBody] ExportReportRequest request)
+        {
+            try
+            {
+                var data = await _reportService.GetWaterSystemLogDataAsync(logId);
+
+                string tplName = string.IsNullOrWhiteSpace(request.templateName)
+                    ? "theodoihethonglocnuoc.docx"
+                    : request.templateName;
+
+                byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
+
+                using (var outputStream = new MemoryStream())
+                {
+                    MiniWord.SaveAsByTemplate(outputStream, templateBytes, data);
+                    string resultBase64 = Convert.ToBase64String(outputStream.ToArray());
+                    string fileName = $"TheoDoiLocNuoc_Thang{data.month}_{data.year}.docx";
+
+                    return Ok(new
+                    {
+                        message = "Xuất file Theo dõi hệ thống lọc nước thành công",
                         fileName = fileName,
                         fileBase64 = resultBase64
                     });
