@@ -21,7 +21,7 @@ namespace THUCTAP.Repos
 
         public User? GetUserByCredentials(string username, string password)
         {
-            return _context.Users
+            return _context.User
                 .Where(u => u.userName == username && u.password == password)
                 .Include(u => u.group).ThenInclude(g => g.menu).ThenInclude(m => m.parent)
                 .Include(u => u.group).ThenInclude(g => g.action)
@@ -29,41 +29,41 @@ namespace THUCTAP.Repos
         }
 
         public async Task<bool>UserCodeExistsAsync(string userCode) =>
-            await _context.Users.AnyAsync(u => u.userCode == userCode);
+            await _context.User.AnyAsync(u => u.userCode == userCode);
 
         public async Task<User?>GetUserByIdWithGroupsAsync(int id) =>
-            await _context.Users.Include(u => u.group).FirstOrDefaultAsync(u => u.id == id);
+            await _context.User.Include(u => u.group).FirstOrDefaultAsync(u => u.id == id);
 
         public async Task<User?>GetUserWithFullPermissionsAsync(int userId) =>
-            await _context.Users
+            await _context.User
                 .Include(u => u.group).ThenInclude(g => g.menu)
                 .Include(u => u.group).ThenInclude(g => g.action)
                 .FirstOrDefaultAsync(u => u.id == userId);
 
         public async Task<List<Group>>GetGroupsByIdsAsync(List<int> groupIds) =>
-            await _context.Groups.Where(g => groupIds.Contains(g.id)).ToListAsync();
+            await _context.Group.Where(g => groupIds.Contains(g.id)).ToListAsync();
 
         public async Task CreateUserAsync(User user)
         {
-            _context.Users.Add(user);
+            _context.User.Add(user);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateUserAsync(User user)
         {
-            _context.Users.Update(user);
+            _context.User.Update(user);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteUserAsync(User user)
         {
-            _context.Users.Remove(user);
+            _context.User.Remove(user);
             await _context.SaveChangesAsync();
         }
 
         public async Task<List<User>>GetDeletedUsersAsync()
         {
-            return await _context.Users
+            return await _context.User
                                  .IgnoreQueryFilters() 
                                  .Where(u => u.isActive == false)
                                  .ToListAsync();
@@ -71,7 +71,7 @@ namespace THUCTAP.Repos
 
         public async Task<User?>GetDeletedUserByIdAsync(int id)
         {
-            return await _context.Users
+            return await _context.User
                                  .IgnoreQueryFilters()
                                  .FirstOrDefaultAsync(u => u.id == id && u.isActive == false);
 
@@ -79,7 +79,7 @@ namespace THUCTAP.Repos
 
         public async Task<List<UserResponseDto>>GetAllUsersWithPermissionsAsync()
         {
-            var rawUsers = await _context.Users
+            var rawUsers = await _context.User
                 .Include(u => u.group).ThenInclude(g => g.action)
                 .AsNoTracking()
                 .AsSplitQuery()
@@ -99,7 +99,7 @@ namespace THUCTAP.Repos
 
         public async Task<List<string>>GetAllDepartmentsAsync()
         {
-            return await _context.Users
+            return await _context.User
                 .Where(u => !string.IsNullOrWhiteSpace(u.department))
                 .Select(u => u.department)
                 .Distinct()
@@ -108,7 +108,7 @@ namespace THUCTAP.Repos
 
         public async Task<PagedResult<UserResponseDto>>GetAllUsersAsync(UserFilterRequest filter)
         {
-            var query = _context.Users.Include(u => u.group).AsQueryable();
+            var query = _context.User.Include(u => u.group).AsQueryable();
 
             if (filter != null)
             {

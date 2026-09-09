@@ -20,17 +20,17 @@ namespace THUCTAP.Repos
 
         public async Task<bool>ActionCodeExistsAsync(string code, int menuId)
         {
-            return await _context.Actions.AnyAsync(a => a.code == code && a.menuId == menuId);
+            return await _context.Action.AnyAsync(a => a.code == code && a.menuId == menuId);
         }
 
         public async Task<AppAction?>GetByIdAsync(int id)
         {
-            return await _context.Actions.FindAsync(id);
+            return await _context.Action.FindAsync(id);
         }
 
         public async Task<PagedResult<ActionResponse>>GetAllActionsAsync(ActionFilterRequest filter)
         {
-            var query = _context.Actions.AsQueryable();
+            var query = _context.Action.AsQueryable();
 
             if (filter != null)
             {
@@ -62,19 +62,19 @@ namespace THUCTAP.Repos
 
         public async Task CreateAsync(AppAction entity)
         {
-            _context.Actions.Add(entity);
+            _context.Action.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(AppAction entity)
         {
-            _context.Actions.Update(entity);
+            _context.Action.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(AppAction entity)
         {
-            _context.Actions.Remove(entity);
+            _context.Action.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace THUCTAP.Models
 {
-    [Table("Actions")]
+    [Table("Action")]
     public class AppAction : BaseModel
     {
         [JsonPropertyName("menuId")]

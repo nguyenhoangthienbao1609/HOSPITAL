@@ -21,7 +21,7 @@ namespace THUCTAP.Repos
 
         public async Task<PagedResult<CustomerMasterResponseDto>>GetAllAsync(CustomerMasterFilterRequest filter)
         {
-            var query = _context.CustomerMasters
+            var query = _context.CustomerMaster
                                 .Include(c => c.Category)
                                 .AsQueryable();
 
@@ -47,24 +47,24 @@ namespace THUCTAP.Repos
 
         public async Task<CustomerMaster?> GetByIdAsync(int id)
         {
-            return await _context.CustomerMasters.FindAsync(id);
+            return await _context.CustomerMaster.FindAsync(id);
         }
 
         public async Task CreateAsync(CustomerMaster entity)
         {
-            _context.CustomerMasters.Add(entity);
+            _context.CustomerMaster.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(CustomerMaster entity)
         {
-            _context.CustomerMasters.Update(entity);
+            _context.CustomerMaster.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(CustomerMaster entity)
         {
-            _context.CustomerMasters.Remove(entity);
+            _context.CustomerMaster.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

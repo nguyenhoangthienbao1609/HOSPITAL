@@ -20,7 +20,7 @@ namespace THUCTAP.Repos
         public async Task<PagedResult<OrderResponseDto>> GetAllAsync(OrderFilterRequest filter)
         {
             // Join với bảng CustomerMaster để lấy được tên Khách hàng ra ngoài DataGrid (Hình 1)
-            var query = _context.Orders
+            var query = _context.Order
                 .Include(o => o.customer)
                
                 .AsQueryable();
@@ -45,7 +45,7 @@ namespace THUCTAP.Repos
 
         public async Task<Order?> GetByIdAsync(int id)
         {
-            return await _context.Orders
+            return await _context.Order
                 .Include(o => o.customer)
                 
                 .FirstOrDefaultAsync(x => x.id == id);
@@ -53,19 +53,19 @@ namespace THUCTAP.Repos
 
         public async Task CreateAsync(Order entity)
         {
-            _context.Orders.Add(entity);
+            _context.Order.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Order entity)
         {
-            _context.Orders.Update(entity);
+            _context.Order.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Order entity)
         {
-            _context.Orders.Remove(entity);
+            _context.Order.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

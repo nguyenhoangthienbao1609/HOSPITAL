@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace THUCTAP.Models
 {
-    [Table("Groups")]
+    [Table("Group")]
     [Index(nameof(name), IsUnique = true)]
     [Index(nameof(code), IsUnique = true)]
     public class Group : BaseModel

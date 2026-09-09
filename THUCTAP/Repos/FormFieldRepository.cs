@@ -20,17 +20,17 @@ namespace THUCTAP.Repos
 
         public async Task<bool>FieldKeyExistsAsync(string field)
         {
-            return await _context.FormFields.AnyAsync(f => f.field == field);
+            return await _context.FormField.AnyAsync(f => f.field == field);
         }
 
         public async Task<FormField?> GetFormFieldByIdAsync(int id)
         {
-            return await _context.FormFields.FirstOrDefaultAsync(f => f.id == id);
+            return await _context.FormField.FirstOrDefaultAsync(f => f.id == id);
         }
 
         public async Task<PagedResult<FormFieldResponse>>GetAllFieldsAsync(FormFieldFilterRequest filter)
         {
-            var query = _context.FormFields
+            var query = _context.FormField
                 .Include(f => f.menu)
                 .AsQueryable();
 
@@ -76,19 +76,19 @@ namespace THUCTAP.Repos
 
         public async Task CreateFormFieldAsync(FormField field)
         {
-            _context.FormFields.Add(field);
+            _context.FormField.Add(field);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateFormFieldAsync(FormField field)
         {
-            _context.FormFields.Update(field);
+            _context.FormField.Update(field);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteFormFieldAsync(FormField field)
         {
-            _context.FormFields.Remove(field);
+            _context.FormField.Remove(field);
             await _context.SaveChangesAsync();
         }
     }

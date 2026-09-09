@@ -17,7 +17,7 @@ namespace THUCTAP.Repos
         public async Task<PagedResult<ProductCategoryResponseDto>> GetAllAsync(ProductCategoryFilterRequest filter)
         {
             // Join bảng supplier để lấy tên hiển thị
-            var query = _context.ProductCategories.Include(x => x.supplier).AsQueryable();
+            var query = _context.ProductCategory.Include(x => x.supplier).AsQueryable();
 
             if (filter != null)
             {
@@ -41,24 +41,24 @@ namespace THUCTAP.Repos
 
         public async Task<ProductCategory?> GetByIdAsync(int id)
         {
-            return await _context.ProductCategories.Include(x => x.supplier).FirstOrDefaultAsync(x => x.id == id);
+            return await _context.ProductCategory.Include(x => x.supplier).FirstOrDefaultAsync(x => x.id == id);
         }
 
         public async Task CreateAsync(ProductCategory entity)
         {
-            _context.ProductCategories.Add(entity);
+            _context.ProductCategory.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(ProductCategory entity)
         {
-            _context.ProductCategories.Update(entity);
+            _context.ProductCategory.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(ProductCategory entity)
         {
-            _context.ProductCategories.Remove(entity);
+            _context.ProductCategory.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

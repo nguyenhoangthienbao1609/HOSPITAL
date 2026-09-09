@@ -15,7 +15,7 @@ namespace THUCTAP.Repos
 
         public async Task<EquipmentMaintenanceLog?> GetByIdAsync(int id)
         {
-            return await _context.EquipmentMaintenanceLogs
+            return await _context.EquipmentMaintenanceLog
                 .Include(x => x.equipment).ThenInclude(e => e.productCategory)
                 .Include(x => x.executor)
                 .Include(x => x.inspector)
@@ -26,7 +26,7 @@ namespace THUCTAP.Repos
 
         public async Task<List<EquipmentMaintenanceLog>> GetLogsByMonthAsync(int equipmentId, int month, int year)
         {
-            return await _context.EquipmentMaintenanceLogs
+            return await _context.EquipmentMaintenanceLog
                 .Include(x => x.equipment).ThenInclude(e => e.productCategory)
                 .Include(x => x.executor)
                 .Include(x => x.inspector)
@@ -39,18 +39,18 @@ namespace THUCTAP.Repos
 
         public async Task CreateAsync(EquipmentMaintenanceLog entity)
         {
-            _context.EquipmentMaintenanceLogs.Add(entity);
+            _context.EquipmentMaintenanceLog.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(EquipmentMaintenanceLog entity)
         {
-            _context.EquipmentMaintenanceLogs.Update(entity);
+            _context.EquipmentMaintenanceLog.Update(entity);
             await _context.SaveChangesAsync();
         }
         public async Task<PagedResult<MaintenanceLogResponseDto>> GetAllAsync(MaintenanceLogFilterRequest filter)
         {
-            var query = _context.EquipmentMaintenanceLogs
+            var query = _context.EquipmentMaintenanceLog
                 .Include(x => x.equipment).ThenInclude(e => e.productCategory)
                 .Include(x => x.executor)
                 .Include(x => x.inspector)
@@ -80,7 +80,7 @@ namespace THUCTAP.Repos
 
         public async Task DeleteAsync(EquipmentMaintenanceLog entity)
         {
-            _context.EquipmentMaintenanceLogs.Remove(entity);
+            _context.EquipmentMaintenanceLog.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

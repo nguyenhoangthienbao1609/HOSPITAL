@@ -95,14 +95,14 @@ namespace THUCTAP.Services
 
         public async Task<List<MenuMatrixDto>>GetGroupPermissionMatrixAsync(int groupId)
         {
-            var allMenus = await _context.Menus.AsNoTracking().ToListAsync();
-            var allActions = await _context.Actions.AsNoTracking().ToListAsync();
+            var allMenus = await _context.Menu.AsNoTracking().ToListAsync();
+            var allActions = await _context.Action.AsNoTracking().ToListAsync();
 
             Group? group = null;
 
             if (groupId > 0)
             {
-                group = await _context.Groups
+                group = await _context.Group
                     .Include(g => g.menu)
                     .Include(g => g.action)
                     .AsNoTracking()

@@ -24,22 +24,22 @@ namespace THUCTAP.Repos
             _serviceProvider = serviceProvider;
         }
 
-        public IActionRepository Actions =>
+        public IActionRepository Action =>
             _actions ??= _serviceProvider.GetRequiredService<IActionRepository>();
 
-        public IFormFieldRepository FormFields =>
+        public IFormFieldRepository FormField =>
             _formFields ??= _serviceProvider.GetRequiredService<IFormFieldRepository>();
 
-        public IGroupRepository Groups =>
+        public IGroupRepository Group =>
             _groups ??= _serviceProvider.GetRequiredService<IGroupRepository>();
 
-        public IProductCategoryRepository ProductCategories =>
+        public IProductCategoryRepository ProductCategory =>
             _productCategories ??= _serviceProvider.GetRequiredService<IProductCategoryRepository>();
 
-        public IUserRepository Users =>
+        public IUserRepository User =>
             _users ??= _serviceProvider.GetRequiredService<IUserRepository>();
 
-        public ICustomerCategoryRepository CustomerCategories =>
+        public ICustomerCategoryRepository CustomerCategory =>
             _customerCategories ??= _serviceProvider.GetRequiredService<ICustomerCategoryRepository>();
 
         public async Task<int> SaveAsync()

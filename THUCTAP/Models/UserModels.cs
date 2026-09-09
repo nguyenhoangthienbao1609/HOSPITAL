@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace THUCTAP.Models
 {
-    [Table("Users")]
+    [Table("User")]
     [Index(nameof(userCode), IsUnique = true)]
     public class User : BaseModel
     {

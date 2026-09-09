@@ -2,7 +2,7 @@
 
 namespace THUCTAP.Models
 {
-    [Table("ProductCategories")]
+    [Table("ProductCategory")]
     public class ProductCategory : BaseModel
     {
         public string equipmentCode { get; set; } = string.Empty;

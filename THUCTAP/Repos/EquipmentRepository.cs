@@ -21,7 +21,7 @@ namespace THUCTAP.Repos
 
         public async Task<PagedResult<EquipmentResponseDto>> GetAllAsync(EquipmentFilterRequest filter)
         {
-            var query = _context.Equipments
+            var query = _context.Equipment
                 .Include(e => e.productCategory)
                     .ThenInclude(p => p.supplier) 
                 .Include(e => e.managers)
@@ -50,7 +50,7 @@ namespace THUCTAP.Repos
 
         public async Task<Equipment?> GetByIdAsync(int id)
         {
-            return await _context.Equipments
+            return await _context.Equipment
                 .Include(e => e.productCategory)
                     .ThenInclude(p => p.supplier)
                 .Include(e => e.managers)
@@ -61,19 +61,19 @@ namespace THUCTAP.Repos
 
         public async Task CreateAsync(Equipment entity)
         {
-            _context.Equipments.Add(entity);
+            _context.Equipment.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Equipment entity)
         {
-            _context.Equipments.Update(entity);
+            _context.Equipment.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Equipment entity)
         {
-            _context.Equipments.Remove(entity);
+            _context.Equipment.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

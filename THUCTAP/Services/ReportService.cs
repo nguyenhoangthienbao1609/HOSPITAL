@@ -10,6 +10,7 @@ using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
+using THUCTAP.Models;
 
 namespace THUCTAP.Services
 {
@@ -102,49 +103,127 @@ namespace THUCTAP.Services
                 return Convert.ToBase64String(outputStream.ToArray());
             }
         }
-        public async Task<MaintenancePlanDto> GetYearlyPlanDataAsync(int year)
+        public async Task<MaintenanceScheduleExportWord> GetYearlyPlanDataAsync(int year)
         {
-            var categories = await _context.ProductCategories
-                .Where(x => x.isActive == true)
-                .OrderBy(x => x.equipmentName)
+            var schedules = await _context.EquipmentMaintenanceSchedule
+                .Include(x => x.equipment).ThenInclude(e => e.productCategory)
+                .Include(x => x.preparer)
+                .Include(x => x.approver)
+               
+                .Where(x => x.isActive == true && x.year == year && x.status == MaintenanceScheduleStatus.Approved)
+                .OrderBy(x => x.equipment.productCategory.equipmentName)
                 .ToListAsync();
 
-            var reportData = new MaintenancePlanDto
+            // Nếu không có kế hoạch nào được duyệt trong năm đó
+            if (!schedules.Any())
+            {
+                throw new Exception($"Không có kế hoạch bảo trì nào được phê duyệt trong năm {year}.");
+            }
+
+            var firstRow = schedules.FirstOrDefault();
+
+            var reportData = new MaintenanceScheduleExportWord
             {
                 year = year,
                 day = DateTime.Now.Day.ToString("D2"),
                 month = DateTime.Now.Month.ToString("D2"),
                 yearNow = DateTime.Now.Year.ToString(),
+
+                preparerName = firstRow?.preparer?.userName ?? "",
+                approverName = firstRow?.approver?.userName ?? "",
+
                 item = new List<Dictionary<string, object>>()
             };
 
             int index = 1;
-            foreach (var cat in categories)
+            foreach (var sch in schedules)
             {
-                var item = new Dictionary<string, object>
+                var category = sch.equipment?.productCategory;
+
+                var dictItem = new Dictionary<string, object>
                 {
                     { "stt", index++ },
-                    { "equipmentName", cat.equipmentName ?? "" },
-                    { "equipmentCode", cat.equipmentCode ?? "" },
-                    { "location", cat.location ?? "" },
-                    { "task", "Bảo trì, bảo dưỡng định kỳ" },
-                    { "note", "" }
+                    { "equipmentName", category?.equipmentName ?? "" },
+                    { "equipmentCode", category?.equipmentCode ?? "" },
+                    { "location", category?.location ?? "" },
+                    { "Task", sch.task }, 
+                    { "note", sch.note }
                 };
 
-                for (int i = 1; i <= 12; i++)
-                {
-                    item.Add($"m{i}", "");
-                }
+                dictItem.Add("m1", sch.m1 ? "X" : "");
+                dictItem.Add("m2", sch.m2 ? "X" : "");
+                dictItem.Add("m3", sch.m3 ? "X" : "");
+                dictItem.Add("m4", sch.m4 ? "X" : "");
+                dictItem.Add("m5", sch.m5 ? "X" : "");
+                dictItem.Add("m6", sch.m6 ? "X" : "");
+                dictItem.Add("m7", sch.m7 ? "X" : "");
+                dictItem.Add("m8", sch.m8 ? "X" : "");
+                dictItem.Add("m9", sch.m9 ? "X" : "");
+                dictItem.Add("m10", sch.m10 ? "X" : "");
+                dictItem.Add("m11", sch.m11 ? "X" : "");
+                dictItem.Add("m12", sch.m12 ? "X" : "");
 
-                item["m3"] = "X";
-                item["m6"] = "X";
-                item["m9"] = "X";
-                item["m12"] = "X";
-
-                reportData.item.Add(item);
+                reportData.item.Add(dictItem);
             }
 
             return reportData;
         }
+        public async Task<WaterSystemLogExportWord> GetWaterSystemLogDataAsync(int logId)
+        {
+            var log = await _context.WaterSystemLog
+                .Include(x => x.equipment).ThenInclude(e => e.productCategory)
+                .Include(x => x.inspector)
+                .Include(x => x.reviewer)
+                .Include(x => x.dailyLogs).ThenInclude(d => d.tracker)
+                .FirstOrDefaultAsync(x => x.id == logId && x.status == WaterLogStatus.Completed);
+
+            if (log == null)
+            {
+                throw new Exception("Không tìm thấy phiếu theo dõi hoặc phiếu chưa được duyệt hoàn tất.");
+            }
+
+            var category = log.equipment?.productCategory;
+
+            // DÙNG TÊN MỚI Ở ĐÂY
+            var reportData = new WaterSystemLogExportWord
+            {
+                equipmentCode = category?.equipmentCode ?? "",
+                allowedRange = log.allowedRange ?? "",
+                trackingTime = log.trackingTime ?? "",
+                location = category?.location ?? "",
+                month = log.month.ToString("D2"),
+                year = log.year.ToString(),
+                inspectionDate = log.inspectionDate?.ToString("dd/MM/yyyy") ?? "..../..../........",
+                inspectorName = log.inspector?.userName ?? "",
+                reviewDate = log.reviewDate?.ToString("dd/MM/yyyy") ?? "..../..../........",
+                reviewerName = log.reviewer?.userName ?? "",
+                item = new List<Dictionary<string, object>>()
+            };
+
+            for (int i = 1; i <= 16; i++)
+            {
+                int leftDay = i;
+                int rightDay = i + 16;
+
+                var leftData = log.dailyLogs.FirstOrDefault(d => d.day == leftDay);
+                var rightData = log.dailyLogs.FirstOrDefault(d => d.day == rightDay);
+
+                var dictItem = new Dictionary<string, object>
+                {
+                    { "dayL", leftDay },
+                    { "valL", leftData?.usValue ?? "" },
+                    { "userL", leftData?.tracker?.userName ?? "" },
+
+                    { "dayR", rightDay <= DateTime.DaysInMonth(log.year, log.month) ? rightDay.ToString() : "" },
+                    { "valR", rightData?.usValue ?? "" },
+                    { "userR", rightData?.tracker?.userName ?? "" }
+                };
+
+                reportData.item.Add(dictItem);
+            }
+
+            return reportData;
+        }
+
     }
 }

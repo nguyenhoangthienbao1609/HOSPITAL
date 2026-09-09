@@ -21,7 +21,7 @@ namespace THUCTAP.Repos
 
         public async Task<PagedResult<CustomerCategoryResponseDto>>GetAllAsync(CustomerCategoryFilterRequest filter)
         {
-            var query = _context.CustomerCategories.AsQueryable();
+            var query = _context.CustomerCategory.AsQueryable();
 
             if (filter != null && !string.IsNullOrWhiteSpace(filter.groupName))
                 query = query.Where(x => x.groupName.Contains(filter.groupName));
@@ -37,24 +37,24 @@ namespace THUCTAP.Repos
 
         public async Task<CustomerCategory?>GetByIdAsync(int id)
         {
-            return await _context.CustomerCategories.FindAsync(id);
+            return await _context.CustomerCategory.FindAsync(id);
         }
 
         public async Task CreateAsync(CustomerCategory entity)
         {
-            _context.CustomerCategories.Add(entity);
+            _context.CustomerCategory.Add(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(CustomerCategory entity)
         {
-            _context.CustomerCategories.Update(entity);
+            _context.CustomerCategory.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(CustomerCategory entity)
         {
-            _context.CustomerCategories.Remove(entity);
+            _context.CustomerCategory.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

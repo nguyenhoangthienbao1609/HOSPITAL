@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace THUCTAP.Models
 {
-    [Table("FormFields")]
+    [Table("FormField")]
     public class FormField : BaseModel
     {
         [JsonPropertyName("entityName")]
