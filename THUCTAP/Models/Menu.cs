@@ -3,17 +3,17 @@ using System.Text.Json.Serialization;
 
 namespace THUCTAP.Models
 {
-    [Table("Menus")]
+    [Table("Menu")]
     public class Menu : BaseModel
     {
         [JsonPropertyName("to")]
         public string to { get; set; } = string.Empty;
 
         [JsonPropertyName("parentId")]
-        public int? parentid { get; set; } 
+        public int? parentId { get; set; } 
 
         [JsonIgnore]
-        [ForeignKey(nameof(parentid))]
+        [ForeignKey(nameof(parentId))]
         public Menu? parent { get; set; }
 
         [JsonPropertyName("children")]
@@ -25,10 +25,11 @@ namespace THUCTAP.Models
         [JsonPropertyName("icon")]
         public string icon { get; set; } = string.Empty;
 
-        [JsonPropertyName("actions")]
-        public ICollection<AppAction> actions { get; set; } = new List<AppAction>();
+        [JsonPropertyName("action")]
+        public ICollection<AppAction> action { get; set; } = new List<AppAction>();
 
         [JsonIgnore]
-        public ICollection<Group> groups { get; set; } = new List<Group>();
+        public ICollection<Group> group { get; set; } = new List<Group>();
+        public ICollection<FormField> formFields { get; set; } = new List<FormField>();
     }
 }

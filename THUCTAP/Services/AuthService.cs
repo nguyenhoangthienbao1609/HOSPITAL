@@ -19,17 +19,20 @@ namespace THUCTAP.Services
             _userRepo = userRepo;
         }
 
-        public string? Authenticate(LoginRequest request)
+        public LoginResponse? Authenticate(LoginRequest request)
         {
-            User? user = _userRepo.GetUserByCredentials(request.username, request.password);
+            User? user = _userRepo.GetUserByCredentials(request.userName, request.password);
 
             if (user == null)
             {
                 return null;
             }
 
-            // Đã truyền thêm Role vào hàm tạo Token
-            return GenerateJSONWebToken(user.username);
+            string token = GenerateJSONWebToken(user.userName);
+            return new LoginResponse()
+            {
+                token = token,
+                userId = user.id            };
         }
 
         private string GenerateJSONWebToken(string username)
@@ -37,11 +40,12 @@ namespace THUCTAP.Services
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            // Nhúng Role vào bên trong Token
             Claim[] claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim("username", username),
-               
+                //new Claim("userid", userid.ToString())
+
+
             };
 
             JwtSecurityToken token = new JwtSecurityToken(

@@ -3,11 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace THUCTAP.Models
 {
-    [Table("FormFields")]
+    [Table("FormField")]
     public class FormField : BaseModel
     {
-        [JsonPropertyName("entity_name")]
-        public string entityname { get; set; } = string.Empty;
+        [JsonPropertyName("entityName")]
+        public string entityName { get; set; } = string.Empty;
 
         [JsonPropertyName("field")]
         public string field { get; set; } = string.Empty;
@@ -18,31 +18,27 @@ namespace THUCTAP.Models
         [JsonPropertyName("type")]
         public string type { get; set; } = string.Empty;
 
-        [JsonPropertyName("col_span")]
-        public int colspan { get; set; }
+        [JsonPropertyName("colSpan")]
+        public int colSpan { get; set; }
 
-        [JsonPropertyName("options")]
-        public string options { get; set; } = string.Empty;
+        [JsonPropertyName("option")]
+        public string? option { get; set; } = string.Empty;
 
-        [JsonPropertyName("tab_name")]
-        public string tabname { get; set; } = string.Empty;
+        [JsonPropertyName("sortOrder")]
+        public int sortOrder { get; set; }
+        public bool isSearchAble { get; set; }
+        public bool isShowInForm { get; set; }
+        public bool isShowInList { get; set; }
+        public string? subField { get; set; }
+        public string? tagField { get; set; }
+        public string? tabName { get; set; }
+        public string? endPoint { get; set; }
 
-        [JsonPropertyName("is_detail")]
-        public bool isdetail { get; set; }
+        [JsonPropertyName("menuId")]
+        public int? menuId { get; set; }
 
-        [JsonPropertyName("sort_order")]
-        public int sortorder { get; set; }
-
-        [JsonPropertyName("option_label")]
-        public string? optionlabel { get; set; }
-
-        [JsonPropertyName("option_value")]
-        public string? optionvalue { get; set; }
-
-        [JsonPropertyName("sub_field")]
-        public string subfield { get; set; } = string.Empty;
-
-        [JsonPropertyName("tag_field")]
-        public string tagfield { get; set; } = string.Empty;
+        [ForeignKey("menuId")]
+        [JsonIgnore] 
+        public Menu? menu { get; set; }
     }
 }

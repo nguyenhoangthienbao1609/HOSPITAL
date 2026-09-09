@@ -4,6 +4,6 @@ namespace THUCTAP.Interfaces
 {
     public interface IAuthService
     {
-        string? Authenticate(LoginRequest request);
+        LoginResponse? Authenticate(LoginRequest request);
     }
 }
