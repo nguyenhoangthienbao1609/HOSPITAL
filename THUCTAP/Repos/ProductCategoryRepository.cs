@@ -16,7 +16,6 @@ namespace THUCTAP.Repos
 
         public async Task<PagedResult<ProductCategoryResponseDto>> GetAllAsync(ProductCategoryFilterRequest filter)
         {
-            // Join bảng supplier để lấy tên hiển thị
             var query = _context.ProductCategory.Include(x => x.supplier).AsQueryable();
 
             if (filter != null)

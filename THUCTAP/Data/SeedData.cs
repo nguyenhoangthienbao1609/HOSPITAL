@@ -410,7 +410,62 @@ namespace THUCTAP.Data
                 new Order { id = 4, orderNumber = "ORD-2026-004", orderDate = new DateTime(2026, 8, 15), customerId = 1, estimatedTotal = 2800000m, isActive = true, createdAt = new DateTime(2026, 8, 15), updatedAt = new DateTime(2026, 8, 15) },
                 new Order { id = 5, orderNumber = "ORD-2026-005", orderDate = new DateTime(2026, 8, 20), customerId = 3, estimatedTotal = 2900000m, isActive = true, createdAt = new DateTime(2026, 8, 20), updatedAt = new DateTime(2026, 8, 20) }
             );
-            
+            modelBuilder.Entity<EquipmentUsageLog>().HasData(
+                new EquipmentUsageLog
+                {
+                    id = 1,
+                    equipmentId = 1,
+                    month = 8,
+                    year = 2026,
+                    weekOfMonth = 1, 
+                    status = UsageLogStatus.Completed, 
+
+                    preparerId = 2,  
+                    inspectorId = 11, 
+                    inspectionDate = new DateTime(2026, 8, 8),
+                    reviewerId = 1, 
+                    reviewDate = new DateTime(2026, 8, 9),
+
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 1),
+                    updatedAt = new DateTime(2026, 8, 9)
+                }
+            );
+
+            var usageDailyLogs = new List<EquipmentUsageDailyLog>();
+            DateTime startDate = new DateTime(2026, 8, 3); 
+
+            for (int i = 0; i < 7; i++)
+            {
+                int dayOfWeek = i + 2; 
+                usageDailyLogs.Add(new EquipmentUsageDailyLog
+                {
+                    id = i + 1,
+                    usageLogId = 1,
+                    logDate = startDate.AddDays(i),
+                    dayOfWeek = dayOfWeek,
+
+                    shift1 = dayOfWeek < 7 ? "bacsi01" : "Nguyễn Văn An",
+                    shift2 = dayOfWeek < 7 ? "X" : "", 
+                    shift3 = dayOfWeek < 7 ? "Trần Thị Bình" : "Lê Trọng Đại",
+                    shift4 = "TranThiDieu",
+                    shift5 = "",
+
+                    usageCount = "45",
+                    maintenanceCallTime = dayOfWeek == 4 ? "15:00" : "", 
+                    dailyDecon = "TranThiDieu",
+                    preMaintenanceDecon = dayOfWeek == 4 ? "TranThiDieu" : "",
+
+                    isNormal = dayOfWeek != 4, 
+                    qcResult = dayOfWeek != 4, 
+
+                    isActive = true,
+                    createdAt = new DateTime(2026, 8, 1),
+                    updatedAt = new DateTime(2026, 8, 1)
+                });
+            }
+            modelBuilder.Entity<EquipmentUsageDailyLog>().HasData(usageDailyLogs);
+
             modelBuilder.Entity("User_Group").HasData(
                 new { userid = 1, groupid = 1 },
                 new { userid = 2, groupid = 2 }

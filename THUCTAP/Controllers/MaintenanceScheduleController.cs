@@ -37,13 +37,7 @@ namespace THUCTAP.Controllers
             return Ok(new { message = "Thành công", data = result });
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound(new { message = "Không tìm thấy kế hoạch" });
-            return Ok(new { message = "Thành công", data = result });
-        }
+        
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] MaintenanceScheduleRequest request)

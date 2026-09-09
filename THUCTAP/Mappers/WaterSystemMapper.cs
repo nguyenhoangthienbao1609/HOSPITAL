@@ -16,7 +16,9 @@ namespace THUCTAP.Mappers
                 month = entity.month,
                 year = entity.year,
                 statusName = entity.status.ToString(),
-                
+                location = entity.equipment?.productCategory?.location ?? string.Empty,
+                allowedRange = entity.allowedRange,
+                trackingTime = entity.trackingTime,
                 preparerName = entity.preparer?.userName ?? string.Empty,
                 inspectorName = entity.inspector?.userName ?? string.Empty,
                 reviewerName = entity.reviewer?.userName ?? string.Empty,
