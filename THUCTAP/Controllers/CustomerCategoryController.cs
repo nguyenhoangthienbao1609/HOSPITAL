@@ -7,7 +7,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     
     public class CustomerCategoryController : ControllerBase
     {
