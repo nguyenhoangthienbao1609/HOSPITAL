@@ -26,7 +26,7 @@ namespace THUCTAP.Mappers
                 m11 = request.m11,
                 m12 = request.m12,
                 preparerId = request.preparerId,
-                status = MaintenanceScheduleStatus.PendingApproval // Vừa tạo là chờ duyệt luôn
+                status = MaintenanceScheduleStatus.PendingApproval // Vừa tạo là chờ duyệt
             };
         }
 
@@ -44,7 +44,7 @@ namespace THUCTAP.Mappers
                 year = entity.year,
                 task = entity.task,
                 note = entity.note,
-
+                location = productCat?.location ?? string.Empty,
                 m1 = entity.m1 ? "X" : "",
                 m2 = entity.m2 ? "X" : "",
                 m3 = entity.m3 ? "X" : "",

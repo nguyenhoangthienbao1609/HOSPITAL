@@ -167,7 +167,7 @@ namespace THUCTAP.Controllers
                 var data = await _reportService.GetWaterSystemLogDataAsync(logId);
 
                 string tplName = string.IsNullOrWhiteSpace(request.templateName)
-                    ? "theodoihethonglocnuoc.docx"
+                    ? "theodoilocnuoc.docx"
                     : request.templateName;
 
                 byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
@@ -181,6 +181,39 @@ namespace THUCTAP.Controllers
                     return Ok(new
                     {
                         message = "Xuất file Theo dõi hệ thống lọc nước thành công",
+                        fileName = fileName,
+                        fileBase64 = resultBase64
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi trong quá trình tạo file Word: " + ex.Message });
+            }
+        }
+        [HttpPost("equipment-usage-log/export-word/{logId}")]
+        public async Task<IActionResult> ExportEquipmentUsageLog(int logId, [FromBody] ExportReportRequest request)
+        {
+            try
+            {
+                var data = await _reportService.GetEquipmentUsageLogDataAsync(logId);
+
+                string tplName = string.IsNullOrWhiteSpace(request.templateName)
+                    ? "theodoithietbi.docx"
+                    : request.templateName;
+
+                byte[] templateBytes = await _reportService.GetTemplateBytesAsync(request.base64Template, tplName);
+
+                using (var outputStream = new MemoryStream())
+                {
+                    MiniWord.SaveAsByTemplate(outputStream, templateBytes, data);
+                    string resultBase64 = Convert.ToBase64String(outputStream.ToArray());
+
+                    string fileName = $"TheoDoiThietBi_{data["equipmentCode"]}_Thang{data["month"]}_{data["year"]}_Tuan{data["weekOfMonth"]}.docx";
+
+                    return Ok(new
+                    {
+                        message = "Xuất file Nhật ký sử dụng thiết bị thành công",
                         fileName = fileName,
                         fileBase64 = resultBase64
                     });

@@ -22,6 +22,7 @@ namespace THUCTAP.ViewModels
         public int year { get; set; }
         public string task { get; set; } = string.Empty;
         public string note { get; set; } = string.Empty;
+        public string location { get; set; } = string.Empty;
         public bool m1 { get; set; }
         public bool m2 { get; set; }
         public bool m3 { get; set; }
@@ -59,9 +60,9 @@ namespace THUCTAP.ViewModels
         public int equipmentId { get; set; }
         public string equipmentCode { get; set; } = string.Empty;
         public string equipmentName { get; set; } = string.Empty;
-        
+        public string location { get; set; } = string.Empty;
         public int year { get; set; }
-        public int day { get; set; }
+        
         public string task { get; set; } = string.Empty;
         public string note { get; set; } = string.Empty;
         

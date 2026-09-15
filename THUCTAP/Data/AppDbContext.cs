@@ -28,6 +28,8 @@ namespace THUCTAP.Data
         public DbSet<WaterSystemLog> WaterSystemLog { get; set; }
         public DbSet<WaterSystemDailyLog> WaterSystemDailyLog { get; set; }
         public DbSet<Order> Order { get; set; }
+        public DbSet<EquipmentUsageLog> EquipmentUsageLog { get; set; }
+        public DbSet<EquipmentUsageDailyLog> EquipmentUsageDailyLog { get; set; }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var currentUser = _httpContextAccessor.HttpContext?.User?.FindFirst("userId")?.Value
@@ -186,6 +188,28 @@ namespace THUCTAP.Data
                 .HasOne(d => d.tracker).WithMany().HasForeignKey(d => d.trackerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<EquipmentUsageLog>()
+                .HasOne(w => w.equipment).WithMany().HasForeignKey(w => w.equipmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<EquipmentUsageLog>()
+                .HasOne(w => w.preparer).WithMany().HasForeignKey(w => w.preparerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentUsageLog>()
+                .HasOne(w => w.inspector).WithMany().HasForeignKey(w => w.inspectorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentUsageLog>()
+                .HasOne(w => w.reviewer).WithMany().HasForeignKey(w => w.reviewerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EquipmentUsageDailyLog>()
+                .HasOne(d => d.usageLog)
+                .WithMany(w => w.dailyLogs)
+                .HasForeignKey(d => d.usageLogId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<User>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<Group>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<Menu>().HasQueryFilter(x => x.isActive);
@@ -200,6 +224,8 @@ namespace THUCTAP.Data
             modelBuilder.Entity<EquipmentMaintenanceSchedule>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<WaterSystemLog>().HasQueryFilter(x => x.isActive);
             modelBuilder.Entity<WaterSystemDailyLog>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<EquipmentUsageLog>().HasQueryFilter(x => x.isActive);
+            modelBuilder.Entity<EquipmentUsageDailyLog>().HasQueryFilter(x => x.isActive);
 
             modelBuilder.Seed();
         }

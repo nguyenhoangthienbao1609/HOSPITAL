@@ -35,12 +35,7 @@ namespace THUCTAP.Controllers
             return Ok(new { message = "Đã xem xét, nhật ký hoàn thành" });
         }
 
-        [HttpGet("monthly")]
-        public async Task<IActionResult> GetMonthlyReport([FromQuery] int equipmentId, [FromQuery] int month, [FromQuery] int year)
-        {
-            var result = await _service.GetMonthlyReportAsync(equipmentId, month, year);
-            return Ok(new { message = "Thành công", data = result });
-        }
+        
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] MaintenanceLogFilterRequest filter)
         {
@@ -48,13 +43,7 @@ namespace THUCTAP.Controllers
             return Ok(new { message = "Thành công", data = result });
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound(new { message = "Không tìm thấy nhật ký" });
-            return Ok(new { message = "Thành công", data = result });
-        }
+       
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] MaintenanceLogRequest request)

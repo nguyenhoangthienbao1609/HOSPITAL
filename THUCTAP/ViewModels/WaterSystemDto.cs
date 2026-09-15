@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace THUCTAP.ViewModels
 {
-    // Kế thừa PagingRequestBase để làm chuẩn phân trang giống ProductCategory
     public class WaterSystemFilterRequest : PagingRequestBase
     {
         public int id { get; set; }
@@ -59,7 +58,7 @@ namespace THUCTAP.ViewModels
         public int month { get; set; }
         public int year { get; set; }
         public string statusName { get; set; } = string.Empty;
-
+        public string location { get; set; } = string.Empty;
         public string allowedRange { get; set; } = string.Empty;
         public string trackingTime { get; set; } = string.Empty;
 

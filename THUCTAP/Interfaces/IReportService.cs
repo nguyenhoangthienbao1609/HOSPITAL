@@ -13,5 +13,6 @@ namespace THUCTAP.Interfaces
         Task<byte[]> GetTemplateBytesAsync(string? base64Template, string templateName);
         Task<MaintenanceScheduleExportWord> GetYearlyPlanDataAsync(int year);
         Task<WaterSystemLogExportWord> GetWaterSystemLogDataAsync(int logId);
+        Task<Dictionary<string, object>> GetEquipmentUsageLogDataAsync(int logId);
     }
 }

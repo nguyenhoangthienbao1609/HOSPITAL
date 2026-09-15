@@ -66,6 +66,9 @@ try
     builder.Services.AddScoped<IWaterSystemRepository, WaterSystemRepository>();
     builder.Services.AddScoped<IWaterSystemService, WaterSystemService>();
 
+    builder.Services.AddScoped<IEquipmentUsageRepository, EquipmentUsageRepository>(); 
+    builder.Services.AddScoped<IEquipmentUsageService, EquipmentUsageService>();
+
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IOrderService, OrderService>();
 

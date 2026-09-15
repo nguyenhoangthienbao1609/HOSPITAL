@@ -224,6 +224,68 @@ namespace THUCTAP.Services
 
             return reportData;
         }
+        public async Task<Dictionary<string, object>> GetEquipmentUsageLogDataAsync(int logId)
+        {
+            var log = await _context.EquipmentUsageLog
+                .Include(x => x.equipment).ThenInclude(e => e.productCategory)
+                .Include(x => x.preparer)
+                .Include(x => x.inspector)
+                .Include(x => x.reviewer)
+                .Include(x => x.dailyLogs)
+                .FirstOrDefaultAsync(x => x.id == logId && x.status == UsageLogStatus.Completed);
+
+            if (log == null)
+            {
+                throw new Exception("Không tìm thấy phiếu theo dõi hoặc phiếu chưa được duyệt hoàn tất.");
+            }
+
+            var category = log.equipment?.productCategory;
+
+            var reportData = new Dictionary<string, object>
+            {
+                { "equipmentName", category?.equipmentName ?? "" },
+                { "modelManufacturer", $"{category?.model} / {category?.manufacturer}" },
+                { "equipmentCode", category?.equipmentCode ?? "" },
+                { "location", category?.location ?? "" },
+                { "month", log.month.ToString("D2") },
+                { "year", log.year.ToString() },
+                { "weekOfMonth", log.weekOfMonth },
+
+                { "preparerName", log.preparer?.userName ?? "" },
+                { "inspectionDate", log.inspectionDate?.ToString("dd/MM/yyyy") ?? "……/……/……" },
+                { "inspectorName", log.inspector?.userName ?? "" },
+                { "reviewDate", log.reviewDate?.ToString("dd/MM/yyyy") ?? "……/……/……" },
+                { "reviewerName", log.reviewer?.userName ?? "" }
+            };
+
+            for (int i = 2; i <= 8; i++)
+            {
+                string prefix = $"d{i}"; 
+                var dailyLog = log.dailyLogs.FirstOrDefault(d => d.dayOfWeek == i);
+
+                reportData.Add($"{prefix}_date", dailyLog != null ? $"Ngày {dailyLog.logDate:dd/MM}" : "Ngày ………");
+
+                reportData.Add($"{prefix}_s1", dailyLog?.shift1 ?? "");
+                reportData.Add($"{prefix}_s2", dailyLog?.shift2 ?? "");
+                reportData.Add($"{prefix}_s3", dailyLog?.shift3 ?? "");
+                reportData.Add($"{prefix}_s4", dailyLog?.shift4 ?? "");
+                reportData.Add($"{prefix}_s5", dailyLog?.shift5 ?? "");
+
+                reportData.Add($"{prefix}_usage", dailyLog?.usageCount ?? "");
+                reportData.Add($"{prefix}_call", dailyLog?.maintenanceCallTime ?? "");
+
+                reportData.Add($"{prefix}_deconD", dailyLog?.dailyDecon ?? "");
+                reportData.Add($"{prefix}_deconP", dailyLog?.preMaintenanceDecon ?? "");
+
+                reportData.Add($"{prefix}_normalY", dailyLog?.isNormal == true ? "☑" : "☐");
+                reportData.Add($"{prefix}_normalN", dailyLog?.isNormal == false ? "☑" : "☐");
+
+                reportData.Add($"{prefix}_qcY", dailyLog?.qcResult == true ? "☑" : "☐");
+                reportData.Add($"{prefix}_qcN", dailyLog?.qcResult == false ? "☑" : "☐");
+            }
+
+            return reportData;
+        }
 
     }
 }
