@@ -75,5 +75,22 @@ namespace THUCTAP.Controllers
             var actions = await _actionService.GetAllActionsAsync(filter);
             return Ok(new { message = "Thành công!", data = actions });
         }
+        [HttpPost("import-excel")]
+        public async Task<IActionResult> ImportExcel(IFormFile file)
+        {
+            try
+            {
+                int count = await _actionService.ImportExcelAsync(file);
+                return Ok(new
+                {
+                    Message = $"Import thành công {count} Form Action từ file Excel!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
     }
 }

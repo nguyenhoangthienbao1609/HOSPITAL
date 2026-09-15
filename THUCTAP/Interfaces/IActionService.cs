@@ -9,6 +9,7 @@ namespace THUCTAP.Interfaces
         Task<AppAction>UpdateActionAsync(int id, UpdateActionRequest request);
         Task<bool>DeleteActionAsync(int id);
         Task<PagedResult<ActionResponse>>GetAllActionsAsync(ActionFilterRequest filter);
+        Task<int> ImportExcelAsync(IFormFile file);
 
 
     }

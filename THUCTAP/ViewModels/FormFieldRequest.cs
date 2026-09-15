@@ -6,6 +6,7 @@ namespace THUCTAP.ViewModels
     public class FormFieldRequest
     {
         [JsonPropertyName("entityName")]
+        [Required(ErrorMessage = "Tên bảng (entityName) không được để trống!")]
         public string entityName { get; set; }
 
         [JsonPropertyName("field")]

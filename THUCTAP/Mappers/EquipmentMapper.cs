@@ -10,7 +10,7 @@ namespace THUCTAP.Mappers
         {
             return new Equipment
             {
-                // Chỉ nhận ID danh mục gốc
+               
                 productCategoryId = request.productCategoryId,
                 isActive = request.isActive,
 
@@ -24,7 +24,7 @@ namespace THUCTAP.Mappers
                 maintenances = request.maintenances.Select(m => new EquipmentMaintenance
                 {
                     maintenanceDate = m.maintenanceDate,
-                    // Sử dụng 3 trường thời gian mới thay cho bool
+
                     incidentTime = m.incidentTime,
                     engineerArrivedTime = m.engineerArrivedTime,
                     completedTime = m.completedTime,
@@ -42,7 +42,6 @@ namespace THUCTAP.Mappers
             entity.productCategoryId = request.productCategoryId;
             entity.isActive = request.isActive;
 
-            // Kỹ thuật Clear & Add để tránh lỗi Tracking của EF Core
             entity.managers.Clear();
             foreach (var m in request.managers)
             {
@@ -83,7 +82,6 @@ namespace THUCTAP.Mappers
                 productCategoryId = entity.productCategoryId,
                 isActive = entity.isActive,
 
-                // --- Tự động kéo dữ liệu từ ProductCategory ---
                 equipmentCode = p?.equipmentCode ?? string.Empty,
                 equipmentName = p?.equipmentName ?? string.Empty,
                 model = p?.model ?? string.Empty,
@@ -96,7 +94,6 @@ namespace THUCTAP.Mappers
                 startDateOfUse = p?.startDateOfUse,
                 conditionWhenStarted = p?.conditionWhenStarted ?? string.Empty,
 
-                // --- Tự động kéo dữ liệu từ Supplier ---
                 supplierName = s?.supplierName ?? string.Empty,
                 supplierAddress = s?.supplierAddress ?? string.Empty,
                 engineerInCharge = s?.engineerInCharge ?? string.Empty,
@@ -116,7 +113,6 @@ namespace THUCTAP.Mappers
                     id = m.id,
                     maintenanceDate = m.maintenanceDate,
 
-                    // Format thời gian thành chuỗi để in Word đẹp (Ví dụ: 27/08/2026 10:30)
                     incidentTime = m.incidentTime?.ToString("dd/MM/yyyy HH:mm") ?? "",
                     engineerArrivedTime = m.engineerArrivedTime?.ToString("dd/MM/yyyy HH:mm") ?? "",
                     completedTime = m.completedTime?.ToString("dd/MM/yyyy HH:mm") ?? "",

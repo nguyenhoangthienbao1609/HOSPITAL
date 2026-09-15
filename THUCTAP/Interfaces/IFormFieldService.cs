@@ -9,6 +9,7 @@ namespace THUCTAP.Interfaces
         Task<FormField>UpdateFormFieldAsync(int id, FormFieldRequest request);
         Task<bool>DeleteFormFieldAsync(int id);
         Task<PagedResult<FormFieldResponse>>GetAllFieldsAsync(FormFieldFilterRequest filter);
+        Task<int> ImportExcelAsync(IFormFile file);
 
     }
 }

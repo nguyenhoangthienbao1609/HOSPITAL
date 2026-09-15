@@ -9,5 +9,6 @@ namespace THUCTAP.Interfaces
         Task<CustomerMasterResponseDto>CreateAsync(CustomerMasterRequest request);
         Task<CustomerMasterResponseDto?>UpdateAsync(int id, CustomerMasterRequest request);
         Task<bool>DeleteAsync(int id);
+        Task<int> ImportExcelAsync(IFormFile file);
     }
 }

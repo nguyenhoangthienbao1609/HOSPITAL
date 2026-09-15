@@ -64,5 +64,21 @@ namespace THUCTAP.Controllers
             var fields = await _formFieldService.GetAllFieldsAsync(filter);
             return Ok(new { message = "Thành công!", data = fields });
         }
+        [HttpPost("import-excel")]
+        public async Task<IActionResult> ImportExcel(IFormFile file)
+        {
+            try
+            {
+                int count = await _formFieldService.ImportExcelAsync(file);
+                return Ok(new
+                {
+                    Message = $"Import thành công {count} cấu hình trường (Form Field) từ file Excel!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 }

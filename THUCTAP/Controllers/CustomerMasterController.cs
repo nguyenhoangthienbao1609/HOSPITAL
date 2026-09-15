@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
 
@@ -46,6 +46,22 @@ namespace THUCTAP.Controllers
             var isDeleted = await _service.DeleteAsync(id);
             if (!isDeleted) return NotFound(new { message = "Không tìm thấy khách hàng này" });
             return Ok(new { message = "Xóa thành công" });
+        }
+        [HttpPost("import-excel")]
+        public async Task<IActionResult> ImportExcel(IFormFile file)
+        {
+            try
+            {
+                int count = await _service.ImportExcelAsync(file);
+                return Ok(new
+                {
+                    message = $"Import thành công {count} khách hàng/nhà cung cấp từ file Excel!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

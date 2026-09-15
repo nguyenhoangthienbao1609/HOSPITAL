@@ -8,5 +8,6 @@ namespace THUCTAP.Interfaces
         Task<CustomerCategoryResponseDto>CreateAsync(CustomerCategoryRequest request);
         Task<CustomerCategoryResponseDto?>UpdateAsync(int id, CustomerCategoryRequest request);
         Task<bool>DeleteAsync(int id);
+        Task<int> ImportExcelAsync(IFormFile file);
     }
 }

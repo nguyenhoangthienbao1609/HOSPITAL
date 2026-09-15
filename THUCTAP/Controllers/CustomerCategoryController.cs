@@ -47,5 +47,21 @@ namespace THUCTAP.Controllers
             if (!isDeleted) return NotFound(new { message = "Không tìm thấy" });
             return Ok(new { message = "Xóa thành công" });
         }
+        [HttpPost("import-excel")]
+        public async Task<IActionResult> ImportExcel(IFormFile file)
+        {
+            try
+            {
+                int count = await _service.ImportExcelAsync(file);
+                return Ok(new
+                {
+                    message = $"Import thành công {count} nhóm khách hàng từ file Excel!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -15,7 +15,6 @@ namespace THUCTAP.ViewModels
     public class EquipmentRequest
     {
         public int productCategoryId { get; set; }
-
         public List<EquipmentManagerRequest> managers { get; set; } = new List<EquipmentManagerRequest>();
         public List<EquipmentMaintenanceRequest> maintenances { get; set; } = new List<EquipmentMaintenanceRequest>();
         public bool isActive { get; set; } = true;
@@ -25,19 +24,16 @@ namespace THUCTAP.ViewModels
     {
         public int id { get; set; }
         public int productCategoryId { get; set; }
-
         public string equipmentName { get; set; } = string.Empty;
         public string equipmentCode { get; set; } = string.Empty;
         public string model { get; set; } = string.Empty;
         public string manufacturer { get; set; } = string.Empty;
         public string countryOfOrigin { get; set; } = string.Empty;
-
         public string supplierName { get; set; } = string.Empty;
         public string supplierAddress { get; set; } = string.Empty;
         public string engineerInCharge { get; set; } = string.Empty;
         public string supplierPhone { get; set; } = string.Empty;
         public string supplierEmail { get; set; } = string.Empty;
-
         public string serialNumber { get; set; } = string.Empty;
         public string location { get; set; } = string.Empty;
         public DateTime? receivedDate { get; set; }
