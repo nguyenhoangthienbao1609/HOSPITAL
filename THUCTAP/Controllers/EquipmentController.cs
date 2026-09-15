@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MiniSoftware;
 using THUCTAP.Interfaces;
 using THUCTAP.ViewModels;
@@ -7,7 +8,7 @@ namespace THUCTAP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _service;
